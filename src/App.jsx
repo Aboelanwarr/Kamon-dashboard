@@ -39,7 +39,7 @@ function App() {
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
     if (token) {
-      navigate('/home');
+      // navigate('/home');
     } else {
       navigate('/login');
     }

@@ -43,17 +43,22 @@ export default function PositionList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/employees/positions-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/employees/positions-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setPositionList(result))
+      .then((result) => {
+        if (result.status === "success"){
+          setPositionList(result.data);
+        }else{
+          console.error("Failed to fetch position list:", result);
+        }
+      })
       .catch((error) => console.error(error));
-  }, []);
+    }, []);
 
-  
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Inactive Employee List
+        <AddBusinessIcon fontSize='inherit' /> Position List
       </Typography>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">

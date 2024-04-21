@@ -23,7 +23,7 @@ export default function AddMenuItem() {
       redirect: "follow"
     };
     
-    fetch("http://localhost:4000/admin/branch/add-menu-item", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/add-menu-item", requestOptions)
       .then((response) => response.json())
       .then((result) => toast.success(result))
       .catch((error) => toast.error(error));

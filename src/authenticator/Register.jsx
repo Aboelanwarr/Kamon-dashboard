@@ -58,7 +58,7 @@ export default function SignUp() {
       redirect: "follow"
     };
     
-    fetch("http://localhost:4000/admin/auth/customer-account", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/auth/employee-account", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log("Success:", result);

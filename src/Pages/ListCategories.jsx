@@ -43,9 +43,15 @@ export default function ListCategories() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/branch/categories-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/categories-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setCategoriesList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setCategoriesList(result.data);
+        }else{
+          console.error("Failed to fetch categories list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

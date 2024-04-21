@@ -58,7 +58,7 @@ export default function SignIn() {
       redirect: "follow"
     };
 
-    fetch("http://localhost:4000/admin/auth/login", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/auth/login", requestOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error('Failed to login');

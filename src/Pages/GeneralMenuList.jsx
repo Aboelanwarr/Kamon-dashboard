@@ -43,9 +43,15 @@ export default function GeneralMenuList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/branch/general-menu-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/general-menu-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setGeneralMenuList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setGeneralMenuList(result.data);
+        }else{
+          console.error("Failed to fetch general menu list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

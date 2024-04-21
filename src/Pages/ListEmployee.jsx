@@ -43,9 +43,15 @@ export default function CustomizedTables() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/employees/active-employees-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/employees/active-employees-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setEmployeeList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setEmployeeList(result.data);
+        }else{
+          console.error("Failed to fetch employee list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

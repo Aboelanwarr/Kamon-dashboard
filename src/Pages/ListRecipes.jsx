@@ -43,9 +43,15 @@ export default function ListRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/branch/recipes-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/recipes-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setRecipeList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setRecipeList(result.data);
+        }else{
+          console.error("Failed to fetch recipe list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

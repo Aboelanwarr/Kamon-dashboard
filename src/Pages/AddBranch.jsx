@@ -31,7 +31,7 @@ export default function AddBranch() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/employees/active-employees-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/add-new", requestOptions)
       .then((response) => response.json())
       .then((result) => setEmployeeList(result))
       .catch((error) => console.error(error));

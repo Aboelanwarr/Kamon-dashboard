@@ -43,9 +43,15 @@ export default function IngredientSuppliersList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/branch/ingredient-suppliers-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/ingredient-suppliers-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setIngredientSupplierList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setIngredientSupplierList(result.data);
+        }else{
+          console.error("Failed to fetch ingredient supplier list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

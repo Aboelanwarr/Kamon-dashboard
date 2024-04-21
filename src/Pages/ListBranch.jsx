@@ -44,9 +44,15 @@ export default function CustomizedTables() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/branch/branches-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/branches-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setBranchList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setBranchList(result.data);
+        }else{
+          console.error("Failed to fetch branch list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

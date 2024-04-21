@@ -43,9 +43,15 @@ export default function BranchPriceChangeList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://localhost:4000/admin/branch/branch-price-changes-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/branch-price-changes-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setBranchPriceChangeList(result))
+      .then((result) => {
+        if(result.status === "success"){
+          setBranchPriceChangeList(result.data);
+        }else{
+          console.error("Failed to fetch branch price change list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 

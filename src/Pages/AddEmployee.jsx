@@ -13,24 +13,34 @@ export default function AddEmployee() {
       method: "GET",
       redirect: "follow"
     };
-
-    fetch("http://localhost:4000/admin/employees/positions-list", requestOptions)
+    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/employees/positions-list", requestOptions)
       .then((response) => response.json())
-      .then((result) => setPositionList(result))
+      .then((result) => {
+        if (result.status === "success"){
+          setPositionList(result.data);
+        }else{
+          console.error("Failed to fetch position list:", result);
+        }
+      })
       .catch((error) => console.error(error));
-  }, [])
+    }, []);
 
-  useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow"
-    };
-
-    fetch("http://localhost:4000/admin/branch/branches-list", requestOptions)
-      .then((response) => response.json())
-      .then((result) => setBranchList(result))
-      .catch((error) => console.error(error));
-  }, [])
+    useEffect(() => {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+      };
+      fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/branches-list", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status === "success"){
+            setBranchList(result.data);
+          }else{
+            console.error("Failed to fetch position list:", result);
+          }
+        })
+        .catch((error) => console.error(error));
+      }, []);
 
   const onSubmit = e => {
     e.preventDefault();
