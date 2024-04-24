@@ -97,6 +97,12 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Add New Employee" />
           </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/register">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Add New Employee Account" />
+          </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/addPosition">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
@@ -187,6 +193,12 @@ export default function NestedList() {
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Menu List" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/menuListByTime">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Menu List By Time" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/ListBranch">
             <ListItemIcon>

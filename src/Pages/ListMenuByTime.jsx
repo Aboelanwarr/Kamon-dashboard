@@ -12,7 +12,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import DatePicker from '../components/DatePicker';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,20 +31,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-export default function CustomizedTables() {
-  const [employeeAttendanceList, setEmployeeAttendanceList] = useState([]);
-const handleDateChange = (newDate, dateType) => {
-  console.log(`Selected Date for ${dateType}:`, newDate);
-  if (dateType === 'fromDate') {
-    setFromDate(newDate);
-  } else if (dateType === 'toDate') {
-    setToDate(newDate);
-  }
-};
+
+export default function MenuList() {
+  const [menuList, setMenuList] = useState([]);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const [selectedDayTime, setSelectedDayTime] = useState('');
 
   useEffect(() => {
     // Fetch branches list
@@ -69,31 +60,34 @@ const handleDateChange = (newDate, dateType) => {
       .catch(error => console.error(error));
   }, []);
 
-
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/employeesAttendance/${selectedBranchId}?fromDate=${fromDate}&toDate=${toDate}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/menuByTime/${selectedBranchId}?dayTime=${selectedDayTime}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
-          setEmployeeAttendanceList(result.data.attendance);
+          setMenuList(result.data.menu);
         } else {
-          console.error("Failed to fetch employee list:", result);
+          console.error("Failed to fetch menu list:", result);
         }
       })
       .catch((error) => console.error(error));
-  }, [selectedBranchId, fromDate, toDate]);
+  }, [selectedBranchId, selectedDayTime]);
+
   const handleBranchChange = (event) => {
     setSelectedBranchId(event.target.value);
+  };
+  const handleDayTimeChange = (event) => {
+    setSelectedDayTime(event.target.value);
   };
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Employee Attendance List
+        <AddBusinessIcon fontSize='inherit' /> Menu List By Snack Time
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <InputLabel id="branch-select-label">Branch</InputLabel>
@@ -108,38 +102,51 @@ const handleDateChange = (newDate, dateType) => {
             <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
           ))}
         </Select>
-      </FormControl>
-      <InputLabel id="demo-simple-select-label">From Date</InputLabel>
-      <FormControl fullWidth sx={{ mb: "20px" }}>
-        <DatePicker onChange={handleDateChange} />
-      </FormControl>
-      <InputLabel id="demo-simple-select-label">To Date</InputLabel>
-      <FormControl fullWidth sx={{ mb: "20px" }}>
-        <DatePicker onChange={handleDateChange} />
+        </FormControl>
+        <FormControl fullWidth sx={{ mb: "20px" }}>
+        <InputLabel id="daytime-select-label">Day Time</InputLabel>
+        <Select
+          labelId="daytime-select-label"
+          id="daytime-select"
+          value={selectedDayTime}
+          label="Day Time"
+          onChange={handleDayTimeChange}
+        >
+          <MenuItem value="breakfast">Breakfast</MenuItem>
+          <MenuItem value="lunch">Lunch</MenuItem>
+          <MenuItem value="dinner">Dinner</MenuItem>
+          <MenuItem value="brunch">Snack</MenuItem>
+          <MenuItem value="supper">Supper</MenuItem>
+          <MenuItem value="midnight snack">Midnight Snack</MenuItem>
+        </Select>
       </FormControl>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Employee ID</StyledTableCell>
-              <StyledTableCell>Employee Name</StyledTableCell>
-              <StyledTableCell >Employee shift start time	</StyledTableCell>
-              <StyledTableCell >Employee attendance in	</StyledTableCell>
-              <StyledTableCell >Employee shift end time	</StyledTableCell>
-              <StyledTableCell >Employee attendance out	</StyledTableCell>
-              <StyledTableCell >Actions</StyledTableCell>
+              <StyledTableCell>Item ID</StyledTableCell>
+              <StyledTableCell>Item</StyledTableCell>
+              <StyledTableCell>Item Status</StyledTableCell>
+              <StyledTableCell>Item Discount</StyledTableCell>
+              <StyledTableCell>Item Price</StyledTableCell>
+              <StyledTableCell>Preparation Time</StyledTableCell>
+              <StyledTableCell>Category</StyledTableCell>
+              <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {employeeAttendanceList.map((row, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell > {index + 1}	</StyledTableCell>
-                <StyledTableCell > {row.employee}	</StyledTableCell>
-                <StyledTableCell > {row.shift_start_time}	</StyledTableCell>
-                <StyledTableCell >{row.attendance_in}	</StyledTableCell>
-                <StyledTableCell >{row.shift_end_time}	</StyledTableCell>
-                <StyledTableCell >{row.attendance_out}	</StyledTableCell>
+            {menuList.map((row) => (
+              <StyledTableRow key={row.id}>
+                <StyledTableCell > {row.id}	</StyledTableCell>
+                <StyledTableCell > {row.item}	</StyledTableCell>
+                <StyledTableCell > {row.item_status}	</StyledTableCell>
+                <StyledTableCell > {row.item_discount}	</StyledTableCell>
+                <StyledTableCell > {row.item_price}	</StyledTableCell>
                 <StyledTableCell>
+                  {row.preparation_time.minutes ? `${row.preparation_time.minutes} minutes` : `${row.preparation_time.seconds} seconds`}
+                </StyledTableCell>
+                <StyledTableCell > {row.category}	</StyledTableCell>
+                <StyledTableCell sx={{ display: "flex", gap: "10px" }}>
                   <Button variant="outlined" startIcon={<EditIcon />}></Button>
                   <Button variant="outlined" startIcon={<DeleteIcon />}></Button>
                 </StyledTableCell>

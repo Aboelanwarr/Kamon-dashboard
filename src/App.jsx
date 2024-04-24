@@ -38,6 +38,7 @@ import EmployeesSchedule from './Pages/EmployeesSchedule';
 import ListItemPriceChange from './Pages/ListItemPriceChange';
 import TablesList from './Pages/ListTables';
 import MenuList from './Pages/ListMenu';
+import MenuListByTime from './Pages/ListMenuByTime';
 
 function App() {
 
@@ -61,50 +62,51 @@ function App() {
 
   return (
     <div>
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/" element={<div className=""><Navbar onLogout={handleLogout} /><div className="grid grid-cols-12">
-        <div className="col-span-2"><Sidebar /></div>
-        <div className="col-span-10"><Outlet /></div></div></div>}>
-        <Route index element={<Navigate to="/home" />} />
-        <Route path="home" element={<Home />} />
-        <Route path="addProduct" element={<AddProduct />} />
-        <Route path="addEmployee" element={<AddEmployee />} />
-        <Route path="addBranch" element={<AddBranch />} />
-        <Route path="addTable" element={<AddTable />} />
-        <Route path="addStorage" element={<AddStorage />} />
-        <Route path="addIngredient" element={<AddIngredient />} />
-        <Route path="listBranch" element={<ListBranch />} />
-        <Route path="listEmployee" element={<ListEmployee />} />
-        <Route path="listProduct" element={<ListProduct />} />
-        <Route path="listTable" element={<ListTable />} />
-        <Route path="employeeRoleSetup" element={<EmployeeRoleSetup />} />
-        <Route path="addBranchSection" element={<AddBranchSection />} />
-        <Route path="addPosition" element={<AddPosition />} />
-        <Route path="addGeneralSection" element={<AddGeneralSection />} />
-        <Route path="addMenuItem" element={<AddMenuItem />} />
-        <Route path="listInactiveEmployee" element={<ListInActiveEmployee />} />
-        <Route path="positionList" element={<PositionList />} />
-        <Route path="ingredientSuppliersList" element={<IngredientSuppliersList />} />
-        <Route path="listCategories" element={<ListCategories />} />
-        <Route path="listRecipes" element={<ListRecipes />} />
-        <Route path="generalMenuList" element={<GeneralMenuList />} />
-        <Route path="branchPriceChangeList" element={<BranchPriceChangeList />} />
-        <Route path="listManagers" element={<ListManagers />} />
-        <Route path="listPositionChange" element={<ListPositionChange />} />
-        <Route path="listSections" element={<ListSections />} />
-        <Route path="listBranchEmployees" element={<ListBranchEmployees />} />
-        <Route path="employeesAttendance" element={<EmployeesAttendance />} />
-        <Route path="employeesSchedule" element={<EmployeesSchedule />} />
-        <Route path="itemPriceChange" element={<ListItemPriceChange />} />
-        <Route path="tablesList" element={<TablesList />} />
-        <Route path="menuList" element={<MenuList />} />
-      </Route>
-    </Routes>
-    <ToastContainer position="top-center" theme="dark" />
-  </div>
-);
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<div className=""><Navbar onLogout={handleLogout} /><div className="grid grid-cols-12">
+          <div className="col-span-2"><Sidebar /></div>
+          <div className="col-span-10"><Outlet /></div></div></div>}>
+          <Route index element={<Navigate to="/home" />} />
+          <Route path="home" element={<Home />} />
+          <Route path="addProduct" element={<AddProduct />} />
+          <Route path="addEmployee" element={<AddEmployee />} />
+          <Route path="addBranch" element={<AddBranch />} />
+          <Route path="addTable" element={<AddTable />} />
+          <Route path="addStorage" element={<AddStorage />} />
+          <Route path="addIngredient" element={<AddIngredient />} />
+          <Route path="listBranch" element={<ListBranch />} />
+          <Route path="register" element={<Register />} />
+          <Route path="listEmployee" element={<ListEmployee />} />
+          <Route path="listProduct" element={<ListProduct />} />
+          <Route path="listTable" element={<ListTable />} />
+          <Route path="employeeRoleSetup" element={<EmployeeRoleSetup />} />
+          <Route path="addBranchSection" element={<AddBranchSection />} />
+          <Route path="addPosition" element={<AddPosition />} />
+          <Route path="addGeneralSection" element={<AddGeneralSection />} />
+          <Route path="addMenuItem" element={<AddMenuItem />} />
+          <Route path="listInactiveEmployee" element={<ListInActiveEmployee />} />
+          <Route path="positionList" element={<PositionList />} />
+          <Route path="ingredientSuppliersList" element={<IngredientSuppliersList />} />
+          <Route path="listCategories" element={<ListCategories />} />
+          <Route path="listRecipes" element={<ListRecipes />} />
+          <Route path="generalMenuList" element={<GeneralMenuList />} />
+          <Route path="branchPriceChangeList" element={<BranchPriceChangeList />} />
+          <Route path="listManagers" element={<ListManagers />} />
+          <Route path="listPositionChange" element={<ListPositionChange />} />
+          <Route path="listSections" element={<ListSections />} />
+          <Route path="listBranchEmployees" element={<ListBranchEmployees />} />
+          <Route path="employeesAttendance" element={<EmployeesAttendance />} />
+          <Route path="employeesSchedule" element={<EmployeesSchedule />} />
+          <Route path="itemPriceChange" element={<ListItemPriceChange />} />
+          <Route path="tablesList" element={<TablesList />} />
+          <Route path="menuList" element={<MenuList />} />
+          <Route path="menuListByTime" element={<MenuListByTime />} />
+        </Route>
+      </Routes>
+      <ToastContainer position="top-center" theme="dark" />
+    </div>
+  );
 }
 
 export default App;

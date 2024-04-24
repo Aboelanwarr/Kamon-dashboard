@@ -8,32 +8,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import usePasswordVisibility from '../hooks/usePasswordVisibility'; // Adjust the path as necessary
 import React from 'react';
 import { toast } from 'react-toastify';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" to="/">
-        e-Food Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
 
   const {
-    password,
     showPassword,
     handlePasswordChange,
     togglePasswordVisibility,
@@ -44,21 +30,21 @@ export default function SignUp() {
     e.preventDefault();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    
+
     const raw = JSON.stringify({
       "id": e.target['id'].value,
       "email": e.target['email'].value,
       "password": e.target['password'].value
     });
-    
+
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow"
     };
-    
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/auth/employee-account", requestOptions)
+
+    fetch(`${process.env.REACT_APP_API_URL}:4000/admin/auth/employee-account`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log("Success:", result);
@@ -86,7 +72,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Add Employee Account
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -111,7 +97,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   required
                   fullWidth
                   name="password"
@@ -119,7 +105,7 @@ export default function SignUp() {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   autoComplete="new-password"
-                  onChange={handlePasswordChange} 
+                  onChange={handlePasswordChange}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -142,18 +128,10 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Add
             </Button>
-            <Grid container justifyContent="flex-start">
-              <Grid item>
-                <Link to="/Login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
