@@ -32,17 +32,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 export default function CustomizedTables() {
-  const [employeeList,setEmployeeList] = useState([]);
+  const [branchEmployeeList,setBranchEmployeeList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/inactive-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/activeEmployees/2`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
-          setEmployeeList(result.data);
+          setBranchEmployeeList(result.data.employees);
         }else{
           console.error("Failed to fetch employee list:", result);
         }
@@ -54,7 +54,7 @@ export default function CustomizedTables() {
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Inactive Employee List
+        <AddBusinessIcon fontSize='inherit' /> Branch Employee List
       </Typography>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -71,7 +71,7 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {employeeList.map((row) => (
+          {branchEmployeeList.map((row) => (
             <StyledTableRow key={row.employee_id}>
               <StyledTableCell > {row.employee_id}	</StyledTableCell>
               <StyledTableCell > {row.employee_name}	</StyledTableCell>

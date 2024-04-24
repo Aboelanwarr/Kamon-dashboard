@@ -15,13 +15,13 @@ const center = {
 }
 export default function AddBranch() {
 
-  const [employeeList, setEmployeeList] = useState([]);
+  const [managerList, setManagerList] = useState([]);
   const [mark, setMark] = React.useState({
     lat: 30.005493,
     lng: 31.477898,
   })
 
-  const { isLoaded, loadError } = useLoadScript({
+  const { isLoaded} = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places'],
   });
@@ -31,9 +31,15 @@ export default function AddBranch() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/add-new", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/manager-employees-list`, requestOptions)
       .then((response) => response.json())
-      .then((result) => setEmployeeList(result))
+      .then((result) => {
+        if (result.status === "success"){
+          setManagerList(result.data);
+        }else{
+          console.error("Failed to fetch position list:", result);
+        }
+      })
       .catch((error) => console.error(error));
   }, []);
 
@@ -58,7 +64,7 @@ export default function AddBranch() {
       
     };
 
-    fetch("http://localhost:4000/admin/branch/add-new", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-new`, requestOptions)
       .then((response) => response.json())
       .then((result) => toast.success(result.message))
       .catch((error) => toast.error(error.message));
@@ -90,8 +96,8 @@ export default function AddBranch() {
             name='manager_id'
           >
             {
-              employeeList?.map(employee => (
-                <MenuItem key={employee.employee_id} value={employee.employee_id}>{employee.employee_name}</MenuItem>
+              managerList?.map(manager => (
+                <MenuItem key={manager.id} value={manager.id}>{manager.name}</MenuItem>
               ))
             }
           </Select>

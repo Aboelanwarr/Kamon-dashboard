@@ -21,7 +21,7 @@ export default function AddIngredient() {
       body: data,
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/add-ingredient", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-ingredient`, requestOptions)
       .then((response) => response.json())
       .then((result) => toast.success(result.message))
       .catch((error) => toast.error(error.message));

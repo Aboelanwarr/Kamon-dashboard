@@ -32,10 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(position_id,position) {
-  return {position_id,position};
-}
-
 export default function PositionList() {
   const [positionList,setPositionList] = useState([]);
   useEffect(() => {
@@ -43,7 +39,7 @@ export default function PositionList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/employees/positions-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/positions-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){

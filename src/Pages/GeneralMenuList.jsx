@@ -32,10 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(id, name, description, preparation_time) {
-  return { id, name, description, preparation_time };
-}
-
 export default function GeneralMenuList() {
   const [generalMenuList, setGeneralMenuList] = useState([]);
   useEffect(() => {
@@ -43,7 +39,7 @@ export default function GeneralMenuList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/general-menu-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/general-menu-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){

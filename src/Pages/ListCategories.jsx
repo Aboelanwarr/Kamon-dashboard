@@ -32,10 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(category_name, section_name, category_description) {
-  return { category_name, section_name, category_description };
-}
-
 export default function ListCategories() {
   const [categoriesList, setCategoriesList] = useState([]);
   useEffect(() => {
@@ -43,12 +39,12 @@ export default function ListCategories() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/categories-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/categories-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
+        if (result.status === "success") {
           setCategoriesList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch categories list:", result);
         }
       })
@@ -65,6 +61,7 @@ export default function ListCategories() {
         <Table sx={{ minWidth: 650 }} aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell>Category ID</StyledTableCell>
               <StyledTableCell>Category Name</StyledTableCell>
               <StyledTableCell>Section Name</StyledTableCell>
               <StyledTableCell>Category Description</StyledTableCell>
@@ -74,6 +71,7 @@ export default function ListCategories() {
           <TableBody>
             {categoriesList.map((row, index) => (
               <StyledTableRow key={index}>
+                <StyledTableCell > {index + 1}	</StyledTableCell>
                 <StyledTableCell > {row.category_name}	</StyledTableCell>
                 <StyledTableCell > {row.section_name}	</StyledTableCell>
                 <StyledTableCell > {row.category_description}	</StyledTableCell>

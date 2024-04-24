@@ -29,6 +29,15 @@ import ListCategories from './Pages/ListCategories';
 import ListRecipes from './Pages/ListRecipes';
 import GeneralMenuList from './Pages/GeneralMenuList';
 import BranchPriceChangeList from './Pages/BranchPriceChangeList';
+import ListManagers from './Pages/ListManagers';
+import ListPositionChange from './Pages/ListPositionChange';
+import ListSections from './Pages/ListSections';
+import ListBranchEmployees from './Pages/ListBranchEmployees';
+import EmployeesAttendance from './Pages/EmployeesAttendance';
+import EmployeesSchedule from './Pages/EmployeesSchedule';
+import ListItemPriceChange from './Pages/ListItemPriceChange';
+import TablesList from './Pages/ListTables';
+import MenuList from './Pages/ListMenu';
 
 function App() {
 
@@ -82,6 +91,15 @@ function App() {
         <Route path="listRecipes" element={<ListRecipes />} />
         <Route path="generalMenuList" element={<GeneralMenuList />} />
         <Route path="branchPriceChangeList" element={<BranchPriceChangeList />} />
+        <Route path="listManagers" element={<ListManagers />} />
+        <Route path="listPositionChange" element={<ListPositionChange />} />
+        <Route path="listSections" element={<ListSections />} />
+        <Route path="listBranchEmployees" element={<ListBranchEmployees />} />
+        <Route path="employeesAttendance" element={<EmployeesAttendance />} />
+        <Route path="employeesSchedule" element={<EmployeesSchedule />} />
+        <Route path="itemPriceChange" element={<ListItemPriceChange />} />
+        <Route path="tablesList" element={<TablesList />} />
+        <Route path="menuList" element={<MenuList />} />
       </Route>
     </Routes>
     <ToastContainer position="top-center" theme="dark" />

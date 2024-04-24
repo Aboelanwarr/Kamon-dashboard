@@ -32,10 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(item_id,item_name,ingredient_name,ingredient_unit,quantity,recipe_status) {
-  return {item_id,item_name,ingredient_name,ingredient_unit,quantity,recipe_status};
-}
-
 export default function ListRecipes() {
   const [recipeList,setRecipeList] = useState([]);
   useEffect(() => {
@@ -43,7 +39,7 @@ export default function ListRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/recipes-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/recipes-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){

@@ -13,7 +13,7 @@ export default function AddEmployee() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/employees/positions-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/positions-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){
@@ -30,7 +30,7 @@ export default function AddEmployee() {
         method: "GET",
         redirect: "follow"
       };
-      fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/branches-list", requestOptions)
+      fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.status === "success"){
@@ -75,7 +75,7 @@ export default function AddEmployee() {
       redirect: "follow"
     };
 
-    fetch("http://localhost:4000/admin/auth/register", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/auth/register`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log("Success:", result);

@@ -32,17 +32,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 export default function CustomizedTables() {
-  const [employeeList,setEmployeeList] = useState([]);
+  const [employeeAttendanceList,setEmployeeAttendanceList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/inactive-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/employeesAttendance/2?fromDate=2024-04-10&toDate=2024-04-11`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
-          setEmployeeList(result.data);
+          setEmployeeAttendanceList(result.data.attendance);
         }else{
           console.error("Failed to fetch employee list:", result);
         }
@@ -54,7 +54,7 @@ export default function CustomizedTables() {
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Inactive Employee List
+        <AddBusinessIcon fontSize='inherit' /> Employee Attendance List
       </Typography>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -62,24 +62,22 @@ export default function CustomizedTables() {
           <TableRow>
             <StyledTableCell>Employee ID</StyledTableCell>
             <StyledTableCell>Employee Name</StyledTableCell>
-            <StyledTableCell >Employee Date Hired	</StyledTableCell>
-            <StyledTableCell >Employee status	</StyledTableCell>
-            <StyledTableCell >Employee branch	</StyledTableCell>
-            <StyledTableCell >Employee section	</StyledTableCell>
-            <StyledTableCell >Employee position	</StyledTableCell>          
+            <StyledTableCell >Employee shift start time	</StyledTableCell>
+            <StyledTableCell >Employee attendance in	</StyledTableCell>
+            <StyledTableCell >Employee shift end time	</StyledTableCell>       
+            <StyledTableCell >Employee attendance out	</StyledTableCell>       
             <StyledTableCell >Actions</StyledTableCell>          
           </TableRow>
         </TableHead>
         <TableBody>
-          {employeeList.map((row) => (
-            <StyledTableRow key={row.employee_id}>
-              <StyledTableCell > {row.employee_id}	</StyledTableCell>
-              <StyledTableCell > {row.employee_name}	</StyledTableCell>
-              <StyledTableCell >{row.employee_date_hired}	</StyledTableCell>
-              <StyledTableCell >{row.employee_status}	</StyledTableCell>
-              <StyledTableCell >{row.employee_branch}	</StyledTableCell>
-              <StyledTableCell >{row.empolyee_section}	</StyledTableCell>
-              <StyledTableCell >{row.employee_position}	</StyledTableCell>
+          {employeeAttendanceList.map((row,index) => (
+            <StyledTableRow key={index}>
+              <StyledTableCell > {index+1}	</StyledTableCell>
+              <StyledTableCell > {row.employee}	</StyledTableCell>
+              <StyledTableCell > {row.shift_start_time}	</StyledTableCell>
+              <StyledTableCell >{row.attendance_in}	</StyledTableCell>
+              <StyledTableCell >{row.shift_end_time}	</StyledTableCell>
+              <StyledTableCell >{row.attendance_out}	</StyledTableCell>
               <StyledTableCell>
                 <Button variant="outlined" startIcon={<EditIcon />}></Button>
                 <Button variant="outlined" startIcon={<DeleteIcon/>}></Button>

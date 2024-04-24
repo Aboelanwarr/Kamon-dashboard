@@ -34,7 +34,6 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
   const {
-    password,
     showPassword,
     handlePasswordChange,
     togglePasswordVisibility,

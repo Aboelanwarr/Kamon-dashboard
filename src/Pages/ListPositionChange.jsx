@@ -31,56 +31,58 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-export default function CustomizedTables() {
-  const [employeeList,setEmployeeList] = useState([]);
+
+
+
+export default function PositionList() {
+  const [positionChangeList,setPositionChangeList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/inactive-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/positions-changes-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
-          setEmployeeList(result.data);
+        if (result.status === "success"){
+          setPositionChangeList(result.data);
         }else{
-          console.error("Failed to fetch employee list:", result);
+          console.error("Failed to fetch position list:", result);
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+    }, []);
 
-  
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Inactive Employee List
+        <AddBusinessIcon fontSize='inherit' /> Position Change History List
       </Typography>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Employee ID</StyledTableCell>
-            <StyledTableCell>Employee Name</StyledTableCell>
-            <StyledTableCell >Employee Date Hired	</StyledTableCell>
-            <StyledTableCell >Employee status	</StyledTableCell>
-            <StyledTableCell >Employee branch	</StyledTableCell>
-            <StyledTableCell >Employee section	</StyledTableCell>
-            <StyledTableCell >Employee position	</StyledTableCell>          
-            <StyledTableCell >Actions</StyledTableCell>          
+            <StyledTableCell>Employee Name</StyledTableCell> 
+            <StyledTableCell>Position Changer</StyledTableCell> 
+            <StyledTableCell>Previous Position</StyledTableCell> 
+            <StyledTableCell>New Position</StyledTableCell> 
+            <StyledTableCell>Change Type</StyledTableCell> 
+            <StyledTableCell>Change Date</StyledTableCell> 
+            <StyledTableCell>Actions</StyledTableCell> 
           </TableRow>
         </TableHead>
         <TableBody>
-          {employeeList.map((row) => (
+          {positionChangeList.map((row) => (
             <StyledTableRow key={row.employee_id}>
               <StyledTableCell > {row.employee_id}	</StyledTableCell>
               <StyledTableCell > {row.employee_name}	</StyledTableCell>
-              <StyledTableCell >{row.employee_date_hired}	</StyledTableCell>
-              <StyledTableCell >{row.employee_status}	</StyledTableCell>
-              <StyledTableCell >{row.employee_branch}	</StyledTableCell>
-              <StyledTableCell >{row.empolyee_section}	</StyledTableCell>
-              <StyledTableCell >{row.employee_position}	</StyledTableCell>
-              <StyledTableCell>
+              <StyledTableCell > {row.position_changer}	</StyledTableCell>
+              <StyledTableCell > {row.previous_position}	</StyledTableCell>
+              <StyledTableCell > {row.new_position}	</StyledTableCell>
+              <StyledTableCell > {row.change_type}	</StyledTableCell>
+              <StyledTableCell > {row.change_date}	</StyledTableCell>
+              <StyledTableCell sx={{display:"flex",gap:"10px"}}>
                 <Button variant="outlined" startIcon={<EditIcon />}></Button>
                 <Button variant="outlined" startIcon={<DeleteIcon/>}></Button>
               </StyledTableCell>

@@ -32,10 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(id, item, branch, changed_by, change_type, new_value, previous_value) {
-  return { id, item, branch, changed_by, change_type, new_value, previous_value };
-}
-
 export default function BranchPriceChangeList() {
   const [branchPriceChangeList, setBranchPriceChangeList] = useState([]);
   useEffect(() => {
@@ -43,7 +39,7 @@ export default function BranchPriceChangeList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/branch-price-changes-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branch-price-changes-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -59,7 +55,7 @@ export default function BranchPriceChangeList() {
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> General Menu List
+        <AddBusinessIcon fontSize='inherit' /> Branch Price Change List
       </Typography>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">

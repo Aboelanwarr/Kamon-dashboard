@@ -4,19 +4,19 @@ import { Container, Box, Typography, TextField, FormControl, Button, InputLabel,
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddBranch() {
-  const [employeeList, setEmployeeList] = useState([]);
+  const [managerList, setManagerList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/employees/active-employees-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/manager-employees-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
-          setEmployeeList(result.data);
+          setManagerList(result.data);
         }else{
-          console.error("Failed to fetch employee list:", result);
+          console.error("Failed to fetch Manager list:", result);
         }
       })
       .catch((error) => console.error(error));
@@ -38,7 +38,7 @@ export default function AddBranch() {
       body: data,
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/add-storage", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-storage`, requestOptions)
     .then((response) => response.json())
     .then((result) => toast.success(result.message))
     .catch((error) => toast.error(error.message));
@@ -58,7 +58,7 @@ export default function AddBranch() {
           <FormControl fullWidth margin="normal">
             <TextField name='storageAddress' label="StorageAddress" variant="outlined" required />
           </FormControl>
-          <InputLabel id="demo-simple-select-label">Select Employee</InputLabel>
+          <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -67,8 +67,8 @@ export default function AddBranch() {
             name='manager_id'
           >
             {
-              employeeList?.map(employee => (
-                <MenuItem key={employee.employee_id} value={employee.employee_id}>{employee.employee_name}</MenuItem>
+              managerList?.map(manager => (
+                <MenuItem key={manager.id} value={manager.id}>{manager.name}</MenuItem>
               ))
             }
           </Select>

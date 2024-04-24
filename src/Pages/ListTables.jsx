@@ -31,56 +31,48 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-export default function CustomizedTables() {
-  const [employeeList,setEmployeeList] = useState([]);
+
+export default function TablesList() {
+  const [tablesList,setTablesList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/inactive-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/tables/1`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
-          setEmployeeList(result.data);
+        if (result.status === "success"){
+          setTablesList(result.data.tables);
         }else{
-          console.error("Failed to fetch employee list:", result);
+          console.error("Failed to fetch tables list:", result);
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+    }, []);
 
-  
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Inactive Employee List
+        <AddBusinessIcon fontSize='inherit' /> Tables List
       </Typography>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Employee ID</StyledTableCell>
-            <StyledTableCell>Employee Name</StyledTableCell>
-            <StyledTableCell >Employee Date Hired	</StyledTableCell>
-            <StyledTableCell >Employee status	</StyledTableCell>
-            <StyledTableCell >Employee branch	</StyledTableCell>
-            <StyledTableCell >Employee section	</StyledTableCell>
-            <StyledTableCell >Employee position	</StyledTableCell>          
-            <StyledTableCell >Actions</StyledTableCell>          
+            <StyledTableCell>Table ID</StyledTableCell>
+            <StyledTableCell>Table Status</StyledTableCell> 
+            <StyledTableCell>Capacity</StyledTableCell> 
+            <StyledTableCell>Actions</StyledTableCell> 
           </TableRow>
         </TableHead>
         <TableBody>
-          {employeeList.map((row) => (
-            <StyledTableRow key={row.employee_id}>
-              <StyledTableCell > {row.employee_id}	</StyledTableCell>
-              <StyledTableCell > {row.employee_name}	</StyledTableCell>
-              <StyledTableCell >{row.employee_date_hired}	</StyledTableCell>
-              <StyledTableCell >{row.employee_status}	</StyledTableCell>
-              <StyledTableCell >{row.employee_branch}	</StyledTableCell>
-              <StyledTableCell >{row.empolyee_section}	</StyledTableCell>
-              <StyledTableCell >{row.employee_position}	</StyledTableCell>
-              <StyledTableCell>
+          {tablesList.map((row) => (
+            <StyledTableRow key={row.table_id}>
+              <StyledTableCell > {row.table_id}	</StyledTableCell>
+              <StyledTableCell > {row.table_status}	</StyledTableCell>
+              <StyledTableCell > {row.capacity}	</StyledTableCell>
+              <StyledTableCell sx={{display:"flex",gap:"10px"}}>
                 <Button variant="outlined" startIcon={<EditIcon />}></Button>
                 <Button variant="outlined" startIcon={<DeleteIcon/>}></Button>
               </StyledTableCell>

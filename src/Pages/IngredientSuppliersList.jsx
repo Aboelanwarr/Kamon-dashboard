@@ -32,10 +32,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(ingredient_name, supply_company, company_type) {
-  return { ingredient_name, supply_company, company_type };
-}
-
 export default function IngredientSuppliersList() {
   const [ingredientSupplierList, setIngredientSupplierList] = useState([]);
   useEffect(() => {
@@ -43,7 +39,7 @@ export default function IngredientSuppliersList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch("http://ec2-13-37-245-245.eu-west-3.compute.amazonaws.com:4000/admin/branch/ingredient-suppliers-list", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/ingredient-suppliers-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
