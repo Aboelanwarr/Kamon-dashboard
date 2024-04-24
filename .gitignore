@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .env
+web server key.PEM
 # testing
 /coverage
 

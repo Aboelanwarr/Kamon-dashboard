@@ -136,7 +136,7 @@ export default function AddEmployee() {
             <MenuItem value="active">Active</MenuItem>
             <MenuItem value="inactive">Inactive</MenuItem>
           </Select>
-          <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
+          <InputLabel id="demo-simple-select-label">Select Position</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"

@@ -21,7 +21,6 @@ export default function NestedList() {
   // Initialize state to manage open/close state of each section individually
   const [openStates, setOpenStates] = React.useState({
     productSetup: false,
-    employeesSetup: false,
     branchSetup: false,
     tableSection: false,
     employeesRolesSetup: false,
@@ -36,12 +35,13 @@ export default function NestedList() {
       [section]: !prevStates[section], // Toggle the clicked section
     }));
   };
-
   return (
     <List
       sx={{ width: "100%", height: "100%", minHeight: "100vh", bgcolor: "#232b2b", color: "white" }}
       subheader={
-        <ListSubheader component="div" id="nested-list-subheader" sx={{ padding: 0, color: "white", bgcolor: "#232b2b" }}>
+        <ListSubheader component="div" id="nested-list-subheader" sx={{
+           padding: 0, color: "white", bgcolor: "#232b2b", fontWeight: 400, fontSize: 16,
+           lineHeight: 1.5, letterSpacing: "0.00938em", display: "block",height:"59px"}}>
           <ListItemButton sx={{ padding: '10px 16px' }}>
             <ListItemIcon>
               <HomeIcon color="primary" />
@@ -74,45 +74,9 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="List Product" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addMenuItem">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Add Menu Item" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/generalMenuList">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="General Menu List" />
-          </ListItemButton>
         </List>
       </Collapse>
       <Divider sx={{ bgcolor: "whitesmoke" }} />
-
-      {/* Employees Section */}
-      <ListItemButton sx={{ mt: 1, mb: 1 }} onClick={() => handleClick("employeesSetup")}>
-        <ListItemIcon>
-          <PermIdentityIcon color="primary" />
-        </ListItemIcon>
-        <ListItemText primary="Employees Section" />
-        {openStates.employeesSetup ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={openStates.employeesSetup} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton
-            sx={{ pl: 4 }}
-            component={Link}
-            to="/EmployeeRoleSetup"
-          >
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Employee Role Setup" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-
       {/* Employee Setup */}
       <ListItemButton sx={{ mt: 1, mb: 1 }} onClick={() => handleClick("employeesRolesSetup")}>
         <ListItemIcon>
@@ -131,7 +95,7 @@ export default function NestedList() {
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="Add New" />
+            <ListItemText primary="Add New Employee" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/addPosition">
             <ListItemIcon>
@@ -149,13 +113,13 @@ export default function NestedList() {
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="List Active" />
+            <ListItemText primary="Active Employees" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/listInactiveEmployee">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="List In Active" />
+            <ListItemText primary="Inactive Employees" />
           </ListItemButton>
         </List>
       </Collapse>
@@ -174,19 +138,31 @@ export default function NestedList() {
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="Add" />
+            <ListItemText primary="Add New" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/ListBranch">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="List" />
+            <ListItemText primary="Branch List" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddStorage">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Add Storage " />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addMenuItem">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Add Menu Item" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/generalMenuList">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="General Menu List" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddIngredient">
             <ListItemIcon>
