@@ -34,14 +34,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 export default function CustomizedTables() {
   const [employeeAttendanceList, setEmployeeAttendanceList] = useState([]);
-const handleDateChange = (newDate, dateType) => {
-  console.log(`Selected Date for ${dateType}:`, newDate);
-  if (dateType === 'fromDate') {
-    setFromDate(newDate);
-  } else if (dateType === 'toDate') {
-    setToDate(newDate);
-  }
-};
+  const handleDateChange = (newDate, dateType) => {
+    console.log(`Selected Date for ${dateType}:`, newDate);
+    if (dateType === 'fromDate') {
+      setFromDate(newDate);
+    } else if (dateType === 'toDate') {
+      setToDate(newDate);
+    }
+  };
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
   const [fromDate, setFromDate] = useState('');
@@ -87,7 +87,7 @@ const handleDateChange = (newDate, dateType) => {
       .catch((error) => console.error(error));
   }, [selectedBranchId, fromDate, toDate]);
   const handleBranchChange = (event) => {
-    setSelectedBranchId(event.target.value);
+        setSelectedBranchId(event.target.value);
   };
 
   return (
@@ -111,11 +111,11 @@ const handleDateChange = (newDate, dateType) => {
       </FormControl>
       <InputLabel id="demo-simple-select-label">From Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <DatePicker onChange={handleDateChange} />
+        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} />
       </FormControl>
       <InputLabel id="demo-simple-select-label">To Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <DatePicker onChange={handleDateChange} />
+        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'toDate')} />
       </FormControl>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">

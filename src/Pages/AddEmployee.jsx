@@ -3,11 +3,13 @@ import { Container, Box, Typography, TextField, FormControl, Button, Select, Men
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DatePicker from '../components/DatePicker';
 
 export default function AddEmployee() {
   const [positionList, setPositionList] = useState([]);
   const [BranchList, setBranchList] = useState([]);
-
+  const [dateHired, setDateHired] = useState('');
+  const [birthDate, setBirthDate] = useState('');
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -16,35 +18,50 @@ export default function AddEmployee() {
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/positions-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if (result.status === "success"){
+        if (result.status === "success") {
           setPositionList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch position list:", result);
         }
       })
       .catch((error) => console.error(error));
-    }, []);
+  }, []);
 
-    useEffect(() => {
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-      };
-      fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.status === "success"){
-            setBranchList(result.data);
-          }else{
-            console.error("Failed to fetch position list:", result);
-          }
-        })
-        .catch((error) => console.error(error));
-      }, []);
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === "success") {
+          setBranchList(result.data);
+        } else {
+          console.error("Failed to fetch position list:", result);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  const handleDateChange = (newDate, dateType) => {
+    console.log(`Selected Date for ${dateType}:`, newDate);
+    if (dateType === 'dateHired') {
+      setDateHired(newDate);
+    } else if (dateType === 'birthDate') {
+      setBirthDate(newDate);
+    }
+  };
 
   const onSubmit = e => {
     e.preventDefault();
-    const ssn = e.target['ssn'].value;
+    console.log(e.target);
+    // Safely accessing the value of SSN
+    const ssnInput = e.target['ssn'];
+    if (!ssnInput) {
+      toast.error("SSN input is missing.");
+      return;
+    }
+    const ssn = ssnInput.value;
 
     // Check if SSN is exactly 14 digits
     if (ssn.length !== 14 || isNaN(ssn)) {
@@ -64,8 +81,8 @@ export default function AddEmployee() {
       "position_id": e.target['position_id'].value,
       "branch_id": e.target['branch_id'].value,
       "address": e.target['address'].value,
-      "dateHired": e.target['dateHired'].value,
-      "birthDate": e.target['birthDate'].value
+      "dateHired": dateHired,
+      "birthDate": birthDate
     });
 
     const requestOptions = {
@@ -165,13 +182,15 @@ export default function AddEmployee() {
             }
           </Select>
           <FormControl fullWidth margin="normal">
-            <TextField name='address' label="Address" variant="outlined"  />
+            <TextField name='address' label="Address" variant="outlined" />
           </FormControl>
+          <InputLabel id="demo-simple-select-label">Date Hired</InputLabel>
           <FormControl fullWidth margin="normal">
-          <TextField name='dateHired' label="Date Hired" variant="outlined"  />
+            <DatePicker onChange={(newDate) => handleDateChange(newDate, 'dateHired')} />
           </FormControl>
+          <InputLabel id="demo-simple-select-label">Birth Date</InputLabel>
           <FormControl fullWidth margin="normal">
-          <TextField name='birthDate' label="Birth Date" variant="outlined"  />
+            <DatePicker onChange={(newDate) => handleDateChange(newDate, 'birthDate')} />
           </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>

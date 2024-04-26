@@ -40,6 +40,7 @@ export default function Navbar({ onLogout }) {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Typography variant="h6" color="initial" sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  {/* {user.name} */}
                   Ahmed Ehab
                   <Avatar alt="Ahmed Ehab" src="/static/images/avatar/2.jpg" />
                 </Typography>

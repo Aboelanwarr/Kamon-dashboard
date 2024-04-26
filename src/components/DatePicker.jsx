@@ -10,13 +10,20 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
 
   const handleDayClick = (day) => {
     const newDate = new Date(date.getFullYear(), date.getMonth(), day);
-    setSelectedDate(newDate);
-    onChange(newDate);
+    const formattedDate = newDate.getFullYear() + '-' + 
+      String(newDate.getMonth() + 1).padStart(2, '0') + '-' + 
+      String(newDate.getDate()).padStart(2, '0');
+    setSelectedDate(formattedDate);
+    onChange(formattedDate);
     setIsOpen(false);
   };
 
   const changeMonth = (offset) => {
     setDate(new Date(date.getFullYear(), date.getMonth() + offset, 1));
+  };
+
+  const changeYear = (offset) => {
+    setDate(new Date(date.getFullYear() + offset, date.getMonth(), 1));
   };
 
   const renderDays = () => {
@@ -38,7 +45,7 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
     <div className="date-picker">
       <input
         type="text"
-        value={selectedDate ? selectedDate.toISOString().slice(0, 10) : ''}
+        value={selectedDate || ''}
         readOnly
         onClick={toggleCalendar}
         placeholder="Select a date"
@@ -46,9 +53,11 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
       {isOpen && (
         <div className="calendar">
           <div className="month-navigation">
-            <button onClick={() => changeMonth(-1)}>Prev</button>
+            <button onClick={() => changeYear(-1)}>Prev Year</button>
+            <button onClick={() => changeMonth(-1)}>Prev Month</button>
             <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
-            <button onClick={() => changeMonth(1)}>Next</button>
+            <button onClick={() => changeMonth(1)}>Next Month</button>
+            <button onClick={() => changeYear(1)}>Next Year</button>
           </div>
           {renderDays()}
         </div>
