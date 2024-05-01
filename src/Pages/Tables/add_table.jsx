@@ -41,8 +41,13 @@ function AddTable() {
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/table/add-newTable`, requestOptions)
       .then((response) => response.json())
-      .then((result) => toast.success(result.message))
-      .catch((error) => toast.error(error.message));
+      .then((result) => {
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

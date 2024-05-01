@@ -25,8 +25,13 @@ export default function AddMenuItem() {
     
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-menu-item`, requestOptions)
       .then((response) => response.json())
-      .then((result) => toast.success(result))
-      .catch((error) => toast.error(error));
+      .then((result) => {
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

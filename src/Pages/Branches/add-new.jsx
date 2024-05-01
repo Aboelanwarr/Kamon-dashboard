@@ -66,8 +66,13 @@ export default function AddBranch() {
 
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-new`, requestOptions)
       .then((response) => response.json())
-      .then((result) => toast.success(result.message))
-      .catch((error) => toast.error(error.message));
+      .then((result) => {
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

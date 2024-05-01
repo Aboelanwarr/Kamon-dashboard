@@ -95,13 +95,12 @@ export default function AddEmployee() {
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/auth/register`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("Success:", result);
-        toast.success(result);
+        toast.success(result.message);
       })
       .catch((error) => {
-        console.error("Error:", error);
-        toast.error(error);
-      });
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

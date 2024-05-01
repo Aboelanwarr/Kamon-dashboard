@@ -17,44 +17,44 @@ export default function AddBranchSection() {
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/manager-employees-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if (result.status === "success"){
+        if (result.status === "success") {
           setManagerList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch position list:", result);
         }
       })
       .catch((error) => console.error(error));
-    }, []);
+  }, []);
 
-    useEffect(() => {
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-      };
-      fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
+        if (result.status === "success") {
           setBranchList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch branch list:", result);
         }
       })
       .catch((error) => console.error(error));
   }, []);
 
-    useEffect(() => {
-      const requestOptions = {
-        method: "GET",
-        redirect: "follow"
-      };
-      fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/sections/1`, requestOptions)
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/sections/1`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
+        if (result.status === "success") {
           const sortedSections = result.data.sections.sort((a, b) => a.id - b.id);
           setSectionsList(sortedSections);
-        }else{
+        } else {
           console.error("Failed to fetch sections list:", result);
         }
       })
@@ -82,13 +82,12 @@ export default function AddBranchSection() {
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-branch-section`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("Success:", result);
-        toast.success(result);
+        toast.success(result.message);
       })
       .catch((error) => {
-        console.error("Error:", error);
-        toast.error(error);
-      });
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

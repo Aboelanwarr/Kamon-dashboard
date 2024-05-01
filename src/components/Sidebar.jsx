@@ -24,6 +24,7 @@ export default function NestedList() {
     branchSetup: false,
     tableSection: false,
     employeesRolesSetup: false,
+    customerSetup: false,
   });
 
   const handleClick = (section) => {
@@ -52,12 +53,12 @@ export default function NestedList() {
       }
     >
       <Divider sx={{ bgcolor: "whitesmoke" }} />
-      {/* Product Setup */}
+      {/* Items Setup */}
       <ListItemButton sx={{ mt: 1, mb: 1 }} onClick={() => handleClick("productSetup")} >
         <ListItemIcon>
           <DiamondIcon color="primary" />
         </ListItemIcon>
-        <ListItemText primary="Product Setup" />
+        <ListItemText primary="Items Setup" />
         {openStates.productSetup ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={openStates.productSetup} timeout="auto" unmountOnExit >
@@ -290,6 +291,31 @@ export default function NestedList() {
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Availability" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+      <Divider sx={{ bgcolor: "whitesmoke" }} />
+       {/* Customer Setup */}
+       <ListItemButton sx={{ mt: 1, mb: 1 }} onClick={() => handleClick("customerSetup")} >
+       <ListItemIcon>
+          <PermIdentityIcon color="primary" />
+        </ListItemIcon>
+        <ListItemText primary="Customer Setup" />
+        {openStates.customerSetup ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={openStates.customerSetup} timeout="auto" unmountOnExit >
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddProduct">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Add Product" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/ListProduct">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="List Product" />
           </ListItemButton>
         </List>
       </Collapse>

@@ -22,8 +22,13 @@ export default function AddGeneralSection() {
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-general-section`, requestOptions)
       .then((response) => response.json())
-      .then((result) => toast.success(result.message))
-      .catch((error) => toast.error(error.message));
+      .then((result) => {
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

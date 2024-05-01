@@ -23,8 +23,13 @@ export default function AddIngredient() {
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-ingredient`, requestOptions)
       .then((response) => response.json())
-      .then((result) => toast.success(result.message))
-      .catch((error) => toast.error(error.message));
+      .then((result) => {
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

@@ -15,13 +15,14 @@ import usePasswordVisibility from '../hooks/usePasswordVisibility'; // Adjust th
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import { toast } from 'react-toastify';
+import './Login.css';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" to="#">
-        e-Food Website
+        Graduation Project
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -57,7 +58,7 @@ export default function SignIn() {
       redirect: "follow"
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}:4000/admin/auth/login`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/auth/login`, requestOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error('Failed to login');
@@ -79,10 +80,10 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+    <ThemeProvider theme={defaultTheme} >
+      <Container component="main" maxWidth="xs" className='login-container'>
         <CssBaseline />
-        <Box
+        <Box className='login-box'
           sx={{
             marginTop: 8,
             display: 'flex',
@@ -153,11 +154,6 @@ export default function SignIn() {
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/Register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link> 
               </Grid>
             </Grid>
           </Box>

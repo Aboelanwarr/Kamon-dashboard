@@ -48,11 +48,11 @@ export default function SignUp() {
       .then((response) => response.json())
       .then((result) => {
         console.log("Success:", result);
-        toast.success(result);
+        toast.success(result.message);
       })
       .catch((error) => {
         console.error("Error:", error);
-        toast.error(error);
+        toast.error(error.message);
       });
   };
 

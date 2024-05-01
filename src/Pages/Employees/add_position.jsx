@@ -22,8 +22,13 @@ export default function AddPostion() {
     
     fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/add-position`, requestOptions)
       .then((response) => response.json())
-      .then((result) => toast.success(result))
-      .catch((error) => toast.error(error));
+      .then((result) => {
+        toast.success(result.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      }
+      );
   };
 
   return (

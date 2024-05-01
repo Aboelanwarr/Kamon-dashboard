@@ -1,0 +1,25 @@
+/* :root{
+  --rgba-primary-1: rgba(253,104,62,.1);
+  --rgba-primary-2: rgba(253,104,62,.2);
+  --rgba-primary-3: rgba(253,104,62,.3);
+  --rgba-primary-4: rgba(253,104,62,.4);
+  --rgba-primary-5: rgba(253,104,62,.5);
+  --color-white: #fff;
+}
+
+body{
+  background-color: var(--rgba-primary-1);
+}
+.login-container{
+  background-color: var(--color-white);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 50px auto;
+}
+
+.login-box{
+  background-color: var(--color-white);
+  border-radius: 10px;
+  padding: 20px;
+}
+ */

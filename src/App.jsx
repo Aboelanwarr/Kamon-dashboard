@@ -2,43 +2,39 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Appbar';
 import Sidebar from './components/Sidebar';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
-import AddProduct from './Pages/AddProduct';
-import AddEmployee from './Pages/AddEmployee';
-import AddBranch from './Pages/AddBranch';
-import AddTable from './Pages/AddTable';
-import AddStorage from './Pages/AddStorage';
-import ListBranch from './Pages/ListBranch';
-import ListEmployee from './Pages/ListEmployee'
-import ListProduct from './Pages/ListProduct'
-import ListTable from './Pages/ListTable'
-import EmployeeRoleSetup from './Pages/EmployeeRoleSetup'
+import AddEmployee from './authentication/employee_account';
+import AddBranch from './Pages/Branches/add-new';
+import AddTable from './Pages/Tables/add_table';
+import AddStorage from './Pages/Branches/add-storage';
+import ListBranch from './Pages/Branches/branch_list';
+import ListEmployee from './Pages/Employees/active_employee_list'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AddIngredient from './Pages/AddIngredient';
-import Register from './authenticator/Register';
-import Login from './authenticator/Login';
+import AddIngredient from './Pages/Branches/add-ingredient';
+import Register from './authentication/register';
+import Login from './authentication/login';
 import Home from './Pages/Home';
-import AddBranchSection from './Pages/AddBranchSection';
-import AddPosition from './Pages/AddPosition';
-import AddGeneralSection from './Pages/AddGeneralSection';
-import AddMenuItem from './Pages/AddMenuItem';
-import ListInActiveEmployee from './Pages/ListInActiveEmployee';
-import PositionList from './Pages/PositionList';
-import IngredientSuppliersList from './Pages/IngredientSuppliersList';
-import ListCategories from './Pages/ListCategories';
-import ListRecipes from './Pages/ListRecipes';
-import GeneralMenuList from './Pages/GeneralMenuList';
-import BranchPriceChangeList from './Pages/BranchPriceChangeList';
-import ListManagers from './Pages/ListManagers';
-import ListPositionChange from './Pages/ListPositionChange';
-import ListSections from './Pages/ListSections';
-import ListBranchEmployees from './Pages/ListBranchEmployees';
-import EmployeesAttendance from './Pages/EmployeesAttendance';
-import EmployeesSchedule from './Pages/EmployeesSchedule';
-import ListItemPriceChange from './Pages/ListItemPriceChange';
-import TablesList from './Pages/ListTables';
-import MenuList from './Pages/ListMenu';
-import MenuListByTime from './Pages/ListMenuByTime';
+import AddBranchSection from './Pages/Branches/add-branch-section';
+import AddPosition from './Pages/Employees/add_position';
+import AddGeneralSection from './Pages/Branches/add-general-section';
+import AddMenuItem from './Pages/Branches/add-menu-item';
+import ListInActiveEmployee from './Pages/Employees/inactive_employee_list';
+import PositionList from './Pages/Employees/position_list';
+import IngredientSuppliersList from './Pages/Branches/ingredient_suppliers_list';
+import ListCategories from './Pages/Branches/categories_list';
+import ListRecipes from './Pages/Branches/recipes_list';
+import GeneralMenuList from './Pages/Branches/general_menu_list';
+import BranchPriceChangeList from './Pages/Branches/branch_price_change_list';
+import ListManagers from './Pages/Employees/manager_employee_list';
+import ListPositionChange from './Pages/Employees/positions-changes-list';
+import ListSections from './Pages/Branches/sections';
+import ListBranchEmployees from './Pages/Branches/activeEmployees';
+import EmployeesAttendance from './Pages/Branches/employeesAttendance';
+import EmployeesSchedule from './Pages/Branches/employeesSchedule';
+import ListItemPriceChange from './Pages/Branches/itemPriceChanges';
+import TablesList from './Pages/Tables/tables';
+import MenuList from './Pages/Branches/menu';
+import MenuListByTime from './Pages/Branches/menuByTime';
 
 function App() {
 
@@ -69,7 +65,6 @@ function App() {
           <div className="col-span-10"><Outlet /></div></div></div>}>
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<Home />} />
-          <Route path="addProduct" element={<AddProduct />} />
           <Route path="addEmployee" element={<AddEmployee />} />
           <Route path="addBranch" element={<AddBranch />} />
           <Route path="addTable" element={<AddTable />} />
@@ -78,9 +73,6 @@ function App() {
           <Route path="listBranch" element={<ListBranch />} />
           <Route path="register" element={<Register />} />
           <Route path="listEmployee" element={<ListEmployee />} />
-          <Route path="listProduct" element={<ListProduct />} />
-          <Route path="listTable" element={<ListTable />} />
-          <Route path="employeeRoleSetup" element={<EmployeeRoleSetup />} />
           <Route path="addBranchSection" element={<AddBranchSection />} />
           <Route path="addPosition" element={<AddPosition />} />
           <Route path="addGeneralSection" element={<AddGeneralSection />} />

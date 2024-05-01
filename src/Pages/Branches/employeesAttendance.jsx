@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import DatePicker from '../components/DatePicker';
+import DatePicker from '../../components/DatePicker';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -23,6 +23,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
+
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -67,12 +68,14 @@ export default function CustomizedTables() {
       })
       .catch(error => console.error(error));
   }, []);
+
+
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/employeesSchedule/${selectedBranchId}?fromDate=${fromDate}&toDate=${toDate}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/employeesAttendance/${selectedBranchId}?fromDate=${fromDate}&toDate=${toDate}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -86,10 +89,11 @@ export default function CustomizedTables() {
   const handleBranchChange = (event) => {
         setSelectedBranchId(event.target.value);
   };
+
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Employee Schedule List
+        <AddBusinessIcon fontSize='inherit' /> Employee Attendance List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <InputLabel id="branch-select-label">Branch</InputLabel>
