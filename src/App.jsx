@@ -35,6 +35,20 @@ import ListItemPriceChange from './Pages/Branches/itemPriceChanges';
 import TablesList from './Pages/Tables/tables';
 import MenuList from './Pages/Branches/menu';
 import MenuListByTime from './Pages/Branches/menuByTime';
+import ItemBySeason from './Pages/Items/itemBySeason';
+import ItemByTime from './Pages/Items/itemByTime';
+import ItemPriceChanges from './Pages/Items/itemPriceChanges';
+import ItemPriceRecipes from './Pages/Items/itemPriceRecipes';
+import Recipe from './Pages/Items/recipe';
+import Season from './Pages/Items/season';
+import CustomerAddresses from './Pages/Customers/customerAddresses';
+import CustomerInformation from './Pages/Customers/customerInformation';
+import CustomerPhones from './Pages/Customers/customerPhones';
+import FriendRequests from './Pages/Customers/friendRequests';
+import FriendsList from './Pages/Customers/friendsList';
+
+
+
 
 function App() {
 
@@ -94,6 +108,17 @@ function App() {
           <Route path="tablesList" element={<TablesList />} />
           <Route path="menuList" element={<MenuList />} />
           <Route path="menuListByTime" element={<MenuListByTime />} />
+          <Route path="itemBySeason" element={<ItemBySeason />} />
+          <Route path="itemByTime" element={<ItemByTime />} />
+          <Route path="itemPriceChanges" element={<ItemPriceChanges />} />
+          <Route path="itemPriceRecipes" element={<ItemPriceRecipes />} />
+          <Route path="recipe" element={<Recipe />} />
+          <Route path="season" element={<Season />} />
+          <Route path="customerAddresses" element={<CustomerAddresses />} />
+          <Route path="customerInformation" element={<CustomerInformation />} />
+          <Route path="customerPhones" element={<CustomerPhones />} />
+          <Route path="friendRequests" element={<FriendRequests />} />
+          <Route path="friendsList" element={<FriendsList />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />

@@ -63,17 +63,41 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={openStates.productSetup} timeout="auto" unmountOnExit >
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddProduct">
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/itemBySeason">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="Add Product" />
+            <ListItemText primary="Item By Season" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/ListProduct">
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/itemByTime">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="List Product" />
+            <ListItemText primary="Item By Time" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/itemPriceChanges">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Item Price Changes" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/itemPriceRecipes">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Item Price Changes Recipes" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/recipe">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Recipes" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/season">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Season" />
           </ListItemButton>
         </List>
       </Collapse>
@@ -305,17 +329,35 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={openStates.customerSetup} timeout="auto" unmountOnExit >
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddProduct">
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/customerAddresses">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="Add Product" />
+            <ListItemText primary="Customer Addresses" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/ListProduct">
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/customerInformation">
             <ListItemIcon>
               <FiberManualRecordIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary="List Product" />
+            <ListItemText primary="Customer Information" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/customerPhones">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Customer Phones" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/friendRequests">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Friend Requests" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/friendsList">
+            <ListItemIcon>
+              <FiberManualRecordIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Friends List" />
           </ListItemButton>
         </List>
       </Collapse>
