@@ -20,7 +20,7 @@ export default function AddPostion() {
       redirect: "follow"
     };
     
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/add-position`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/add-position`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

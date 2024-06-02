@@ -20,7 +20,7 @@ export default function AddGeneralSection() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-general-section`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-general-section`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

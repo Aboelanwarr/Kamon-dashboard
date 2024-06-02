@@ -39,7 +39,7 @@ export default function PositionList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/positions-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/positions-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){

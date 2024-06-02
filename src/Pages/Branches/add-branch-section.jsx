@@ -14,7 +14,7 @@ export default function AddBranchSection() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/manager-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -31,7 +31,7 @@ export default function AddBranchSection() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -48,7 +48,7 @@ export default function AddBranchSection() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/sections/1`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/sections/1`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -79,7 +79,7 @@ export default function AddBranchSection() {
       redirect: "follow"
     };
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-branch-section`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-branch-section`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

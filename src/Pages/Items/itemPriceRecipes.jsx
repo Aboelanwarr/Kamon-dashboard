@@ -43,7 +43,7 @@ export default function ItemPriceRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/items/item-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/item-list`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -66,7 +66,7 @@ export default function ItemPriceRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/items/item-price-list/${selectedItemId}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/item-price-list/${selectedItemId}`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {

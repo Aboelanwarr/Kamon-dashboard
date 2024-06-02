@@ -43,7 +43,7 @@ export default function MenuList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -64,7 +64,7 @@ export default function MenuList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/menu/${selectedBranchId}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/menu/${selectedBranchId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){

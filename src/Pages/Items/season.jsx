@@ -20,7 +20,7 @@ export default function Season() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/items/season`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/season`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

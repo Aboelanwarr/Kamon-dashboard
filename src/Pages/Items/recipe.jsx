@@ -10,7 +10,7 @@ export default function Recipe() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -27,7 +27,7 @@ export default function Recipe() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -57,7 +57,7 @@ export default function Recipe() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

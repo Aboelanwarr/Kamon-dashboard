@@ -10,7 +10,7 @@ function AddTable() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/branches-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -39,7 +39,7 @@ function AddTable() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/table/add-newTable`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/table/add-newTable`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

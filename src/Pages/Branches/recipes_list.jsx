@@ -39,7 +39,7 @@ export default function ListRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/recipes-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/recipes-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){

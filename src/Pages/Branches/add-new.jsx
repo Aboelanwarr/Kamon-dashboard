@@ -31,7 +31,7 @@ export default function AddBranch() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/manager-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){
@@ -64,7 +64,7 @@ export default function AddBranch() {
       
     };
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-new`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-new`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

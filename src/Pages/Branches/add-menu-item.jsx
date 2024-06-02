@@ -23,7 +23,7 @@ export default function AddMenuItem() {
       redirect: "follow"
     };
     
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/add-menu-item`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-menu-item`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);

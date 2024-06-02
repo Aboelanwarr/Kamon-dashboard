@@ -43,7 +43,7 @@ export default function CustomizedTables() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/employees/active-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/active-employees-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){

@@ -42,7 +42,7 @@ export default function CustomerInformation() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/customers/customers-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/customers/customers-list`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -65,7 +65,7 @@ export default function CustomerInformation() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/customers/customerInformation/${selectedCustomerId}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/customers/customerInformation/${selectedCustomerId}`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {

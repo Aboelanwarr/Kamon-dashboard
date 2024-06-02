@@ -39,7 +39,7 @@ export default function GeneralMenuList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}:4000/admin/branch/general-menu-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
