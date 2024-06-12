@@ -319,48 +319,6 @@ export default function NestedList() {
         </List>
       </Collapse>
       <Divider sx={{ bgcolor: "whitesmoke" }} />
-       {/* Customer Setup */}
-       <ListItemButton sx={{ mt: 1, mb: 1 }} onClick={() => handleClick("customerSetup")} >
-       <ListItemIcon>
-          <PermIdentityIcon color="primary" />
-        </ListItemIcon>
-        <ListItemText primary="Customer Setup" />
-        {openStates.customerSetup ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={openStates.customerSetup} timeout="auto" unmountOnExit >
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/customerAddresses">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Customer Addresses" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/customerInformation">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Customer Information" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/customerPhones">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Customer Phones" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/friendRequests">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Friend Requests" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/friendsList">
-            <ListItemIcon>
-              <FiberManualRecordIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Friends List" />
-          </ListItemButton>
-        </List>
-      </Collapse>
     </List>
   );
 }
