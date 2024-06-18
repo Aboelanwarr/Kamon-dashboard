@@ -66,7 +66,7 @@ export default function ItemPriceRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/item-price-list/${selectedItemId}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/itemPriceRecipes/${selectedItemId}`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -85,7 +85,7 @@ export default function ItemPriceRecipes() {
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Item Price Changes List
+        <AddBusinessIcon fontSize='inherit' /> Item Price Recipes List
       </Typography>
       <FormControl fullWidth sx={{mb:"20px"}}>
         <InputLabel id="item-select-label">Item</InputLabel>

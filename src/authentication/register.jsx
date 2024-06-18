@@ -44,7 +44,7 @@ export default function SignUp() {
       redirect: "follow"
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}:4000/admin/auth/employee-account`, requestOptions)
+    fetch(`${process.env.REACT_APP_API_URL}/admin/auth/employee-account`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log("Success:", result);

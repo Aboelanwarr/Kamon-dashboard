@@ -41,7 +41,7 @@ import ItemPriceChanges from './Pages/Items/itemPriceChanges';
 import ItemPriceRecipes from './Pages/Items/itemPriceRecipes';
 import Recipe from './Pages/Items/recipe';
 import Season from './Pages/Items/season';
-
+import Loading from './components/Loading';
 
 
 
@@ -49,6 +49,7 @@ function App() {
 
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -58,13 +59,24 @@ function App() {
     } else {
       navigate('/login');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    // Simulate a fetch call
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Simulate loading time with 2 seconds delay
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+  
   return (
     <div>
       <Routes>
