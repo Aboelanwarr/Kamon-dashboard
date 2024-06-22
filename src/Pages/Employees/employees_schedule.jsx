@@ -8,9 +8,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { Container, Typography } from '@mui/material';
+import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-
+import DatePicker from '../../components/DatePicker';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,45 +30,104 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+export default function CustomizedTables() {
+  const [employeeScheduleList, setEmployeeScheduleList] = useState([]);
+  const handleDateChange = (newDate, dateType) => {
+    console.log(`Selected Date for ${dateType}:`, newDate);
+    if (dateType === 'fromDate') {
+      setFromDate(newDate);
+    } else if (dateType === 'toDate') {
+      setToDate(newDate);
+    }
+  };
+  const [employeeList, setEmployeeList] = useState([]);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
 
-export default function PositionList() {
-  const [positionList, setPositionList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/positions-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/active-employees-list`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result.status === "success") {
+          setEmployeeList(result.data);
+          // Optionally, set the first branch as selected by default
+          if (result.data.length > 0) {
+            setSelectedEmployeeId(result.data[0].id); // Assuming 'id' is the identifier
+          }
+        } else {
+          console.error("Failed to fetch employee list:", result);
+        }
+      })
+      .catch(error => console.error(error));
+  }, []);
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/schedule/${selectedEmployeeId}?fromDate=${fromDate}&toDate=${toDate}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
-          setPositionList(result.data);
+          setEmployeeScheduleList(result.data.attendance);
         } else {
-          console.error("Failed to fetch position list:", result);
+          console.error("Failed to fetch employee list:", result);
         }
       })
       .catch((error) => console.error(error));
-  }, []);
-
+  }, [selectedEmployeeId, fromDate, toDate]);
+  const handleBranchChange = (event) => {
+    setSelectedEmployeeId(event.target.value);
+    console.log("Selected Employee ID:", event.target.value); // Log the selected employee ID
+  };
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Position List
+        <AddBusinessIcon fontSize='inherit' /> Employee Schedule List
       </Typography>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+        <InputLabel id="employee-select-label">Employee</InputLabel>
+        <Select
+          labelId="employee-select-label"
+          id="employee-select"
+          value={selectedEmployeeId}
+          label="Employee"
+          onChange={handleBranchChange}
+        >
+          {employeeList.map((employee) => (
+            <MenuItem key={employee.employee_id} value={employee.employee_id}>{employee.employee_name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <InputLabel id="demo-simple-select-label">From Date</InputLabel>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} />
+      </FormControl>
+      <InputLabel id="demo-simple-select-label">To Date</InputLabel>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'toDate')} />
+      </FormControl>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Position ID</StyledTableCell>
-              <StyledTableCell>Position</StyledTableCell>
-              <StyledTableCell>Actions</StyledTableCell>
+              <StyledTableCell>ID</StyledTableCell>
+              <StyledTableCell >Employee shift start time	</StyledTableCell>
+              <StyledTableCell >Employee shift end time	</StyledTableCell>
+              <StyledTableCell >Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {positionList.map((row) => (
-              <StyledTableRow key={row.position_id}>
-                <StyledTableCell > {row.position_id}	</StyledTableCell>
-                <StyledTableCell > {row.position}	</StyledTableCell>
+            {employeeScheduleList.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell > {row.id}	</StyledTableCell>
+                <StyledTableCell > {row.shift_start_time}	</StyledTableCell>
+                <StyledTableCell >{row.shift_end_time}	</StyledTableCell>
                 <StyledTableCell>
                   <Button><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_103_484)">

@@ -47,6 +47,18 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={openStates.productSetup} timeout="auto" unmountOnExit >
         <List component="div" disablePadding>
+        <ListItemButton sx={{ pl: 4 }} component={Link} to="/menuList">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Menu List" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/menuListByTime">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Menu List By Time" />
+          </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/itemBySeason">
             <ListItemIcon>
               <FiberManualRecordIcon sx={{color:'#386351'}} />
@@ -83,6 +95,36 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Season" />
           </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addMenuItem">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Add Menu Item" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addCategory">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Add Category" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/listCategories">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Categories List" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/listRecipes">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Recipes List" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddIngredient">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Add Ingredient " />
+          </ListItemButton>
         </List>
       </Collapse>
       {/* Employee Setup */}
@@ -105,11 +147,35 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Add New Employee" />
           </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addEmployeePhone">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Add Employee Phone" />
+          </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/register">
             <ListItemIcon>
               <FiberManualRecordIcon sx={{color:'#386351'}} />
             </ListItemIcon>
             <ListItemText primary="Add New Employee Account" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addEmployeeSchedule">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Add Employee Schedule" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employeesSchedule">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Employee Schedule" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addEmployeeVecation">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Add Employee Vecation" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/addPosition">
             <ListItemIcon>
@@ -147,6 +213,24 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Position Change List" />
           </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/positionChangesList">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Employee Position Change" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employeesAteendanceEmp">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Employee Attendance" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employeesPhonesList">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Employee Phones" />
+          </ListItemButton>
         </List>
       </Collapse>
       {/* Branch Setup */}
@@ -171,18 +255,6 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Add Storage " />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/addMenuItem">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Add Menu Item" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/AddIngredient">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Add Ingredient " />
-          </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/addBranchSection">
             <ListItemIcon>
               <FiberManualRecordIcon sx={{color:'#386351'}} />
@@ -194,18 +266,6 @@ export default function NestedList() {
               <FiberManualRecordIcon sx={{color:'#386351'}} />
             </ListItemIcon>
             <ListItemText primary="Add General Section" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/menuList">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Menu List" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/menuListByTime">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Menu List By Time" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/ListBranch">
             <ListItemIcon>
@@ -225,7 +285,7 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Employee Attendance List" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employeesSchedule">
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employeesBranchSchedule">
             <ListItemIcon>
               <FiberManualRecordIcon sx={{color:'#386351'}} />
             </ListItemIcon>
@@ -248,18 +308,6 @@ export default function NestedList() {
               <FiberManualRecordIcon sx={{color:'#386351'}} />
             </ListItemIcon>
             <ListItemText primary="Ingredient Suppliers List" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/listCategories">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Categories List" />
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/listRecipes">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Recipes List" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/branchPriceChangeList">
             <ListItemIcon>

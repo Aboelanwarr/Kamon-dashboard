@@ -42,8 +42,14 @@ import ItemPriceRecipes from './Pages/Items/itemPriceRecipes';
 import Recipe from './Pages/Items/recipe';
 import Season from './Pages/Items/season';
 import Loading from './components/Loading';
-
-
+import AddCategory from './Pages/Items/addCategory';
+import AddEmployeePhone from './Pages/Employees/employees_phones';
+import AddEmployeeSchedule from './Pages/Employees/add_employee-schedule';
+import AddEmployeeVecation from './Pages/Employees/add_employee_vecation';
+import EmployeesAteendanceEmp from './Pages/Employees/employeesAteendance_emp';
+import EmployeesPhonesList from './Pages/Employees/employees_phones_list';
+import PositionChangesList from './Pages/Employees/positionChanges';
+import EmployeesSchedulePage from './Pages/Employees/employees_schedule';
 
 function App() {
 
@@ -110,7 +116,7 @@ function App() {
           <Route path="listSections" element={<ListSections />} />
           <Route path="listBranchEmployees" element={<ListBranchEmployees />} />
           <Route path="employeesAttendance" element={<EmployeesAttendance />} />
-          <Route path="employeesSchedule" element={<EmployeesSchedule />} />
+          <Route path="employeesBranchSchedule" element={<EmployeesSchedule />} />
           <Route path="itemPriceChange" element={<ListItemPriceChange />} />
           <Route path="tablesList" element={<TablesList />} />
           <Route path="menuList" element={<MenuList />} />
@@ -121,6 +127,14 @@ function App() {
           <Route path="itemPriceRecipes" element={<ItemPriceRecipes />} />
           <Route path="recipe" element={<Recipe />} />
           <Route path="season" element={<Season />} />
+          <Route path="addCategory" element={<AddCategory />} />
+          <Route path="addEmployeePhone" element={<AddEmployeePhone />} />
+          <Route path="addEmployeeSchedule" element={<AddEmployeeSchedule />} />
+          <Route path="addEmployeeVecation" element={<AddEmployeeVecation />} />
+          <Route path="employeesAteendanceEmp" element={<EmployeesAteendanceEmp />} />
+          <Route path="employeesPhonesList" element={<EmployeesPhonesList />} />
+          <Route path="positionChangesList" element={<PositionChangesList />} />
+          <Route path="employeesSchedule" element={<EmployeesSchedulePage />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />
