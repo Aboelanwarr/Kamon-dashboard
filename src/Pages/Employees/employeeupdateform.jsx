@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './employeeupdateform.css'; // Import your stylesheet here
+import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EmployeeUpdateForm = () => {
-  const [employeeId, setEmployeeId] = useState('');
+  const location = useLocation();
+  const [employeeId, setEmployeeId] = useState(location.state?.employeeId || '');
   const [changePhoneNumber, setChangePhoneNumber] = useState(false);
   const [oldPhoneNumber, setOldPhoneNumber] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
@@ -18,6 +22,12 @@ const EmployeeUpdateForm = () => {
   const [newAddress, setNewAddress] = useState('');
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    if (location.state?.employeeId) {
+      setEmployeeId(location.state.employeeId);
+    }
+  }, [location.state]);
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     setError('');
@@ -28,6 +38,12 @@ const EmployeeUpdateForm = () => {
           employeeId,
           oldPhone: oldPhoneNumber,
           newPhone: newPhoneNumber,
+        })
+        .then((result) => {
+          toast.success(result.data.message);
+        })
+        .catch((error) => {
+          toast.error(error.response?.data?.message || error.message);
         });
       }
 
@@ -37,6 +53,12 @@ const EmployeeUpdateForm = () => {
           changerId,
           newSalary,
           changeReason,
+        })
+        .then((result) => {
+          toast.success(result.data.message);
+        })
+        .catch((error) => {
+          toast.error(error.response?.data?.message || error.message);
         });
       }
 
@@ -46,6 +68,12 @@ const EmployeeUpdateForm = () => {
           position_changer_id: positionChangerId,
           new_position: newPosition,
           position_change_type: positionChangeType,
+        })
+        .then((result) => {
+          toast.success(result.data.message);
+        })
+        .catch((error) => {
+          toast.error(error.response?.data?.message || error.message);
         });
       }
 
@@ -53,6 +81,12 @@ const EmployeeUpdateForm = () => {
         await axios.patch('http://localhost:4000/admin/employees/update-employee-address', {
           employeeId,
           newAddress,
+        })
+        .then((result) => {
+          toast.success(result.data.message);
+        })
+        .catch((error) => {
+          toast.error(error.response?.data?.message || error.message);
         });
       }
 
@@ -64,6 +98,12 @@ const EmployeeUpdateForm = () => {
           newPosition,
           positionChangeType,
           changeReason,
+        })
+        .then((result) => {
+          toast.success(result.data.message);
+        })
+        .catch((error) => {
+          toast.error(error.response?.data?.message || error.message);
         });
       }
       
@@ -83,13 +123,14 @@ const EmployeeUpdateForm = () => {
       setNewAddress('');
       
     } catch (err) {
-      setError('An error occurred while updating the employee. Please try again.');
+      toast.error('An error occurred while updating the employee. Please try again.');
       console.error('Error:', err);
     }
   };
 
   return (
     <div className="employee-form-container">
+      <ToastContainer />
       <form onSubmit={handleUpdate}>
         <h1>Employee Update Form</h1>
         {error && <p className="error-message">{error}</p>}
@@ -177,12 +218,14 @@ const EmployeeUpdateForm = () => {
                 value={newPosition}
                 onChange={(e) => setNewPosition(e.target.value)}
               />
-              <input
-                type="text"
-                placeholder="Position Change Type"
+              <select
                 value={positionChangeType}
                 onChange={(e) => setPositionChangeType(e.target.value)}
-              />
+              >
+                <option value="">Select Change Type</option>
+                <option value="promote">Promote</option>
+                <option value="demote">Demote</option>
+              </select>
             </div>
           )}
         </div>

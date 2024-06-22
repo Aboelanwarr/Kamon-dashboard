@@ -29,12 +29,15 @@
 }
 
 .employee-form-container input[type="text"],
-.employee-form-container input[type="number"] {
+.employee-form-container input[type="number"],
+.employee-form-container select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 20px;
   font-size: 1em;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .employee-form-container input[type="checkbox"] {
@@ -61,6 +64,8 @@
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.3s;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .employee-form-container button:hover {

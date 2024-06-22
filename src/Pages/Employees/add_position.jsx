@@ -1,5 +1,5 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button , Select, MenuItem} from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddPostion() {
@@ -7,19 +7,20 @@ export default function AddPostion() {
     e.preventDefault();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    
+
     const data = JSON.stringify({
       "position_name": e.target['position_name'].value,
+      "employeeRole": e.target['role'].value,
       "jop_description": e.target['jop_description'].value
     });
-    
+
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: data,
       redirect: "follow"
     };
-    
+
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/add-position`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -41,6 +42,23 @@ export default function AddPostion() {
           <Typography variant="h6" color="initial">Position Details</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='position_name' label="Position_name" variant="outlined" required />
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+          <Typography variant="h6" color="initial">Employee Role</Typography>
+          <Select
+            name='role'
+            label="Role"
+            defaultValue="employeeRole"
+            required
+          >
+            <MenuItem value="manager">Manager</MenuItem>
+            <MenuItem value="hr">HR</MenuItem>
+            <MenuItem value="operation manager">Operation Manager</MenuItem>
+            <MenuItem value="section manager">Section Manager</MenuItem>
+            <MenuItem value="cashier">Cashier</MenuItem>
+            <MenuItem value="delivery">Delivery</MenuItem>
+            <MenuItem value="no role">No Role</MenuItem>
+          </Select>
           </FormControl>
           <FormControl fullWidth margin="normal">
             <TextField name='jop_description' label="Jop_description" variant="outlined" required />
