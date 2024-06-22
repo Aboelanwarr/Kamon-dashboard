@@ -50,9 +50,9 @@ import EmployeesAteendanceEmp from './Pages/Employees/employeesAteendance_emp';
 import EmployeesPhonesList from './Pages/Employees/employees_phones_list';
 import PositionChangesList from './Pages/Employees/positionChanges';
 import EmployeesSchedulePage from './Pages/Employees/employees_schedule';
+import EmployeeUpdateForm from './Pages/Employees/employeeupdateform';
 
 function App() {
-
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -82,7 +82,7 @@ function App() {
   if (isLoading) {
     return <Loading />;
   }
-  
+
   return (
     <div>
       <Routes>
@@ -135,6 +135,7 @@ function App() {
           <Route path="employeesPhonesList" element={<EmployeesPhonesList />} />
           <Route path="positionChangesList" element={<PositionChangesList />} />
           <Route path="employeesSchedule" element={<EmployeesSchedulePage />} />
+          <Route path="employeeUpdateForm" element={<EmployeeUpdateForm />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />

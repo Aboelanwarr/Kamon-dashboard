@@ -1,0 +1,78 @@
+/* Improved CSS for Employee Update Form */
+.employee-form-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.employee-form-container h1 {
+  text-align: center;
+  color: #444;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.employee-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.employee-form-container label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.employee-form-container input[type="text"],
+.employee-form-container input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 1em;
+}
+
+.employee-form-container input[type="checkbox"] {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.employee-form-container .checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.employee-form-container .checkbox-container label {
+  margin: 0;
+}
+
+.employee-form-container button {
+  padding: 12px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.employee-form-container button:hover {
+  background-color: #218838;
+}
+
+.employee-form-container .form-group {
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
+}
