@@ -5,12 +5,13 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Recipe() {
   const [itemList, setItemList] = useState([]);
+  const [ingredientList, setIngredientList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -21,13 +22,13 @@ export default function Recipe() {
       })
       .catch((error) => console.error(error));
   }, []);
-  const [ingredientList, setIngredientList] = useState([]);
+  
   useEffect(() => {
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/ingredients`, requestOptions) 
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -57,15 +58,14 @@ export default function Recipe() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/recipe`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);
       })
       .catch((error) => {
         toast.error(error.message);
-      }
-      );
+      });
   };
 
   return (
@@ -87,7 +87,7 @@ export default function Recipe() {
             >
               {
                 itemList?.map(item => (
-                  <MenuItem key={item["item_id"]} value={item["item_id"]}>{item["item_name"]}</MenuItem>
+                  <MenuItem key={item["id"]} value={item["id"]}>{item["name"]}</MenuItem>
                 ))
               }
             </Select>
@@ -104,7 +104,7 @@ export default function Recipe() {
             >
               {
                 ingredientList?.map(ingredient => (
-                  <MenuItem key={ingredient["ingredient_id"]} value={ingredient["ingredient_id"]}>{ingredient["ingredient_name"]}</MenuItem>
+                  <MenuItem key={ingredient["ingredient_id"]} value={ingredient["ingredient_id"]}>{ingredient["ingredients_name"]}</MenuItem>
                 ))
               }
             </Select>

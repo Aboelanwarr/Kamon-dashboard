@@ -34,10 +34,9 @@ const EmployeeUpdateForm = () => {
 
     try {
       if (changePhoneNumber) {
-        await axios.patch('http://localhost:4000/admin/employees/update-employee-phone', {
+        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/update-employee-phone`, {
           employeeId,
           oldPhone: oldPhoneNumber,
-          newPhone: newPhoneNumber,
         })
         .then((result) => {
           toast.success(result.data.message);
@@ -48,7 +47,7 @@ const EmployeeUpdateForm = () => {
       }
 
       if (changeSalary) {
-        await axios.patch('http://localhost:4000/admin/employees/change-salary', {
+        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/change-salary`, {
           employeeId,
           changerId,
           newSalary,
@@ -63,7 +62,7 @@ const EmployeeUpdateForm = () => {
       }
 
       if (changePosition) {
-        await axios.patch('http://localhost:4000/admin/employees/change-position', {
+        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/change-position`, {
           employee_id: employeeId,
           position_changer_id: positionChangerId,
           new_position: newPosition,
@@ -78,7 +77,7 @@ const EmployeeUpdateForm = () => {
       }
 
       if (newAddress) {
-        await axios.patch('http://localhost:4000/admin/employees/update-employee-address', {
+        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/update-employee-address`, {
           employeeId,
           newAddress,
         })
@@ -91,7 +90,7 @@ const EmployeeUpdateForm = () => {
       }
 
       if (changeSalary && changePosition) {
-        await axios.patch('http://localhost:4000/admin/employees/updateEmployeeSalaryPosition', {
+        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/updateEmployeeSalaryPosition`, {
           employeeId,
           changerId,
           newSalary,

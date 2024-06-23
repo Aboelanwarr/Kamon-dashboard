@@ -77,12 +77,6 @@ export default function NestedList() {
             </ListItemIcon>
             <ListItemText primary="Item Price Changes" />
           </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }} component={Link} to="/itemPriceRecipes">
-            <ListItemIcon>
-              <FiberManualRecordIcon sx={{color:'#386351'}} />
-            </ListItemIcon>
-            <ListItemText primary="Item Price Changes Recipes" />
-          </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/recipe">
             <ListItemIcon>
               <FiberManualRecordIcon sx={{color:'#386351'}} />
@@ -123,7 +117,19 @@ export default function NestedList() {
             <ListItemIcon>
               <FiberManualRecordIcon sx={{color:'#386351'}} />
             </ListItemIcon>
-            <ListItemText primary="Add Ingredient " />
+            <ListItemText primary="Add Ingredient" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/sectionsList">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Sections List" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/seasonList">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Season List" />
           </ListItemButton>
         </List>
       </Collapse>
@@ -146,6 +152,12 @@ export default function NestedList() {
               <FiberManualRecordIcon sx={{color:'#386351'}} />
             </ListItemIcon>
             <ListItemText primary="Add New Employee" />
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }} component={Link} to="/employeeTransfer">
+            <ListItemIcon>
+              <FiberManualRecordIcon sx={{color:'#386351'}} />
+            </ListItemIcon>
+            <ListItemText primary="Employee Transfer" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }} component={Link} to="/addEmployeePhone">
             <ListItemIcon>

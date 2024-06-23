@@ -11,7 +11,7 @@ export default function ItemByTime() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -29,8 +29,8 @@ export default function ItemByTime() {
     myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      itemId: e.target['item_id'].value,
-      itemDayType: e.target['item_day_type'].value,
+      itemId: e.target['itemId'].value,
+      itemDayType: e.target['itemDayType'].value,
     })
     console.log("Sending data:", data);
     const requestOptions = {
@@ -39,7 +39,7 @@ export default function ItemByTime() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/itemByTime`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/itemByTime`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);
@@ -65,11 +65,11 @@ export default function ItemByTime() {
             id="demo-simple-select-Item"
             label="Select Item Id"
             fullWidth
-            name='item_id'
+            name='itemId'
           >
             {
               itemList?.map(item => (
-                <MenuItem key={item["item_id"]} value={item["item_id"]}>{item["item_name"]}</MenuItem>
+                <MenuItem key={item["id"]} value={item["id"]}>{item["name"]}</MenuItem>
               ))
             }
           </Select>
@@ -82,7 +82,7 @@ export default function ItemByTime() {
             id="demo-simple-select"
             label="Select Item Day Type"
             fullWidth
-            name='item_day_type'
+            name='itemDayType'
           >
             <MenuItem value="breakfast">Breakfast</MenuItem>
             <MenuItem value="lunch">Lunch</MenuItem>

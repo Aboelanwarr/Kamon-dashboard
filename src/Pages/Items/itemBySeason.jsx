@@ -11,7 +11,7 @@ export default function ItemBySeason() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -28,11 +28,11 @@ export default function ItemBySeason() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/recipe`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/seasonsList`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
-          setSeasonList(result.data);
+          setSeasonList(result.data.seasons);
         }else{
           console.error("Failed to fetch season list:", result);
         }
@@ -56,7 +56,7 @@ export default function ItemBySeason() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/itemBySeason`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/itemBySeason`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         toast.success(result.message);
@@ -76,17 +76,17 @@ export default function ItemBySeason() {
         <Box sx={{ margin: '20px 0' }}>
           <Typography variant="h5" color="initial">Select Item</Typography>
         <FormControl fullWidth margin="normal">
-        <InputLabel id="demo-simple-select-ItemDayType-label">Select Item Day Type</InputLabel>
+        <InputLabel id="demo-simple-select-Item-label">Select Item</InputLabel>
         <Select
-            labelId="demo-simple-select-ItemDayType-label"
+            labelId="demo-simple-select-Item-label"
             id="demo-simple-select"
-            label="Select Item Day Type"
+            label="Select Item"
             fullWidth
-            name='item_day_type'
+            name='itemId'
             >
             {
               itemList?.map(item => (
-                <MenuItem key={item["item_id"]} value={item["item_id"]}>{item["item_name"]}</MenuItem>
+                <MenuItem key={item["id"]} value={item["id"]}>{item["name"]}</MenuItem>
               ))
             }
           </Select>

@@ -38,7 +38,6 @@ import MenuListByTime from './Pages/Branches/menuByTime';
 import ItemBySeason from './Pages/Items/itemBySeason';
 import ItemByTime from './Pages/Items/itemByTime';
 import ItemPriceChanges from './Pages/Items/itemPriceChanges';
-import ItemPriceRecipes from './Pages/Items/itemPriceRecipes';
 import Recipe from './Pages/Items/recipe';
 import Season from './Pages/Items/season';
 import Loading from './components/Loading';
@@ -51,6 +50,10 @@ import EmployeesPhonesList from './Pages/Employees/employees_phones_list';
 import PositionChangesList from './Pages/Employees/positionChanges';
 import EmployeesSchedulePage from './Pages/Employees/employees_schedule';
 import EmployeeUpdateForm from './Pages/Employees/employeeupdateform';
+import SeasonList from './Pages/Items/seasonList';
+import SectionsList from './Pages/Items/sectionsList';
+import ChangeItemPrice from './Pages/Items/changeItemPrice';
+import EmployeeTransfer from './Pages/Employees/employeeTransfer';
 
 function App() {
   const navigate = useNavigate();
@@ -124,7 +127,6 @@ function App() {
           <Route path="itemBySeason" element={<ItemBySeason />} />
           <Route path="itemByTime" element={<ItemByTime />} />
           <Route path="itemPriceChanges" element={<ItemPriceChanges />} />
-          <Route path="itemPriceRecipes" element={<ItemPriceRecipes />} />
           <Route path="recipe" element={<Recipe />} />
           <Route path="season" element={<Season />} />
           <Route path="addCategory" element={<AddCategory />} />
@@ -136,6 +138,10 @@ function App() {
           <Route path="positionChangesList" element={<PositionChangesList />} />
           <Route path="employeesSchedule" element={<EmployeesSchedulePage />} />
           <Route path="employeeUpdateForm" element={<EmployeeUpdateForm />} />
+          <Route path="seasonList" element={<SeasonList />} />
+          <Route path="sectionsList" element={<SectionsList />} />
+          <Route path="changeItemPrice" element={<ChangeItemPrice />} />
+          <Route path="employeeTransfer" element={<EmployeeTransfer />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />

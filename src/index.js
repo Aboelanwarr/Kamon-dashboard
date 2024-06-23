@@ -12,12 +12,14 @@ const theme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
-          backgroundColor: '#E1D9C3', // Default text color for buttons
-          '&:hover': {
-            backgroundColor: '#CDBA96', // Hover background color
-          }
-        }
+        root: ({ ownerState }) => ({
+          ...(ownerState.variant === 'contained' && ownerState.color === 'primary' && {
+            backgroundColor: '#28a745', // Default background color for primary contained buttons
+            '&:hover': {
+              backgroundColor: '#218838', // Hover background color for primary contained buttons
+            }
+          })
+        })
       }
     }
   },
