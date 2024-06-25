@@ -1,83 +1,99 @@
-/* Improved CSS for Employee Update Form */
+/* Container for the entire form */
 .employee-form-container {
-  width: 100%;
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
+/* Form title */
 .employee-form-container h1 {
   text-align: center;
-  color: #444;
+  color: #333;
   margin-bottom: 20px;
-  font-size: 1.8em;
 }
 
-.employee-form-container form {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Input labels */
 .employee-form-container label {
-  margin-bottom: 8px;
+  display: block;
   font-weight: bold;
-  color: #555;
+  margin: 10px 0 5px;
 }
 
+/* Input fields */
 .employee-form-container input[type="text"],
-.employee-form-container input[type="number"],
 .employee-form-container select {
+  width: calc(100% - 22px);
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  font-size: 1em;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box;
 }
 
+/* Checkbox label styling */
 .employee-form-container input[type="checkbox"] {
   margin-right: 10px;
-  vertical-align: middle;
 }
 
-.employee-form-container .checkbox-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+.employee-form-container div {
+  margin-bottom: 15px;
 }
 
-.employee-form-container .checkbox-container label {
-  margin: 0;
-}
-
+/* Button styling */
 .employee-form-container button {
-  padding: 12px 20px;
-  background-color: #28a745;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  font-size: 18px;
   cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s;
-  margin-left: 10px;
-  margin-right: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .employee-form-container button:hover {
-  background-color: #218838;
+  background-color: #45a049;
 }
 
-.employee-form-container .form-group {
-  margin-bottom: 20px;
-}
-
+/* Error message styling */
 .error-message {
   color: red;
-  text-align: center;
-  margin-bottom: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Styling for the dynamic form fields */
+.employee-form-container div > div {
+  margin-left: 20px;
+}
+
+/* Specific styles for the select dropdowns */
+.employee-form-container select {
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 600px) {
+  .employee-form-container {
+    padding: 15px;
+  }
+  
+  .employee-form-container input[type="text"],
+  .employee-form-container select {
+    width: calc(100% - 20px);
+    padding: 8px;
+  }
+  
+  .employee-form-container button {
+    padding: 8px 0;
+    font-size: 16px;
+  }
 }

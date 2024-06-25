@@ -54,6 +54,13 @@ import SeasonList from './Pages/Items/seasonList';
 import SectionsList from './Pages/Items/sectionsList';
 import ChangeItemPrice from './Pages/Items/changeItemPrice';
 import EmployeeTransfer from './Pages/Employees/employeeTransfer';
+import AddItemBranchMenu from './Pages/Branches/addItemBranchMenu';
+import SectionOverView from './Pages/Branches/sectionOverView';
+import BranchPerformance from './Pages/Branches/branchPerformance';
+import OverAllPerformance from './Pages/Branches/overAllPerformance';
+import BranchesCompare from './Pages/Branches/branchesCompare';
+import ChangeSectionManager from './Pages/Branches/changeSectionManager';
+import ChangeBranchManager from './Pages/Employees/changeBranchManager';
 
 function App() {
   const navigate = useNavigate();
@@ -142,6 +149,13 @@ function App() {
           <Route path="sectionsList" element={<SectionsList />} />
           <Route path="changeItemPrice" element={<ChangeItemPrice />} />
           <Route path="employeeTransfer" element={<EmployeeTransfer />} />
+          <Route path="addItemBranchMenu" element={<AddItemBranchMenu />} />
+          <Route path="sectionOverView" element={<SectionOverView />} />
+          <Route path="branchPerformance" element={<BranchPerformance />} />
+          <Route path="overAllPerformance" element={<OverAllPerformance />} />
+          <Route path="branchesCompare" element={<BranchesCompare />} />
+          <Route path="changeSectionManager" element={<ChangeSectionManager />} />
+          <Route path="changeBranchManager" element={<ChangeBranchManager />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />

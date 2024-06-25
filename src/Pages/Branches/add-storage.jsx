@@ -63,6 +63,7 @@ export default function AddBranch() {
           <FormControl fullWidth margin="normal">
             <TextField name='storageAddress' label="StorageAddress" variant="outlined" required />
           </FormControl>
+          <FormControl fullWidth margin="normal">
           <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -70,13 +71,14 @@ export default function AddBranch() {
             label="Select Employee Id"
             fullWidth
             name='manager_id'
-          >
+            >
             {
               managerList?.map(manager => (
                 <MenuItem key={manager.id} value={manager.id}>{manager.name}</MenuItem>
               ))
             }
           </Select>
+            </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

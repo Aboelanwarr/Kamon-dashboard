@@ -98,11 +98,13 @@ export default function AddBranchSection() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
           <Typography variant="h6" color="initial">Branch Section Details</Typography>
-          <InputLabel id="demo-simple-select-label">Select Branch</InputLabel>
+          <Typography variant="h5" color="initial" sx={{mt:2}}>Select Branch</Typography>
+          <FormControl fullWidth margin='normal'>
+          <InputLabel id="demo-simple-selectBranch-label">Select Branch</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Select Employee Id"
+            labelId="demo-simple-selectBranch-label"
+            id="demo-simple-selectBranch"
+            label="Select Branch"
             fullWidth
             name='branch_id'
           >
@@ -112,11 +114,14 @@ export default function AddBranchSection() {
               ))
             }
           </Select>
-          <InputLabel id="demo-simple-select-label">Select Section</InputLabel>
+          </FormControl>
+          <Typography variant="h6" color="initial">Select Section</Typography>
+          <FormControl fullWidth margin='normal'>
+          <InputLabel id="demo-simple-selectSection-label">Select Section</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Select Employee Id"
+            labelId="demo-simple-selectSection-label"
+            id="demo-simple-selectSection"
+            label="Select Section"
             fullWidth
             name='section_id'
           >
@@ -126,11 +131,14 @@ export default function AddBranchSection() {
               ))
             }
           </Select>
-          <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
+          </FormControl>
+          <Typography variant="h6" color="initial">Select Manager</Typography>
+          <FormControl fullWidth margin='normal'>
+          <InputLabel id="demo-simple-selectManager-label">Select Manager</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Select Employee Id"
+            labelId="demo-simple-selectManager-label"
+            id="demo-simple-selectManager"
+            label="Select Manager"
             fullWidth
             name='manager_id'
           >
@@ -140,6 +148,7 @@ export default function AddBranchSection() {
               ))
             }
           </Select>
+          </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

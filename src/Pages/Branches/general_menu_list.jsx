@@ -65,6 +65,7 @@ export default function GeneralMenuList() {
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell>Description</StyledTableCell>
               <StyledTableCell>Preparation Time</StyledTableCell>
+              <StyledTableCell>Category</StyledTableCell>
               <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -77,6 +78,7 @@ export default function GeneralMenuList() {
                 <StyledTableCell>
                   {row.preparation_time.minutes ? `${row.preparation_time.minutes} minutes` : `${row.preparation_time.seconds} seconds`}
                 </StyledTableCell>
+                <StyledTableCell > {row.category}	</StyledTableCell>
                 <StyledTableCell>
                   <Button><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_103_484)">

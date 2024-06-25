@@ -21,6 +21,8 @@ const EmployeeUpdateForm = () => {
   const [positionChangeType, setPositionChangeType] = useState('');
   const [newAddress, setNewAddress] = useState('');
   const [error, setError] = useState('');
+  const [employeeStatus, setEmployeeStatus] = useState('');
+  const [changeStatus, setChangeStatus] = useState(false);
 
   useEffect(() => {
     if (location.state?.employeeId) {
@@ -89,14 +91,10 @@ const EmployeeUpdateForm = () => {
         });
       }
 
-      if (changeSalary && changePosition) {
-        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/updateEmployeeSalaryPosition`, {
+      if (changeStatus) {
+        await axios.post(`${process.env.REACT_APP_SERVER_URL}/admin/employees/employeeStatusChange`, {
           employeeId,
-          changerId,
-          newSalary,
-          newPosition,
-          positionChangeType,
-          changeReason,
+          employeeStatus,
         })
         .then((result) => {
           toast.success(result.data.message);
@@ -105,7 +103,7 @@ const EmployeeUpdateForm = () => {
           toast.error(error.response?.data?.message || error.message);
         });
       }
-      
+
       // Reset the form
       setEmployeeId('');
       setChangePhoneNumber(false);
@@ -120,6 +118,8 @@ const EmployeeUpdateForm = () => {
       setNewPosition('');
       setPositionChangeType('');
       setNewAddress('');
+      setChangeStatus(false);
+      setEmployeeStatus('');
       
     } catch (err) {
       toast.error('An error occurred while updating the employee. Please try again.');
@@ -236,6 +236,27 @@ const EmployeeUpdateForm = () => {
             value={newAddress}
             onChange={(e) => setNewAddress(e.target.value)}
           />
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            checked={changeStatus}
+            onChange={(e) => setChangeStatus(e.target.checked)}
+          />
+          <label>Change Status</label>
+          {changeStatus && (
+            <div>
+              <select
+                value={employeeStatus}
+                onChange={(e) => setEmployeeStatus(e.target.value)}
+              >
+                <option value="">Select Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="pending">Pending</option>
+              </select>
+            </div>
+          )}
         </div>
         <button type="submit">Update Employee</button>
       </form>

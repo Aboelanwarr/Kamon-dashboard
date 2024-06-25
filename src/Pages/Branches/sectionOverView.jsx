@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
 import Button from '@mui/material/Button';
 import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
@@ -31,25 +30,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function TablesList() {
-  const [tablesList,setTablesList] = useState([]);
-  const [branchList, setBranchList] = useState([]);
-  const [selectedBranchId, setSelectedBranchId] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+export default function SectionOverview() {
+  const [sectionList,setSectionList] = useState([]);
+  const [sectionOverview, setSectionOverview] = useState([]);
+  const [selectedSectionId, setSelectedSectionId] = useState('');
+  const [selecteddays, setSelecteddays] = useState('');
   useEffect(() => {
-    // Fetch branches list
+    // Fetch Section list
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/sectionsList`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
-          setBranchList(result.data);
-          // Optionally, set the first branch as selected by default
-          if (result.data.length > 0) {
-            setSelectedBranchId(result.data[0].id); // Assuming 'id' is the identifier
+          setSectionList(result.data.sections);
+          if (result.data.sections.length > 0) {
+            setSelectedSectionId(result.data.sections[0].id);
           }
         } else {
           console.error("Failed to fetch branch list:", result);
@@ -59,81 +57,85 @@ export default function TablesList() {
   }, []);
 
   useEffect(() => {
-    // Fetch tables list based on selected branch ID
-    if (!selectedBranchId) return; // Do not fetch if no branch is selected
+    if (!selectedSectionId) return; 
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/tables/${selectedBranchId}/${selectedStatus}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/sectionOverView/${selectedSectionId}/${selecteddays}`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
-          setTablesList(result.data.tables);
+          setSectionOverview(result.data);
         } else {
-          console.error("Failed to fetch tables list:", result);
+          console.error("Failed to fetch sectionOverView:", result);
         }
       })
       .catch(error => console.error(error));
-  }, [selectedBranchId,selectedStatus]); // Depend on selectedBranchId
+  }, [selectedSectionId,selecteddays]); // Depend on selectedBranchId
 
-  const handleBranchChange = (event) => {
-    setSelectedBranchId(event.target.value);
+  const handleSectionChange = (event) => {
+    setSelectedSectionId(event.target.value);
   };
-  const handleStatusChange = (event) => {
-    setSelectedStatus(event.target.value);
+  const handleDaysChange = (event) => {
+    setSelecteddays(event.target.value);
   };
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Tables List
+        <AddBusinessIcon fontSize='inherit' /> Section OverView
       </Typography>
-      <Typography variant="h5" color="initial" sx={{mb:2}}>Select branch</Typography>
+      <Typography variant="h5" color="initial" sx={{mb:2}}>Select Section</Typography>
       <FormControl fullWidth sx={{mb:"20px"}}>
-        <InputLabel id="branch-select-label">Branch</InputLabel>
+        <InputLabel id="section-select-label">Section</InputLabel>
         <Select
-          labelId="branch-select-label"
-          id="branch-select"
-          value={selectedBranchId}
-          label="Branch"
-          onChange={handleBranchChange}
+          labelId="section-select-label"
+          id="section-select"
+          value={selectedSectionId}
+          label="Section"
+          onChange={handleSectionChange}
         >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
+          {sectionList.map((section) => (
+            <MenuItem key={section.section_id} value={section.section_id}>{section.section_name}</MenuItem>
           ))}
         </Select>
       </FormControl>
-      <Typography variant="h5" color="initial" sx={{mb:2}}>Select Status</Typography>
+      <Typography variant="h5" color="initial" sx={{mb:2}}>Select Days</Typography>
       <FormControl fullWidth sx={{mb:"20px"}}>
-        <InputLabel id="status-select-label">Status</InputLabel>
-        <Select
-          labelId="status-select-label"
-          id="status-select"
-          value={selectedStatus}
-          label="Status"
-          onChange={handleStatusChange}
-        >
-              <MenuItem value="available">Available</MenuItem>
-              <MenuItem value="booked">Booked</MenuItem>
-        </Select>
-      </FormControl>
+          <InputLabel id="Days-select-label">Days</InputLabel>
+          <Select
+            labelId="Days-select-label"
+            id="Days-select"
+            value={selecteddays}
+            label="Days"
+            onChange={handleDaysChange}
+          >
+            {Array.from({ length: 30 }, (_, i) => i + 1).map((number) => (
+              <MenuItem key={number} value={number}>{number}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Table ID</StyledTableCell>
-            <StyledTableCell>Table Status</StyledTableCell> 
-            <StyledTableCell>Capacity</StyledTableCell> 
+            <StyledTableCell>Section ID</StyledTableCell>
+            <StyledTableCell>Section Name</StyledTableCell> 
+            <StyledTableCell>Total Orders</StyledTableCell> 
+            <StyledTableCell>Total Items Ordered</StyledTableCell> 
+            <StyledTableCell>Average Section Rating</StyledTableCell> 
             <StyledTableCell>Actions</StyledTableCell> 
           </TableRow>
         </TableHead>
         <TableBody>
-          {tablesList.map((row) => (
-            <StyledTableRow key={row.table_id}>
-              <StyledTableCell > {row.table_id}	</StyledTableCell>
-              <StyledTableCell > {row.table_status}	</StyledTableCell>
-              <StyledTableCell > {row.capacity}	</StyledTableCell>
+          {sectionOverview.map((row) => (
+            <StyledTableRow key={row.section_id}>
+              <StyledTableCell > {row.section_id}	</StyledTableCell>
+              <StyledTableCell > {row.section_name}	</StyledTableCell>
+              <StyledTableCell > {row.total_orders}	</StyledTableCell>
+              <StyledTableCell > {row.total_items_ordered}	</StyledTableCell>
+              <StyledTableCell > {parseFloat(row?.average_section_rating).toFixed(2)} </StyledTableCell>
               <StyledTableCell>
                   <Button><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_103_484)">

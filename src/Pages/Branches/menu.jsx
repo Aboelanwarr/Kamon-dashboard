@@ -85,7 +85,7 @@ export default function MenuList() {
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Menu List
+        <AddBusinessIcon fontSize='inherit' /> Menu List By Time
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <InputLabel id="branch-select-label">Branch</InputLabel>

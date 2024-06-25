@@ -1,0 +1,84 @@
+.branch-comparison-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  font-family: 'poppins', sans-serif;
+}
+
+.branch-comparison-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 2rem;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.input-container input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-right: 10px;
+  width: 220px;
+  font-size: 1rem;
+}
+
+.input-container button {
+  padding: 12px 25px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.input-container button:hover {
+  background-color: #218838;
+}
+
+.branch-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.branch-card {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 1rem;
+}
+
+.branch-card h2 {
+  margin-bottom: 15px;
+  color: #28a745;
+  font-size: 1.5rem;
+}
+
+.branch-card p {
+  margin: 8px 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .branch-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
