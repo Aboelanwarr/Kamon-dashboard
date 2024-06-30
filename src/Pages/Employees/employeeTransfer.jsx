@@ -73,7 +73,7 @@ export default function EmployeeTransfer() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/employeeTransfer`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        toast.success(result.message);
+        toast.success("Employee Transfered Successfully");
       })
       .catch((error) => {
         toast.error(error.message);

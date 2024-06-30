@@ -65,15 +65,20 @@ export default function AddBranch() {
     };
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-new`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast.success(result.message);
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status === "success" && result.data) {
+        console.log("Response Status:", result.status === "success");
+        toast.success("Branch Added Successfully");
+      } else {
+        toast.error(result.message);
       }
-      );
-  };
+    })
+    .catch((error) => {
+      toast.error(error.message);
+      console.log(error);
+    });
+};
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -82,21 +87,26 @@ export default function AddBranch() {
       </Typography>
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
-          <Typography variant="h6" color="initial">Branch Details</Typography>
+          <Typography variant="h5" color="initial">Branch Details</Typography>
+          <Typography variant="h6" color="initial" sx={{mt:2}}>Branch Name</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='branchName' label="BranchName" variant="outlined" required />
           </FormControl>
+          <Typography variant="h6" color="initial" sx={{mt:2}}>Branch Address</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='branchAddress' label="BranchAddress" variant="outlined" required />
           </FormControl>
+          <Typography variant="h6" color="initial" sx={{mt:2}}>Branch Phone</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='branchPhone' label="BranchPhone" variant="outlined" required />
           </FormControl>
-          <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
+          <Typography variant="h6" color="initial" sx={{mt:2}}>Branch Manager</Typography>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Select Employee Id"
+            label="Select Manager"
             fullWidth
             name='manager_id'
           >
@@ -106,6 +116,7 @@ export default function AddBranch() {
               ))
             }
           </Select>
+          </FormControl>
         </Box>
         {isLoaded &&
           <Box>

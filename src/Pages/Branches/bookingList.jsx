@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import axios from 'axios';
+import './bookingList.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,12 +33,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function MenuList() {
-  const [menuList, setMenuList] = useState([]);
+export default function BookingList() {
+  const [bookingList, setBookingList] = useState([]);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     // Fetch branches list
     const requestOptions = {
@@ -65,13 +67,13 @@ export default function MenuList() {
         method: "GET",
         redirect: "follow"
       };
-      fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/menu/${selectedBranchId}`, requestOptions)
+      fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/bookings/${selectedBranchId}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.status === "success") {
-            setMenuList(result.data.menu);
+            setBookingList(result.data.bookings);
           } else {
-            console.error("Failed to fetch menu list:", result);
+            console.error("Failed to fetch booking list:", result);
           }
         })
         .catch((error) => console.error(error));
@@ -82,10 +84,30 @@ export default function MenuList() {
     setSelectedBranchId(event.target.value);
   };
 
+  const handleStatusChange = async (bookingId, newStatus) => {
+    try {
+      const response = await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/updateBookingStatus`, {
+        bookingId,
+        bookingStatus: newStatus,
+      });
+      if (response.data.status === 'success') {
+        setBookingList(prevList => 
+          prevList.map(booking => 
+            booking.booking_id === bookingId ? { ...booking, booking_status: newStatus } : booking
+          )
+        );
+      } else {
+        console.error("Failed to update booking status:", response.data.message);
+      }
+    } catch (err) {
+      console.error("Error updating booking status:", err.response?.data?.message || err.message);
+    }
+  };
+
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
-        <AddBusinessIcon fontSize='inherit' /> Menu List By Time
+        <AddBusinessIcon fontSize='inherit' /> Booking List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <InputLabel id="branch-select-label">Branch</InputLabel>
@@ -105,42 +127,38 @@ export default function MenuList() {
         <Table sx={{ minWidth: 650 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Item ID</StyledTableCell>
-              <StyledTableCell>Item</StyledTableCell>
-              <StyledTableCell>Item Status</StyledTableCell>
-              <StyledTableCell>Item Discount</StyledTableCell>
-              <StyledTableCell>Item Price</StyledTableCell>
-              <StyledTableCell>Preparation Time</StyledTableCell>
-              <StyledTableCell>Category</StyledTableCell>
-              <StyledTableCell>Actions</StyledTableCell>
+              <StyledTableCell>Booking ID</StyledTableCell>
+              <StyledTableCell>Customer ID</StyledTableCell>
+              <StyledTableCell>Table ID</StyledTableCell>
+              <StyledTableCell>Branch ID</StyledTableCell>
+              <StyledTableCell>Booking Date</StyledTableCell>
+              <StyledTableCell>Booking Start Time</StyledTableCell>
+              <StyledTableCell>Booking End Time</StyledTableCell>
+              <StyledTableCell>Booking Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {menuList.map((row) => (
-              <StyledTableRow key={row.id}>
-                <StyledTableCell>{row.id}</StyledTableCell>
-                <StyledTableCell>{row.item}</StyledTableCell>
-                <StyledTableCell>{row.item_status}</StyledTableCell>
-                <StyledTableCell>{row.item_discount}</StyledTableCell>
-                <StyledTableCell>{row.item_price}</StyledTableCell>
+            {bookingList.map((row) => (
+              <StyledTableRow key={row.booking_id}>
+                <StyledTableCell>{row.booking_id}</StyledTableCell>
+                <StyledTableCell>{row.customer_id}</StyledTableCell>
+                <StyledTableCell>{row.table_id}</StyledTableCell>
+                <StyledTableCell>{row.branch_id}</StyledTableCell>
+                <StyledTableCell>{row.booking_date}</StyledTableCell>
+                <StyledTableCell>{row.booking_start_time}</StyledTableCell>
+                <StyledTableCell>{row.booking_end_time}</StyledTableCell>
                 <StyledTableCell>
-                  {row.preparation_time.minutes ? `${row.preparation_time.minutes} minutes` : `${row.preparation_time.seconds} seconds`}
-                </StyledTableCell>
-                <StyledTableCell>{row.category}</StyledTableCell>
-                <StyledTableCell>
-                  <Button onClick={() => navigate('/changeItemPrice', { state: { itemId: row.id, selectedBranchId } })}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clipPath="url(#clip0_103_484)">
-                        <path d="M22.0001 4.26667L19.5334 1.8C19.3214 1.59785 19.0397 1.48508 18.7467 1.48508C18.4538 1.48508 18.1721 1.59785 17.9601 1.8L15.7667 4H4.00008C3.64646 4 3.30732 4.14048 3.05727 4.39052C2.80722 4.64057 2.66675 4.97971 2.66675 5.33333V20C2.66675 20.3536 2.80722 20.6928 3.05727 20.9428C3.30732 21.1929 3.64646 21.3333 4.00008 21.3333H18.6667C19.0204 21.3333 19.3595 21.1929 19.6096 20.9428C19.8596 20.6928 20.0001 20.3536 20.0001 20V7.84L22.0001 5.84C22.2085 5.63126 22.3256 5.34832 22.3256 5.05333C22.3256 4.75834 22.2085 4.47541 22.0001 4.26667ZM12.5534 13.42L9.76008 14.04L10.4267 11.2733L16.7934 4.89333L18.9467 7.04667L12.5534 13.42ZM19.6667 6.28667L17.5134 4.13333L18.7467 2.9L20.9001 5.05333L19.6667 6.28667Z" fill="#007EF2" />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_103_484">
-                          <rect width="24" height="24" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </Button>
-
+                  <FormControl fullWidth>
+                    <Select
+                      value={row.booking_status}
+                      onChange={(e) => handleStatusChange(row.booking_id, e.target.value)}
+                    >
+                      <MenuItem value="pending">Pending</MenuItem>
+                      <MenuItem value="confirmed">Confirmed</MenuItem>
+                      <MenuItem value="cancelled">Cancelled</MenuItem>
+                      <MenuItem value="completed">Completed</MenuItem>
+                    </Select>
+                  </FormControl>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

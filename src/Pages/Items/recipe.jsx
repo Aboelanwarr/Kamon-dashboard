@@ -61,10 +61,16 @@ export default function Recipe() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/recipe`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        toast.success(result.message);
+        if (result.status === "SUCCESS" && result.data) {
+          console.log("Response Status:", result.status === "SUCCESS");
+          toast.success("Item Added Successfully");
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
         toast.error(error.message);
+        console.log(error);
       });
   };
 

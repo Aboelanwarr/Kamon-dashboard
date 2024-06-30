@@ -42,11 +42,10 @@ export default function AddMenuItem() {
       "itemDesc": e.target['itemDesc'].value,
       "categoryID": e.target['categoryID'].value,
       "prepTime": prepTime,
-      "picPath": e.target['picPath'].value,
+      "picPath": null,
       "vegetarian": e.target['vegetarian'].value,
       "healthy": e.target['healthy'].value
     });
-
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -60,9 +59,12 @@ export default function AddMenuItem() {
         toast.success(result.message);
       })
       .catch((error) => {
-        toast.error(error.message);
-      }
-      );
+        if (error.message.includes("500 (Internal Server Error)")) {
+          toast.error("Item already exists");
+        } else {
+          toast.error(error.message);
+        }
+      });
   };
 
   return (

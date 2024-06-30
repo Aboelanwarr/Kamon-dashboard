@@ -1,0 +1,28 @@
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 48%;
+}
+
+.input-field .MuiInputLabel-shrink {
+  transform: translate(14px, -6px) scale(0.75);
+  background-color: white;
+  padding: 0 4px;
+}
+
+.MuiContainer-root {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.MuiTypography-root {
+  margin-bottom: 20px;
+}
+
+.MuiButton-contained {
+  margin-top: 20px;
+}

@@ -1,0 +1,160 @@
+/* Container styling */
+.MuiContainer-root {
+  background-color: #f7f7f7;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.header .MuiSvgIcon-root {
+  margin-right: 0.5rem;
+}
+
+/* Form section styling */
+.form-section {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+/* Input and select styling */
+.MuiFormControl-root {
+  font-size: 0.875rem;
+}
+
+.MuiTextField-root,
+.MuiInputLabel-root,
+.MuiSelect-root,
+.MuiButton-root {
+  font-size: 0.875rem;
+}
+
+.MuiSelect-root {
+  min-height: 40px;
+}
+
+/* Date Picker styling */
+.date-picker {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+.date-picker input {
+  padding: 10px;
+  font-size: 0.875rem;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.month-navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.month-navigation button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #333;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  width: 100%;
+}
+
+.day {
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.day:hover {
+  background-color: #f0f0f0;
+}
+
+.day.selected {
+  background-color: #3f51b5;
+  color: white;
+}
+
+/* Button styling */
+.submit-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.submit-button .MuiButton-root {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .MuiContainer-root {
+    padding: 1rem;
+  }
+
+  .form-section {
+    padding: 1rem;
+  }
+
+  .MuiTextField-root,
+  .MuiInputLabel-root,
+  .MuiSelect-root,
+  .MuiButton-root,
+  .date-picker input {
+    font-size: 0.75rem;
+  }
+
+  .day {
+    font-size: 0.75rem;
+    padding: 3px;
+  }
+}

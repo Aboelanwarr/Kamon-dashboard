@@ -1,0 +1,53 @@
+/* styles.css */
+
+/* Container styling */
+.container {
+  margin-top: 20px;
+}
+
+.table-container {
+  width: 100%;
+  margin: auto;
+  overflow-x: auto;
+}
+
+/* Table styling */
+.table {
+  min-width: 650px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table cell styling */
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styled Table Cell */
+.styled-table-cell-head {
+  background-color: #D5D5D5;
+  color: black;
+  font-weight: 600;
+}
+
+.styled-table-cell-body {
+  font-size: 14px;
+  border-bottom: 10px solid #F9F9F9;
+  font-weight: 500;
+}
+
+/* Last Row No Border */
+.styled-table-row:last-child td,
+.styled-table-row:last-child th {
+  border: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .table {
+    min-width: 100%;
+  }
+}

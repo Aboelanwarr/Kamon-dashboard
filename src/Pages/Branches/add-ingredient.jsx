@@ -22,15 +22,20 @@ export default function AddIngredient() {
       redirect: "follow"
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-ingredient`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast.success(result.message);
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status === "success" && result.data) {
+        console.log("Response Status:", result.status === "success");
+        toast.success("Ingredient Added Successfully");
+      } else {
+        toast.error(result.message);
       }
-      );
-  };
+    })
+    .catch((error) => {
+      toast.error(error.message);
+      console.log(error);
+    });
+};
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -39,29 +44,35 @@ export default function AddIngredient() {
       </Typography>
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
-          <Typography variant="h6" color="initial">Ingredient Details</Typography>
+          <Typography variant="h5" color="initial" sx={{mb:3}}>Ingredient Details</Typography>
+          <Typography variant="h6" color="initial">Ingredient Name</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='name' label="IngredientName" variant="outlined" required />
           </FormControl>
+          <Typography variant="h6" color="initial">Recipe Unit</Typography>
+          <FormControl fullWidth margin="normal" sx={{mt:1}}>
           <InputLabel id="demo-simple-select-label">Select Recipe Unit</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Select Employee Id"
+            label="Select Recipe Unit"
             fullWidth
             name='recipeUnit'
-          >
+            >
             <MenuItem value="kilogram">Kilo Gram</MenuItem>
             <MenuItem value="gram">Gram</MenuItem>
             <MenuItem value="milliliter">Milli Liter</MenuItem>
             <MenuItem value="liter">Liter</MenuItem>
             <MenuItem value="piece">Piece</MenuItem>
           </Select>
+          </FormControl>
+          <Typography variant="h6" color="initial">Shipment Unit</Typography>
+          <FormControl fullWidth margin="normal" sx={{mt:1}}>
           <InputLabel id="demo-simple-select-label">Select Shipment Unit</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Select Employee Id"
+            label="Select Shipment Unit"
             fullWidth
             name='shipmentUnit'
           >
@@ -71,6 +82,7 @@ export default function AddIngredient() {
             <MenuItem value="liter">Liter</MenuItem>
             <MenuItem value="piece">Piece</MenuItem>
           </Select>
+          </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

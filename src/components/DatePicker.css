@@ -1,15 +1,20 @@
+/* DatePicker Container */
 .date-picker {
   position: relative;
   display: inline-block;
-  width: 45%; /* Reduced width to fit two date pickers in one line */
-  margin-right: 5%; /* Optional spacing between two date pickers */
+  width: 45%;
+  margin-right: 5%;
+  font-family: Arial, sans-serif;
 }
 
 .date-picker input {
-  padding: 8px;
+  padding: 10px;
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .calendar {
@@ -17,38 +22,72 @@
   top: 100%;
   left: 0;
   right: 0;
-  padding: 8px;
+  padding: 10px;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 4px;
+  margin-top: 5px;
 }
 
 .month-navigation {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding: 5px 0;
+}
+
+.month-navigation button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+  color: #007bff;
+}
+
+.month-navigation span {
+  font-weight: bold;
 }
 
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
+  gap: 5px;
   width: 100%;
+  margin-top: 10px;
 }
 
 .day {
-  padding: 3px;
+  padding: 8px;
   cursor: pointer;
   text-align: center;
+  border: none;
+  border-radius: 4px;
+  background: #f1f1f1;
+  transition: background 0.3s;
+}
+
+.day:hover {
+  background: #e1e1e1;
+}
+
+.day.disabled {
+  cursor: not-allowed;
+  color: #ccc;
+}
+
+.empty-day {
+  visibility: hidden;
 }
 
 @media (max-width: 480px) {
   .date-picker {
-    width: 100%; /* Full width on smaller screens */
-    margin-right: 0; /* Remove margin between pickers on small screens */
+    width: 100%;
+    margin-right: 0;
   }
 
   .date-picker input, .calendar {
@@ -56,6 +95,10 @@
   }
 
   .day {
-    padding: 2px;
+    padding: 6px;
+  }
+
+  .month-navigation button {
+    font-size: 12px;
   }
 }

@@ -80,15 +80,20 @@ export default function AddBranchSection() {
     };
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-branch-section`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast.success(result.message);
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status === "success" && result.data) {
+        console.log("Response Status:", result.status === "success");
+        toast.success("Branch Added Successfully");
+      } else {
+        toast.error(result.message);
       }
-      );
-  };
+    })
+    .catch((error) => {
+      toast.error(error.message);
+      console.log(error);
+    });
+};
 
   return (
     <Container fixed sx={{ mt: "20px" }}>

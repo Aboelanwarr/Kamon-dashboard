@@ -53,7 +53,6 @@ export default function AddItemBranchMenu() {
       itemStatus:e.target['itemStatus'].value,
       itemDiscount:e.target['itemDiscount'].value    
     })
-    console.log(data);
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -61,14 +60,21 @@ export default function AddItemBranchMenu() {
       redirect: "follow"
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/addItemBranchMenu`, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("Response Status:", response.status);
+        return response.json();
+      })
       .then((result) => {
-        toast.success(result.message);
+        if (result.status === "success") {
+          toast.success(result.message);
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
         toast.error(error.message);
-      }
-      );
+        console.log(error);
+      });
   };
 
   return (
@@ -93,14 +99,14 @@ export default function AddItemBranchMenu() {
           ))}
         </Select>
         </FormControl>
-        <Typography variant="h6" color="initial">Select Item</Typography>
+        <Typography variant="h6" color="initial" sx={{mb:1}}>Select Item</Typography>
         <FormControl fullWidth sx={{ mb: "20px" }}>
         <InputLabel id="Item-select-label">Select Item</InputLabel>
         <Select
           labelId="Item-select-label"
           id="Item-select"
           name='itemId'
-          label="Item"
+          label="Select Item"
         >
           {itemList.map((item) => (
             <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>

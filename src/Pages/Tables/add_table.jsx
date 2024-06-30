@@ -57,7 +57,10 @@ function AddTable() {
       </Typography>
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
-          <Typography variant="h6" color="initial">Select Branch</Typography>
+          <Typography variant="h5" color="initial">Table Details</Typography>
+          <Typography variant="h6" color="initial" sx={{mt:4}}>Select Branch</Typography>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="demo-simple-select-label">Select Branch</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -71,9 +74,13 @@ function AddTable() {
               ))
             }
           </Select>
+          </FormControl>
+          <Typography variant="h6" color="initial">Select Branch</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='capacity' label="Capacity" variant="outlined" required />
           </FormControl>
+          <Typography variant="h6" color="initial">Select Branch</Typography>
+          <FormControl fullWidth margin="normal">
           <InputLabel id="demo-simple-select-label">Select status</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -85,6 +92,7 @@ function AddTable() {
             <MenuItem value="available">available</MenuItem>
             <MenuItem value="booked">booked</MenuItem>
           </Select>
+          </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

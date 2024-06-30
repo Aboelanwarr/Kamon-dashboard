@@ -57,16 +57,22 @@ export default function ItemBySeason() {
       redirect: "follow"
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/itemBySeason`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast.success(result.message);
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      if (result.status === "success" && result.data && result.data.values) {
+        console.log("Response Status:", result.status === "success");
+        toast.success("Item Added Succesfully");
+      } else {
+        toast.error(result.message);
       }
-      );
+    })
+    .catch((error) => {
+      toast.error(error.message);
+      console.log(error);
+    });
   };
-
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial">

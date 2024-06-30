@@ -20,16 +20,21 @@ export default function Season() {
       body: data,
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/season`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast.success(result.message);
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/season`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status === "success" && result.data) {
+        console.log("Response Status:", result.status === "success");
+        toast.success("Item Added Successfully");
+      } else {
+        toast.error(result.message);
       }
-      );
-  };
+    })
+    .catch((error) => {
+      toast.error(error.message);
+      console.log(error);
+    });
+};
 
   return (
     <Container fixed sx={{ mt: "20px" }}>

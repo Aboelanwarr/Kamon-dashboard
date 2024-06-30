@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './DatePicker.css'; // Ensure this CSS file is updated for new styles
+import './DatePicker.css';
 
 const DatePicker = ({ minDate, maxDate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,10 +9,8 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
   const toggleCalendar = () => setIsOpen(!isOpen);
 
   const handleDayClick = (day) => {
-    const newDate = new Date(date.getFullYear(), date.getMonth(), day);
-    const formattedDate = newDate.getFullYear() + '-' + 
-      String(newDate.getMonth() + 1).padStart(2, '0') + '-' + 
-      String(newDate.getDate()).padStart(2, '0');
+    const newDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), day));
+    const formattedDate = newDate.toISOString().split('T')[0];
     setSelectedDate(formattedDate);
     onChange(formattedDate);
     setIsOpen(false);
@@ -29,10 +27,21 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
   const renderDays = () => {
     const days = [];
     const totalDays = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+    for (let i = 0; i < firstDay; i++) {
+      days.push(<div key={`empty-${i}`} className="empty-day"></div>);
+    }
 
     for (let day = 1; day <= totalDays; day++) {
+      const dayDate = new Date(date.getFullYear(), date.getMonth(), day);
+      const isDisabled = (minDate && dayDate < new Date(minDate)) || (maxDate && dayDate > new Date(maxDate));
       days.push(
-        <button key={day} onClick={() => handleDayClick(day)} className="day">
+        <button
+          key={day}
+          onClick={() => !isDisabled && handleDayClick(day)}
+          className={`day ${isDisabled ? 'disabled' : ''}`}
+        >
           {day}
         </button>
       );
@@ -53,11 +62,11 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
       {isOpen && (
         <div className="calendar">
           <div className="month-navigation">
-            <button onClick={() => changeYear(-1)}>Prev Year</button>
-            <button onClick={() => changeMonth(-1)}>Prev Month</button>
+            <button onClick={() => changeYear(-1)}>&lt;&lt;</button>
+            <button onClick={() => changeMonth(-1)}>&lt;</button>
             <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
-            <button onClick={() => changeMonth(1)}>Next Month</button>
-            <button onClick={() => changeYear(1)}>Next Year</button>
+            <button onClick={() => changeMonth(1)}>&gt;</button>
+            <button onClick={() => changeYear(1)}>&gt;&gt;</button>
           </div>
           {renderDays()}
         </div>

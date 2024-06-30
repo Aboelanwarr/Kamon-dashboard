@@ -1,5 +1,5 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography,FormControl, Button, Select, MenuItem, TextField } from '@mui/material';
+import { Container, Box, Typography,FormControl, Button, Select, MenuItem, TextField, InputLabel } from '@mui/material';
 import { toast } from 'react-toastify';
 import DatePicker from '../../components/DatePicker';
 import { useState, useEffect } from 'react';
@@ -72,10 +72,11 @@ export default function AddEmployeeVecation() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
           <Typography variant="h5" color="initial" sx={{mb:2}}>Vecation Details</Typography>
-          <Typography variant="h6" color="initial"sx={{mb:1}}>Select Employee</Typography>
+          <FormControl fullWidth margin="normal">
+        <InputLabel id="employee-select-label">Select Employee</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="employee-select-label"
+            id="employee-select"
             label="Select Employee"
             fullWidth
             name='employee_id'
@@ -86,6 +87,7 @@ export default function AddEmployeeVecation() {
               ))
             }
           </Select>
+          </FormControl>
           <Typography variant="h6" color="initial"sx={{mt:1}}>Vecation Start Time</Typography>
           <FormControl fullWidth margin="normal">
             <DatePicker onChange={(newDate) => handleDateChange(newDate, 'vacationStartDate')} />

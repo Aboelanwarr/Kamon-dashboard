@@ -1,5 +1,5 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button , Select, MenuItem} from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button , Select, MenuItem, InputLabel} from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddPostion() {
@@ -22,15 +22,20 @@ export default function AddPostion() {
     };
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/add-position`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast.success(result.message);
-      })
-      .catch((error) => {
-        toast.error(error.message);
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status === "success" && result.data) {
+        console.log("Response Status:", result.status === "success");
+        toast.success("Position Added Successfully");
+      } else {
+        toast.error(result.message);
       }
-      );
-  };
+    })
+    .catch((error) => {
+      toast.error(error.message);
+      console.log(error);
+    });
+};
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -39,16 +44,20 @@ export default function AddPostion() {
       </Typography>
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
-          <Typography variant="h6" color="initial">Position Details</Typography>
+          <Typography variant="h5" color="initial">Position Details</Typography>
+          <Typography variant="h6" color="initial" sx={{mt:2}}>Position Name</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='position_name' label="Position_name" variant="outlined" required />
           </FormControl>
+          <Typography variant="h6" color="initial" sx={{mb:1}}>Employee Role</Typography>
           <FormControl fullWidth sx={{ mb: "20px" }}>
-          <Typography variant="h6" color="initial">Employee Role</Typography>
+          <InputLabel id="role-select-label">Select Role</InputLabel>
           <Select
+            labelId='role-select-label'
+            id='role-select'
+            label="Select Role"
+            fullWidth
             name='role'
-            label="Role"
-            defaultValue="employeeRole"
             required
           >
             <MenuItem value="manager">Manager</MenuItem>
@@ -60,6 +69,7 @@ export default function AddPostion() {
             <MenuItem value="no role">No Role</MenuItem>
           </Select>
           </FormControl>
+          <Typography variant="h6" color="initial" sx={{mb:1}}>Jop Description</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='jop_description' label="Jop_description" variant="outlined" required />
           </FormControl>

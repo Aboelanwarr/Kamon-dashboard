@@ -14,7 +14,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import { toast } from 'react-toastify';
 
-
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -43,7 +42,10 @@ export default function SignIn() {
     event.preventDefault();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    const token = localStorage.getItem('token');
+    myHeaders.append("Authorization", `barear ${token}`);
 
+    
     const raw = JSON.stringify({
       "email": event.target['email'].value,
       "password": event.target['password'].value
@@ -65,11 +67,8 @@ export default function SignIn() {
       })
       .then((result) => {
         if (result.status === "success") {
-          localStorage.setItem('token', true);
+          localStorage.setItem('token', result.data.token);
           navigate('/home');
-        }
-        else {
-          localStorage.setItem('token', false);
         }
         console.log(result);
         toast.success('Login successful');
@@ -97,11 +96,11 @@ export default function SignIn() {
           >
             <Box sx={{ m: 1, width: '210px', height: '191px' }}>
               <svg width="210" height="191" viewBox="0 0 210 191" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M191.573 97.0962C205.451 81.9323 209.851 58.4168 202.429 39.0847C195.007 19.7525 176.137 5.58041 155.878 4.12329C125.171 1.91439 93.2106 31.6855 91.9393 63.1416C91.6283 70.8344 93.6982 79.5591 100.238 83.374C106.325 86.9247 114.633 84.6524 119.199 79.2164C123.765 73.7803 124.914 65.9449 123.475 58.9312C122.036 51.9176 118.293 45.6122 113.995 39.9522C99.4869 20.8463 79.3632 2.3076 54.1217 4.12329C33.8632 5.58078 14.9931 19.7525 7.57087 39.0847C0.148613 58.4168 4.54928 81.9323 18.4266 97.0962" stroke="#E1D9C3" stroke-width="6.18942" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M133.79 163.308L113.257 183.735C108.738 188.23 101.496 188.063 97.1812 183.361C91.3888 177.05 83.5972 168.672 78.2056 163.308" stroke="#E1D9C3" stroke-width="6.18942" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M60.1721 143.727C68.6964 135.605 66.608 119.144 55.5075 106.959C44.407 94.7747 28.498 91.481 19.9737 99.6027C11.4494 107.724 13.5378 124.186 24.6383 136.37C35.7388 148.555 51.6478 151.849 60.1721 143.727Z" stroke="#E1D9C3" stroke-width="6.18942" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M187.221 103.233L158.85 136.959" stroke="#E1D9C3" stroke-width="6.18942" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M147.73 121.724L169.102 98.5749C179.807 88.7808 205.789 108.871 194.144 124.411L172.982 147.334" stroke="#E1D9C3" stroke-width="6.18942" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M191.573 97.0962C205.451 81.9323 209.851 58.4168 202.429 39.0847C195.007 19.7525 176.137 5.58041 155.878 4.12329C125.171 1.91439 93.2106 31.6855 91.9393 63.1416C91.6283 70.8344 93.6982 79.5591 100.238 83.374C106.325 86.9247 114.633 84.6524 119.199 79.2164C123.765 73.7803 124.914 65.9449 123.475 58.9312C122.036 51.9176 118.293 45.6122 113.995 39.9522C99.4869 20.8463 79.3632 2.3076 54.1217 4.12329C33.8632 5.58078 14.9931 19.7525 7.57087 39.0847C0.148613 58.4168 4.54928 81.9323 18.4266 97.0962" stroke="#E1D9C3" strokeWidth="6.18942" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M133.79 163.308L113.257 183.735C108.738 188.23 101.496 188.063 97.1812 183.361C91.3888 177.05 83.5972 168.672 78.2056 163.308" stroke="#E1D9C3" strokeWidth="6.18942" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M60.1721 143.727C68.6964 135.605 66.608 119.144 55.5075 106.959C44.407 94.7747 28.498 91.481 19.9737 99.6027C11.4494 107.724 13.5378 124.186 24.6383 136.37C35.7388 148.555 51.6478 151.849 60.1721 143.727Z" stroke="#E1D9C3" strokeWidth="6.18942" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M187.221 103.233L158.85 136.959" stroke="#E1D9C3" strokeWidth="6.18942" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M147.73 121.724L169.102 98.5749C179.807 88.7808 205.789 108.871 194.144 124.411L172.982 147.334" stroke="#E1D9C3" strokeWidth="6.18942" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Box>
             <Box sx={{ m: 1, width: '130px', height: '50px' }}>

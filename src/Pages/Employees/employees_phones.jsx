@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function EmployeePhone() {
@@ -41,12 +41,16 @@ function EmployeePhone() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/employee-phone`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        toast.success(result.message);
+        if (result.status === "success") {
+          console.log("result", result);
+          toast.success(result.message);
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
         toast.error(error.message);
-      }
-      );
+      });
   };
 
   return (
@@ -57,10 +61,11 @@ function EmployeePhone() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
         <Typography variant="h6" color="initial" sx={{mb:2}}>Employee Details</Typography>
-          <Typography variant="h6" color="initial">Select Employee</Typography>
+        <FormControl fullWidth margin="normal">
+        <InputLabel id="employee-select-label">Select Employee</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="employee-select-label"
+            id="employee-select"
             label="Select Employee"
             fullWidth
             name='employee_id'
@@ -71,6 +76,7 @@ function EmployeePhone() {
               ))
             }
           </Select>
+          </FormControl>
           <Typography variant="h6" color="initial" sx={{mt:2}}>Employee Phone</Typography>
           <FormControl fullWidth margin="normal">
             <TextField name='Employee Phone' label="Employee Phone" variant="outlined" required />

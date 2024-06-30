@@ -18,7 +18,6 @@ import AddBranchSection from './Pages/Branches/add-branch-section';
 import AddPosition from './Pages/Employees/add_position';
 import AddGeneralSection from './Pages/Branches/add-general-section';
 import AddMenuItem from './Pages/Branches/add-menu-item';
-import ListInActiveEmployee from './Pages/Employees/inactive_employee_list';
 import PositionList from './Pages/Employees/position_list';
 import IngredientSuppliersList from './Pages/Branches/ingredient_suppliers_list';
 import ListCategories from './Pages/Branches/categories_list';
@@ -61,6 +60,9 @@ import OverAllPerformance from './Pages/Branches/overAllPerformance';
 import BranchesCompare from './Pages/Branches/branchesCompare';
 import ChangeSectionManager from './Pages/Branches/changeSectionManager';
 import ChangeBranchManager from './Pages/Employees/changeBranchManager';
+import BookingList from './Pages/Branches/bookingList';
+import BranchMenuFilter from './Pages/Branches/branchMenuFilter';
+import EmployeeTransferFilter from './Pages/Employees/employeeTransferFilter';
 
 function App() {
   const navigate = useNavigate();
@@ -114,7 +116,6 @@ function App() {
           <Route path="addPosition" element={<AddPosition />} />
           <Route path="addGeneralSection" element={<AddGeneralSection />} />
           <Route path="addMenuItem" element={<AddMenuItem />} />
-          <Route path="listInactiveEmployee" element={<ListInActiveEmployee />} />
           <Route path="positionList" element={<PositionList />} />
           <Route path="ingredientSuppliersList" element={<IngredientSuppliersList />} />
           <Route path="listCategories" element={<ListCategories />} />
@@ -156,6 +157,9 @@ function App() {
           <Route path="branchesCompare" element={<BranchesCompare />} />
           <Route path="changeSectionManager" element={<ChangeSectionManager />} />
           <Route path="changeBranchManager" element={<ChangeBranchManager />} />
+          <Route path="bookingList" element={<BookingList />} />
+          <Route path="branchMenuFilter" element={<BranchMenuFilter />} />
+          <Route path="employeeTransferFilter" element={<EmployeeTransferFilter />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />
