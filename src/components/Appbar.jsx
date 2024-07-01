@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, AppBar, Box, Typography, Toolbar } from '@mui/material';
 import './Appbar.css';
-import logoYellow from '../assets/logo-yellow.png'; // Corrected import statement
 export default function Navbar({ onLogout }) {
   const settings = [
     { name: 'Profile', action: () => console.log('Profile clicked') },

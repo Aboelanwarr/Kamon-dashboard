@@ -42,7 +42,6 @@ export default function ItemPriceChanges() {
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
       .then(response => response.json())
       .then(result => {
-        console.log("Response data:", result); // Add this line to log the response data
         if (result.status === "success") {
           setItemList(result.data);
           if (result.data.length > 0) {

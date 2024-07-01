@@ -62,6 +62,7 @@ export default function ListCategories() {
               <StyledTableCell>Category Name</StyledTableCell>
               <StyledTableCell>Section Name</StyledTableCell>
               <StyledTableCell>Category Description</StyledTableCell>
+              <StyledTableCell>Category Image</StyledTableCell>
               <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -72,6 +73,13 @@ export default function ListCategories() {
                 <StyledTableCell>{row.category_name}</StyledTableCell>
                 <StyledTableCell>{row.section_name}</StyledTableCell>
                 <StyledTableCell>{row.category_description}</StyledTableCell>
+                <StyledTableCell>
+                  <img
+                    src={`${row.picture_path}`}
+                    alt={row.category_name}
+                    style={{ width: '100px', height: 'auto' }}
+                  />
+                </StyledTableCell>
                 <StyledTableCell>
                   <Button><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_103_484)">
