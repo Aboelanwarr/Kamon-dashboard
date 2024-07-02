@@ -29,7 +29,7 @@ const ItemUpdateForm = () => {
     formData.append('itemImg', itemImg);
 
     try {
-      await axios.patch(`http://localhost:4000/admin/menu/changeItemPicture`, formData, {
+      await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/changeItemPicture`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

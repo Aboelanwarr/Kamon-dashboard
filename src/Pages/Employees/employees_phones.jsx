@@ -43,9 +43,10 @@ function EmployeePhone() {
       .then((result) => {
         if (result.status === "success") {
           console.log("result", result);
-          toast.success(result.message);
+          toast.success("Employee Phone Added Successfully");
         } else {
           toast.error(result.message);
+          console.log("result", result);
         }
       })
       .catch((error) => {

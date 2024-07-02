@@ -138,7 +138,7 @@ const Profile = () => {
                                     formData.append('profileImg', file);
 
                                     try {
-                                        const response = await fetch('http://localhost:4000/admin/employees/changeEmployeePicture', {
+                                        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/changeEmployeePicture`, {
                                             method: 'PATCH',
                                             body: formData,
                                         });
