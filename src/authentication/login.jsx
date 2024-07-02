@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './SignIn.css';
 import loginLogo from '../assets/loginLogo.svg';
-
+import { UserDataContext } from './userDataProvide';
 
 function SignIn() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const {userData, setUserData} = useContext(UserDataContext)
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -30,7 +30,7 @@ function SignIn() {
       redirect: "follow"
     };
   
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/auth/login`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/login`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to login');
@@ -40,18 +40,18 @@ function SignIn() {
       .then((result) => {
         if (result.status === "success") {
           // Store token
-          localStorage.setItem('token', result.data.token);
+          localStorage.setItem('token', result.token);
   
           // Fetch user data using the token
           fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/tokenData`, {
             method: 'GET',
             headers: {
-              Authorization: result.data.token
+              Authorization: result.token
             }
           })
           .then(response => response.json())
           .then(data => {
-            localStorage.setItem('userData', JSON.stringify(data.data));
+            setUserData(data.data)
             navigate('/home');
             toast.success('Login successful');
           })

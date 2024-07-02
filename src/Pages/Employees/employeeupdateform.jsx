@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './employeeupdateform.css'; // Import your stylesheet here
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserDataContext } from '../../authentication/userDataProvide';
 
 const EmployeeUpdateForm = () => {
+  const { userData } = useContext(UserDataContext);
   const location = useLocation();
   const [employeeId, setEmployeeId] = useState(location.state?.employeeId || '');
   const [changePhoneNumber, setChangePhoneNumber] = useState(false);
@@ -23,6 +25,9 @@ const EmployeeUpdateForm = () => {
   const [error, setError] = useState('');
   const [employeeStatus, setEmployeeStatus] = useState('');
   const [changeStatus, setChangeStatus] = useState(false);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [changePassowrd, setChangePassowrd] = useState(false);
 
   useEffect(() => {
     if (location.state?.employeeId) {
@@ -39,14 +44,19 @@ const EmployeeUpdateForm = () => {
         await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/update-employee-phone`, {
           employeeId,
           oldPhone: oldPhoneNumber,
+          newPhone: newPhoneNumber,
         })
         .then((result) => {
-          toast.success(result.data.message);
+          if (result.data.status === 'success') {
+            toast.success("Phone number updated successfully");
+          } else {
+            toast.error("Failed to update phone number");
+          }
         })
         .catch((error) => {
           toast.error(error.response?.data?.message || error.message);
         });
-      }
+    }
 
       if (changeSalary) {
         await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/change-salary`, {
@@ -55,12 +65,16 @@ const EmployeeUpdateForm = () => {
           newSalary,
           changeReason,
         })
-        .then((result) => {
-          toast.success(result.data.message);
-        })
-        .catch((error) => {
-          toast.error(error.response?.data?.message || error.message);
-        });
+          .then((result) => {
+            if (result.data.status === 'success') {
+              toast.success("Salary updated successfully");
+            } else {
+              toast.error("Failed to update salary");
+            }
+          })
+          .catch((error) => {
+            toast.error(error.response?.data?.message || error.message);
+          });
       }
 
       if (changePosition) {
@@ -70,12 +84,16 @@ const EmployeeUpdateForm = () => {
           new_position: newPosition,
           position_change_type: positionChangeType,
         })
-        .then((result) => {
-          toast.success(result.data.message);
-        })
-        .catch((error) => {
-          toast.error(error.response?.data?.message || error.message);
-        });
+          .then((result) => {
+            if (result.data.status === 'success') {
+              toast.success("Position updated successfully");
+            } else {
+              toast.error("Failed to update position");
+            }
+          })
+          .catch((error) => {
+            toast.error(error.response?.data?.message || error.message);
+          });
       }
 
       if (newAddress) {
@@ -83,12 +101,16 @@ const EmployeeUpdateForm = () => {
           employeeId,
           newAddress,
         })
-        .then((result) => {
-          toast.success(result.data.message);
-        })
-        .catch((error) => {
-          toast.error(error.response?.data?.message || error.message);
-        });
+          .then((result) => {
+            if (result.data.status === 'success') {
+              toast.success("Address updated successfully");
+            } else {
+              toast.error("Failed to update address");
+            }
+          })
+          .catch((error) => {
+            toast.error(error.response?.data?.message || error.message);
+          });
       }
 
       if (changeStatus) {
@@ -97,15 +119,34 @@ const EmployeeUpdateForm = () => {
           employeeStatus,
         })
         .then((result) => {
-          toast.success(result.data.message);
-        })
+          if (result.data.status === 'success') {
+            toast.success("Employee status updated successfully");
+            } else {
+              toast.error("Failed to update employee status");
+            }
+          })
         .catch((error) => {
           toast.error(error.response?.data?.message || error.message);
         });
       }
 
+      // Inside handleUpdate function
+      if (newPassword) {
+        await axios.patch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/changeEmployeePass`, {
+          employeeId,
+          oldPass: oldPassword,
+          newPass: newPassword,
+        })
+          .then((result) => {
+            toast.success("Password updated successfully");
+          })
+          .catch((error) => {
+            toast.error(error.response?.data?.message || error.message);
+          });
+      }
+
+
       // Reset the form
-      setEmployeeId('');
       setChangePhoneNumber(false);
       setOldPhoneNumber('');
       setNewPhoneNumber('');
@@ -120,7 +161,9 @@ const EmployeeUpdateForm = () => {
       setNewAddress('');
       setChangeStatus(false);
       setEmployeeStatus('');
-      
+      setOldPassword('');
+      setNewPassword('');
+
     } catch (err) {
       toast.error('An error occurred while updating the employee. Please try again.');
       console.error('Error:', err);
@@ -178,7 +221,7 @@ const EmployeeUpdateForm = () => {
               <input
                 type="text"
                 placeholder="Changer ID"
-                value={changerId}
+                value={userData.employee_id}
                 onChange={(e) => setChangerId(e.target.value)}
               />
               <input
@@ -208,7 +251,7 @@ const EmployeeUpdateForm = () => {
               <input
                 type="text"
                 placeholder="Position Changer ID"
-                value={positionChangerId}
+                value={userData.employee_id}
                 onChange={(e) => setPositionChangerId(e.target.value)}
               />
               <input
@@ -225,6 +268,30 @@ const EmployeeUpdateForm = () => {
                 <option value="promote">Promote</option>
                 <option value="demote">Demote</option>
               </select>
+            </div>
+          )}
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            checked={changePassowrd}
+            onChange={(e) => setChangePassowrd(e.target.checked)}
+          />
+          <label>Change Account Password</label>
+          {changePassowrd && (
+            <div>
+              <input
+                type="text"
+                placeholder="Old Password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="New Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
             </div>
           )}
         </div>

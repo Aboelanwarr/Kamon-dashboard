@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import UserDataProvider from './authentication/userDataProvide';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const theme = createTheme({
   typography: {
@@ -28,7 +30,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <UserDataProvider>
+          <App />
+        </UserDataProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

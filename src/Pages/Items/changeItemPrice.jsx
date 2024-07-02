@@ -27,7 +27,11 @@ const ItemPriceUpdateForm = () => {
         newValue,
       })
       .then((result) => {
-        toast.success(result.data.message);
+        if (result.data.status === 'success') {
+          toast.success("Phone number updated successfully");
+        } else {
+          toast.error("Failed to update phone number");
+        }
       })
       .catch((error) => {
         toast.error(error.response?.data?.message || error.message);

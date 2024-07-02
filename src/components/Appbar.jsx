@@ -2,15 +2,16 @@ import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, AppBar, Box, Typography, Toolbar } from '@mui/material';
 import './Appbar.css';
+import { UserDataContext } from '../authentication/userDataProvide';
 export default function Navbar({ onLogout }) {
   const settings = [
-    { name: 'Profile', action: () => console.log('Profile clicked') },
-    { name: 'Account', action: () => console.log('Account clicked') },
+    { name: 'Profile', action: () => navigate('/employeeUserProfile') },
     { name: 'Dashboard', action: () => navigate('/home') },
     { name: 'Logout', action: onLogout },
   ];
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const {userData} = React.useContext(UserDataContext)
 
   const navigate = useNavigate();
 
@@ -43,9 +44,8 @@ export default function Navbar({ onLogout }) {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: "10px", color: "#e1d9c3" }}>
-                  {/* {user.name} */}
-                  Ahmed Ismail
-                  <Avatar alt="Ahmed Ehab" src="/static/images/avatar/2.jpg" />
+                  {userData.employee_first_name + " " + userData.employee_last_name}
+                  <Avatar alt={userData.employee_first_name} src={userData.picture_path} />
                 </Typography>
               </IconButton>
             </Tooltip>

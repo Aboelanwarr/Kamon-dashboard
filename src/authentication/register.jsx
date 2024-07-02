@@ -11,53 +11,63 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import usePasswordVisibility from '../hooks/usePasswordVisibility'; // Adjust the path as necessary
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-
-const defaultTheme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#386351',
+    },
+    secondary: {
+      main: '#E1D9C3',
+    },
+  },
+});
 
 export default function SignUp() {
+  const { showPassword, handlePasswordChange, togglePasswordVisibility } = usePasswordVisibility();
+  const [image, setImage] = useState(null);
+  const [fileInput, setFileInput] = useState(null);
 
-  const {
-    showPassword,
-    handlePasswordChange,
-    togglePasswordVisibility,
-  } = usePasswordVisibility();
-
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+    setFileInput(e.target);
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      "id": e.target['id'].value,
-      "email": e.target['email'].value,
-      "password": e.target['password'].value
-    });
+    const formData = new FormData();
+    formData.append("employeeId", e.target['id'].value);
+    formData.append("email", e.target['email'].value);
+    formData.append("password", e.target['password'].value);
+    if (image) {
+        formData.append("profileImg", fileInput.files[0]);
+    }
 
     const requestOptions = {
       method: "POST",
-      headers: myHeaders,
-      body: raw,
+      body: formData,
       redirect: "follow"
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/admin/auth/employee-account`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/employeeAccount`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("Success:", result);
-        toast.success(result.message);
+        if (result.status === 'success') {
+          toast.success("Employee account added successfully");
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
-        toast.error(error.message);
+        toast.error("Failed to add employee account");
       });
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -68,7 +78,7 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -120,6 +130,22 @@ export default function SignUp() {
                     ),
                   }}
                 />
+              </Grid>
+              <Grid item xs={12} sx={{display:'flex', flexDirection:'column', alignItems:'center', gap:2}}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{ bgcolor: 'secondary.main', color: 'black' }}
+                >
+                  Upload Profile Image
+                  <input
+                    type="file"
+                    hidden
+                    accept="image/jpeg"
+                    onChange={handleImageChange}
+                  />
+                </Button>
+                {image && <img src={URL.createObjectURL(image)} alt="" style={{width: 100, height: 100}} />}
               </Grid>
             </Grid>
             <Button

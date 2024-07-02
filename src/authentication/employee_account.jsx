@@ -59,8 +59,8 @@ export default function AddEmployee() {
       const result = await response.json();
       if (result.status === "success") {
         setBranchList(result.data);
-        if (result.data.branches.length > 0) {
-          setSelectedBranchId(result.data.branches[0].id);
+        if (result.data.length > 0) {
+          setSelectedBranchId(result.data[0].id);
         }
       } else {
         console.error("Failed to fetch branch list:", result);
@@ -98,7 +98,7 @@ export default function AddEmployee() {
       salary: e.target['salary'].value,
       position_id: e.target['position_id'].value,
       status: e.target['status'].value,
-      branch_id: e.target['branch_id'].value,
+      branch_id: selectedBranchId,  // Using selectedBranchId
       sectionId: e.target['sectionId'].value,
       address: e.target['address'].value,
       dateHired,

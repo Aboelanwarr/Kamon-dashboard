@@ -63,6 +63,9 @@ import ChangeBranchManager from './Pages/Employees/changeBranchManager';
 import BookingList from './Pages/Branches/bookingList';
 import BranchMenuFilter from './Pages/Branches/branchMenuFilter';
 import EmployeeTransferFilter from './Pages/Employees/employeeTransferFilter';
+import EmployeeUserProfile from './Pages/employeeUserProfile';
+import CategoryUpdateForm from './Pages/Items/updateCategoryPicture';
+import ItemUpdateForm from './Pages/Items/updateMenuItemPicture';
 
 function App() {
   const navigate = useNavigate();
@@ -161,6 +164,9 @@ function App() {
           <Route path="bookingList" element={<BookingList />} />
           <Route path="branchMenuFilter" element={<BranchMenuFilter />} />
           <Route path="employeeTransferFilter" element={<EmployeeTransferFilter />} />
+          <Route path="employeeUserProfile" element={<EmployeeUserProfile />} />
+          <Route path="updateCategoryPicture" element={<CategoryUpdateForm />} />
+          <Route path="updateMenuItemPicture" element={<ItemUpdateForm />} />
         </Route>
       </Routes>
       <ToastContainer position="top-center" theme="dark" />
