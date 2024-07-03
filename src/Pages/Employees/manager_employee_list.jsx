@@ -89,8 +89,8 @@ export default function PositionList() {
                       </clipPath>
                     </defs>
                   </svg>
+                    edit manager
                   </Button>
-
                 </StyledTableCell>
             </StyledTableRow>
           ))}

@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom';
 
 const ItemPriceUpdateForm = () => {
   const location = useLocation();
-  const { itemId, selectedBranchId } = location.state || {};
-  const [branchId, setBranchId] = useState(selectedBranchId || '');
+  const { itemId, branchId: initialBranchId } = location.state || {};
+  const [branchId, setBranchId] = useState(initialBranchId || '');
   const [changer, setChanger] = useState('');
   const [changeType, setChangeType] = useState('');
   const [newValue, setNewValue] = useState('');

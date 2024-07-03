@@ -96,6 +96,7 @@ export default function ListCategories() {
                       </clipPath>
                     </defs>
                   </svg>
+                    Change Picture
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>

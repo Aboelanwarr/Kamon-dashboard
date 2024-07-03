@@ -1,0 +1,15 @@
+.home-container {
+  padding: 10px; /* Reduced padding */
+  background-color: #E1D9C3; /* Updated background color */
+  border-radius: 8px; /* Added border radius for rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box shadow for depth */
+  width: 300px; /* Set a fixed width */
+  margin: 0 auto; /* Center the container */
+}
+
+.greeting {
+  color: #386351; /* Updated text color */
+  font-size: 28px; /* Increased font size */
+  font-weight: bold; /* Made text bold */
+  margin: 0; /* Removed default margin */
+}

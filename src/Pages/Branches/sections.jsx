@@ -130,8 +130,8 @@ export default function Sections() {
                       </clipPath>
                     </defs>
                   </svg>
+                    change manager
                   </Button>
-
                 </StyledTableCell>
               </StyledTableRow>
             ))}

@@ -1,5 +1,6 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './branchesCompare.css';
 
 const BranchesCompare = () => {
@@ -44,14 +45,25 @@ const BranchesCompare = () => {
         />
         <button onClick={handleFetchData}>Get Data</button>
       </div>
-      <div className="branch-comparison-grid">
-        {branchesData.map(branch => (
-          <div key={branch.branch_id} className="branch-card">
-            <h2>{branch.branch_name}</h2>
-            <p>Total Sales: ${branch.total_sales}</p>
-            <p>Total Orders: {branch.total_orders}</p>
-          </div>
-        ))}
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart
+            width={600}
+            height={300}
+            data={branchesData}
+            margin={{
+              top: 20, right: 30, left: 20, bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="branch_name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="total_sales" fill="#8884d8" name="Total Sales" />
+            <Bar dataKey="total_orders" fill="#82ca9d" name="Total Orders" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
