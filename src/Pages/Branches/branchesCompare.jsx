@@ -10,7 +10,7 @@ const BranchesCompare = () => {
 
   const fetchBranchComparison = async (days) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branchesCompare/${days}`);
+      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branchesCompare?daysInput=${days}`);
       const data = response.data;
       if (data.status === "success" && Array.isArray(data.data)) {
         setBranchesData(data.data);
