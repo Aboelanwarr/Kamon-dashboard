@@ -54,7 +54,7 @@ export default function NestedList() {
         return roleAccess.operationManager;
       case "hr":
         return roleAccess.hr;
-      case "branch manager":
+      case "manager":
         return roleAccess.branchManager;
       case "norole":
         return roleAccess.noRole;
