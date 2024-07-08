@@ -1,5 +1,5 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
+import { Container, Box, Typography,FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,13 +8,15 @@ export default function AddBranchSection() {
   const [BranchList, setBranchList] = useState([]);
   const [sectionsList, setSectionsList] = useState([]);
   const [managerList, setManagerList] = useState([]);
-
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    const requestOptions = {
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, requestOptions)
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -24,14 +26,16 @@ export default function AddBranchSection() {
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
-    const requestOptions = {
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -41,14 +45,16 @@ export default function AddBranchSection() {
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
-    const requestOptions = {
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/sections/1`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/sections/1`, requestOptions)
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -59,7 +65,7 @@ export default function AddBranchSection() {
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -72,18 +78,18 @@ export default function AddBranchSection() {
       "manager_id": e.target['manager_id'].value,
     });
 
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-branch-section`, {
       method: "POST",
-      headers: myHeaders,
       body: data,
-      redirect: "follow"
-    };
-
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-branch-section`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
     .then((response) => response.json())
     .then((result) => {
       if (result.status === "success" && result.data) {
-        console.log("Response Status:", result.status === "success");
         toast.success("Branch Added Successfully");
       } else {
         toast.error(result.message);

@@ -9,6 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,18 +36,20 @@ export default function BranchPerformance() {
   const [branchOverview, setBranchOverview] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
   const [selecteddays, setSelecteddays] = useState('');
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    // Fetch Section list
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
           setBranchList(result.data);
-          if (result.data.branches.length > 0) {
+          if (result.data.branches && result.data.branches.length > 0) { // Added check for result.data.branches
             setSelectedBranchId(result.data.branches[0].id);
           }
         } else {
@@ -53,25 +57,30 @@ export default function BranchPerformance() {
         }
       })
       .catch(error => console.error(error));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (!selectedBranchId) return; 
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branchPerformance/${selectedBranchId}/${selecteddays}`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branchPerformance/${selectedBranchId}/${selecteddays}`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
           setBranchOverview(result.data);
+          if (result.data.length === 0) {
+            toast.info("No data found");
+          }
         } else {
-          console.error("Failed to fetch branchOverview:", result);
+          console.error("Failed to fetch branch Performance:", result);
         }
       })
       .catch(error => console.error(error));
-  }, [selectedBranchId,selecteddays]); // Depend on selectedBranchId
+  }, [selectedBranchId,selecteddays,token]); // Depend on selectedBranchId
 
   const handleBranchChange = (event) => {
     setSelectedBranchId(event.target.value);

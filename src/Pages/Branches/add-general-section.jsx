@@ -6,32 +6,32 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function AddGeneralSection() {
   const onSubmit = e => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
+    const token = localStorage.getItem("token");
     const data = JSON.stringify({
       section_name: e.target['section_name'].value,
       section_description: e.target['section_description'].value
     })
-    console.log(data);
-    const requestOptions = {
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-general-section`, {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: data,
       redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-general-section`, requestOptions)
+    })
     .then((response) => response.json())
     .then((result) => {
       if (result.status === "success" && result.data) {
         console.log("Response Status:", result.status === "success");
         toast.success("Branch Added Successfully");
       } else {
-        toast.error(result.message);
+        toast.error("Failed to add branch section");
       }
     })
     .catch((error) => {
-      toast.error(error.message);
+      toast.error("Failed to add branch section");
       console.log(error);
     });
 };

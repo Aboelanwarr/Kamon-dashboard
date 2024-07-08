@@ -37,12 +37,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function PositionList() {
   const [managerList,setManagerList] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
   useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){
@@ -52,7 +55,7 @@ export default function PositionList() {
         }
       })
       .catch((error) => console.error(error));
-    }, []);
+    }, [token]);
 
   return (
     <Container fixed sx={{ mt: "20px" }}>

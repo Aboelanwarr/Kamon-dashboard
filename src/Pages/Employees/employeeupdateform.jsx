@@ -38,6 +38,9 @@ const EmployeeUpdateForm = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setError('');
+    const token = localStorage.getItem('token');
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     try {
       if (changePhoneNumber) {

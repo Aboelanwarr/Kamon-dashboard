@@ -33,6 +33,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function ListRecipes() {
   const [recipeList,setRecipeList] = useState([]);
+  const token = localStorage.getItem('token');
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
   useEffect(() => {
     const requestOptions = {
       method: "GET",

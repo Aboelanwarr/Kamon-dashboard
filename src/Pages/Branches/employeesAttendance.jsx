@@ -7,10 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import DatePicker from '../../components/DatePicker';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -45,46 +46,51 @@ export default function CustomizedTables() {
   const [selectedBranchId, setSelectedBranchId] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
-
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    // Fetch branches list
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
           setBranchList(result.data);
-          // Optionally, set the first branch as selected by default
-          if (result.data.length > 0) {
-            setSelectedBranchId(result.data[0].id); // Assuming 'id' is the identifier
+          if (result.data.branches && result.data.branches.length > 0) { // Added check for result.data.branches
+            setSelectedBranchId(result.data.branches[0].id);
           }
         } else {
           console.error("Failed to fetch branch list:", result);
         }
       })
       .catch(error => console.error(error));
-  }, []);
+  }, [token]);
 
 
   useEffect(() => {
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/employeesAttendance/${selectedBranchId}?fromDate=${fromDate}&toDate=${toDate}`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/employeesAttendance/${selectedBranchId}?fromDate=${fromDate}&toDate=${toDate}`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
           setEmployeeAttendanceList(result.data.attendance);
         } else {
-          console.error("Failed to fetch employee list:", result);
+          toast.error(result.message);
         }
       })
-      .catch((error) => console.error(error));
-  }, [selectedBranchId, fromDate, toDate]);
+      .catch((error) => {
+        console.error(error);
+        toast.error("An error occurred while fetching employee list.");
+      });
+  }, [selectedBranchId, fromDate, toDate, token]);
   const handleBranchChange = (event) => {
     setSelectedBranchId(event.target.value);
   };
@@ -102,6 +108,7 @@ export default function CustomizedTables() {
           value={selectedBranchId}
           label="Branch"
           onChange={handleBranchChange}
+          required
         >
           {branchList.map((branch) => (
             <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
@@ -110,11 +117,11 @@ export default function CustomizedTables() {
       </FormControl>
       <InputLabel id="demo-simple-select-label">From Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} />
+        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} required />
       </FormControl>
       <InputLabel id="demo-simple-select-label">To Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'toDate')} />
+        <DatePicker onChange={(newDate) => handleDateChange(newDate, 'toDate')}required />
       </FormControl>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -137,7 +144,7 @@ export default function CustomizedTables() {
                 <StyledTableCell >{row.attendance_in}	</StyledTableCell>
                 <StyledTableCell >{row.shift_end_time}	</StyledTableCell>
                 <StyledTableCell >{row.attendance_out}	</StyledTableCell>
-                <StyledTableCell>   
+                <StyledTableCell>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

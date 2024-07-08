@@ -136,7 +136,9 @@ const Profile = () => {
                                     const formData = new FormData();
                                     formData.append('employeeId', userData.employee_id);
                                     formData.append('profileImg', file);
-
+                                    const token = localStorage.getItem('token');
+                                    const myHeaders = new Headers();
+                                    myHeaders.append("Authorization", `Bearer ${token}`);
                                     try {
                                         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/changeEmployeePicture`, {
                                             method: 'PATCH',

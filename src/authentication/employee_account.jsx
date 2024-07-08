@@ -13,6 +13,7 @@ export default function AddEmployee() {
   const [birthDate, setBirthDate] = useState('');
   const [sectionList, setSectionList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchPositions();
@@ -27,7 +28,12 @@ export default function AddEmployee() {
 
   const fetchPositions = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/positions-list`);
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/positions-list`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       const result = await response.json();
       if (result.status === 'success') {
         setPositionList(result.data);
@@ -41,7 +47,12 @@ export default function AddEmployee() {
 
   const fetchSections = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/sections/${selectedBranchId}`);
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/sections/${selectedBranchId}`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       const result = await response.json();
       if (result.status === 'success') {
         setSectionList(result.data.sections);
@@ -55,7 +66,12 @@ export default function AddEmployee() {
 
   const fetchBranches = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`);
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       const result = await response.json();
       if (result.status === "success") {
         setBranchList(result.data);
@@ -83,6 +99,9 @@ export default function AddEmployee() {
   };
 
   const onSubmit = async (e) => {
+    const token = localStorage.getItem('token');
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
     e.preventDefault();
     const ssn = e.target['ssn'].value;
     if (ssn.length !== 14 || isNaN(ssn)) {
@@ -110,6 +129,7 @@ export default function AddEmployee() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });

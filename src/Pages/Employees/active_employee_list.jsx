@@ -35,6 +35,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTables() {
   const [employeeList, setEmployeeList] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
   useEffect(() => {
     const requestOptions = {
       method: "GET",

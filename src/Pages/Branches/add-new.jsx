@@ -14,30 +14,31 @@ const center = {
   lng: 31.477898,
 }
 export default function AddBranch() {
-
   const [managerList, setManagerList] = useState([]);
   const [mark, setMark] = React.useState({
     lat: 30.005493,
     lng: 31.477898,
   })
-
+  const token = localStorage.getItem('token');
   const { isLoaded} = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ['places'],
   });
 
   useEffect(() => {
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success"){
           setManagerList(result.data);
         }else{
-          console.error("Failed to fetch position list:", result);
+          console.error("Failed to fetch Managers list:", result);
         }
       })
       .catch((error) => console.error(error));
@@ -45,8 +46,6 @@ export default function AddBranch() {
 
   const onSubmit = e => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
     const data = JSON.stringify({
       branchName: e.target['branchName'].value,
       branchAddress: e.target['branchAddress'].value,
@@ -56,20 +55,19 @@ export default function AddBranch() {
       manager_id:e.target['manager_id'].value
       })
   
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-new`, {
       method: "POST",
-      headers: myHeaders,
+      headers:{
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body:data,
       redirect: "follow",
-      
-    };
-
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-new`, requestOptions)
+    })
     .then((response) => response.json())
     .then((result) => {
-      if (result.status === "success" && result.data) {
-        console.log("Response Status:", result.status === "success");
-        toast.success("Branch Added Successfully");
+      if (result.status === "success") {
+        toast.success(result.message);
       } else {
         toast.error(result.message);
       }

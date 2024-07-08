@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import { Container, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
@@ -33,22 +32,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function BranchPriceChangeList() {
   const [branchPriceChangeList, setBranchPriceChangeList] = useState([]);
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branch-price-changes-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branch-price-changes-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
+        if (result.status === "success") {
           setBranchPriceChangeList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch branch price change list:", result);
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
 
   return (
@@ -79,7 +81,6 @@ export default function BranchPriceChangeList() {
                 <StyledTableCell > {row.change_type}	</StyledTableCell>
                 <StyledTableCell > {row.new_value}	</StyledTableCell>
                 <StyledTableCell > {row.previous_value}	</StyledTableCell>
-
               </StyledTableRow>
             ))}
           </TableBody>

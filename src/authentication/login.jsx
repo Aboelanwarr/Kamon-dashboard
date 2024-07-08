@@ -30,19 +30,16 @@ function SignIn() {
       redirect: "follow"
     };
   
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/login`, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to login');
-        }
-        return response.json();
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/auth/login`, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Incorrect Email or password');
+      }
+      return response.json();
       })
       .then((result) => {
         if (result.status === "success") {
-          // Store token
           localStorage.setItem('token', result.token);
-  
-          // Fetch user data using the token
           fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/tokenData`, {
             method: 'GET',
             headers: {

@@ -49,7 +49,7 @@ export default function NestedList() {
   };
 
   const getRoleAccess = () => {
-    switch (userData.employee_role.toLowerCase()) {
+    switch (userData?.employee_role?.toLowerCase()) {
       case "operation manager":
         return roleAccess.operationManager;
       case "hr":
@@ -157,12 +157,6 @@ export default function NestedList() {
                   <FiberManualRecordIcon sx={{ color: '#386351' }} />
                 </ListItemIcon>
                 <ListItemText primary="Add Ingredient" />
-              </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }} component={Link} to="/ingredientSuppliersList">
-                <ListItemIcon>
-                  <FiberManualRecordIcon sx={{ color: '#386351' }} />
-                </ListItemIcon>
-                <ListItemText primary="Ingredient Suppliers List" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }} component={Link} to="/sectionsList">
                 <ListItemIcon>

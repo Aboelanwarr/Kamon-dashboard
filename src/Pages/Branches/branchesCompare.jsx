@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './branchesCompare.css';
 
-const BranchesCompare = () => {
+const BranchesCompare = ({ defaultRangeDays = 0 }) => {
   const [branchesData, setBranchesData] = useState([]);
-  const [rangeDays, setRangeDays] = useState('');
+  const [rangeDays, setRangeDays] = useState(defaultRangeDays);
   const [error, setError] = useState('');
+  const token = localStorage.getItem("token");
 
   const fetchBranchComparison = async (days) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branchesCompare?daysInput=${days}`);
+      const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branchesCompare?daysInput=${days}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       const data = response.data;
       if (data.status === "success" && Array.isArray(data.data)) {
         setBranchesData(data.data);
@@ -23,6 +28,12 @@ const BranchesCompare = () => {
     }
   };
 
+  useEffect(() => {
+    if (defaultRangeDays) {
+      fetchBranchComparison(defaultRangeDays);
+    }
+  }, [defaultRangeDays]);
+
   const handleFetchData = () => {
     setError('');
     if (rangeDays) {
@@ -34,17 +45,19 @@ const BranchesCompare = () => {
 
   return (
     <div className="branch-comparison-container">
-      <h1>Branch Comparison</h1>
+      <h1>Branches Sales Comparison</h1>
       {error && <p className="error-message">{error}</p>}
-      <div className="input-container">
-        <input
-          type="number"
-          placeholder="Enter number of days"
-          value={rangeDays}
-          onChange={(e) => setRangeDays(e.target.value)}
-        />
-        <button onClick={handleFetchData}>Get Data</button>
-      </div>
+      {!defaultRangeDays && (
+        <div className="input-container">
+          <input
+            type="number"
+            placeholder="Enter number of days"
+            value={rangeDays}
+            onChange={(e) => setRangeDays(e.target.value)}
+          />
+          <button onClick={handleFetchData}>Get Data</button>
+        </div>
+      )}
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={400}>
           <BarChart

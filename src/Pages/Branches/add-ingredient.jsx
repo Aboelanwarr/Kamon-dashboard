@@ -8,25 +8,26 @@ export default function AddIngredient() {
     e.preventDefault();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
+    const token = localStorage.getItem("token");
     const data = JSON.stringify({
       name: e.target['name'].value,
       recipeUnit: e.target['recipeUnit'].value,
       shipmentUnit: e.target['shipmentUnit'].value
     })
-    console.log(data);
-    const requestOptions = {
+    console.log(data); 
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-ingredient`, {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: data,
       redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-ingredient`, requestOptions)
+    })
     .then((response) => response.json())
     .then((result) => {
       if (result.status === "success" && result.data) {
-        console.log("Response Status:", result.status === "success");
-        toast.success("Ingredient Added Successfully");
+        toast.success(result.message);
       } else {
         toast.error(result.message);
       }

@@ -5,12 +5,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddBranch() {
   const [managerList, setManagerList] = useState([]);
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, requestOptions)
+      redirect: "follow",  
+      headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -24,24 +27,28 @@ export default function AddBranch() {
 
   const onSubmit = e => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
     
     const data = JSON.stringify({
       storageName: e.target['storageName'].value,
       storageAddress: e.target['storageAddress'].value,
       manager_id:e.target['manager_id'].value
       })
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-storage`, {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: data,
       redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-storage`, requestOptions)
+    })
     .then((response) => response.json())
     .then((result) => {
-      toast.success(result.message);
+      if(result.status === "success"){
+        toast.success(result.message);
+      }else{
+        toast.error(result.message);
+      }
     })
     .catch((error) => {
       toast.error(error.message);

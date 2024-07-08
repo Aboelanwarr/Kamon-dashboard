@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
@@ -33,13 +32,14 @@ export default function CustomizedTables() {
   const [branchEmployeeList, setBranchEmployeeList] = useState([]);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    // Fetch branches list
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -53,16 +53,17 @@ export default function CustomizedTables() {
         }
       })
       .catch(error => console.error(error));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     // Fetch tables list based on selected branch ID
     if (!selectedBranchId) return; // Do not fetch if no branch is selected
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/activeEmployees/${selectedBranchId}`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/activeEmployees/${selectedBranchId}`, requestOptions)
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -72,7 +73,7 @@ export default function CustomizedTables() {
         }
       })
       .catch((error) => console.error(error));
-  }, [selectedBranchId]);
+  }, [selectedBranchId, token]);
 
   const handleBranchChange = (event) => {
     setSelectedBranchId(event.target.value);

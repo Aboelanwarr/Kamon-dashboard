@@ -7,13 +7,16 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function AddItemBranchMenu() {
   const [branchList, setBranchList] = useState([]);
   const [itemList, setItemList] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {      
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -23,14 +26,16 @@ export default function AddItemBranchMenu() {
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if(result.status === "success"){
@@ -53,13 +58,16 @@ export default function AddItemBranchMenu() {
       itemStatus:e.target['itemStatus'].value,
       itemDiscount:e.target['itemDiscount'].value    
     })
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/addItemBranchMenu`, {
       method: "POST",
       headers: myHeaders,
       body: data,
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/addItemBranchMenu`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
       .then((response) => {
         console.log("Response Status:", response.status);
         return response.json();

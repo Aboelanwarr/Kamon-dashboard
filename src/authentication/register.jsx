@@ -29,6 +29,7 @@ export default function SignUp() {
   const { showPassword, handlePasswordChange, togglePasswordVisibility } = usePasswordVisibility();
   const [image, setImage] = useState(null);
   const [fileInput, setFileInput] = useState(null);
+  const token = localStorage.getItem('token');
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -45,13 +46,12 @@ export default function SignUp() {
         formData.append("profileImg", fileInput.files[0]);
     }
 
-    const requestOptions = {
-      method: "POST",
-      body: formData,
-      redirect: "follow"
-    };
-
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/employeeAccount`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/auth/employeeAccount`, {
+      method: 'POST',
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === 'success') {

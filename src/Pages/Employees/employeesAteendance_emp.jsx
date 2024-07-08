@@ -45,7 +45,9 @@ export default function EmployeesAteendanceEmp() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
-
+  const token = localStorage.getItem('token');
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
   useEffect(() => {
     // Fetch branches list
     const requestOptions = {

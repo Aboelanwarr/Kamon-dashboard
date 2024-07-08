@@ -31,6 +31,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 export default function CustomizedTables() {
+  const token = localStorage.getItem('token');
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
   const [employeeScheduleList, setEmployeeScheduleList] = useState([]);
   const handleDateChange = (newDate, dateType) => {
     console.log(`Selected Date for ${dateType}:`, newDate);
@@ -127,7 +130,6 @@ export default function CustomizedTables() {
                 <StyledTableCell > {row.id}	</StyledTableCell>
                 <StyledTableCell > {row.shift_start_time}	</StyledTableCell>
                 <StyledTableCell >{row.shift_end_time}	</StyledTableCell>
-
               </StyledTableRow>
             ))}
           </TableBody>

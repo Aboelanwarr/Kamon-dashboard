@@ -34,6 +34,7 @@ export default function EmployeesPhonesList() {
   const [phonesList,setPhonesList] = useState([]);
   const [branchList, setBranchList] = useState([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     // Fetch branches list
@@ -41,7 +42,11 @@ export default function EmployeesPhonesList() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/active-employees-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/active-employees-list`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -61,9 +66,13 @@ export default function EmployeesPhonesList() {
     if (!selectedEmployeeId) return; // Do not fetch if no branch is selected
     const requestOptions = {
       method: "GET",
-      redirect: "follow"
+      redirect: "follow",
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/phones/${selectedEmployeeId}`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/phones/${selectedEmployeeId}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {

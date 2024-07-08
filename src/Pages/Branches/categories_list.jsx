@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { Container, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { navigate, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,14 +34,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function ListCategories() {
   const [categoriesList, setCategoriesList] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
 
   useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/categories-list`, requestOptions)
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/categories-list`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -51,7 +53,7 @@ export default function ListCategories() {
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
   return (
     <Container fixed sx={{ mt: "20px" }}>

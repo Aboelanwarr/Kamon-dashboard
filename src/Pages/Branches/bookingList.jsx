@@ -7,8 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import axios from 'axios';
@@ -37,15 +37,16 @@ export default function BookingList() {
   const [bookingList, setBookingList] = useState([]);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
-  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Fetch branches list
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -59,26 +60,32 @@ export default function BookingList() {
         }
       })
       .catch(error => console.error(error));
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (selectedBranchId) {
-      const requestOptions = {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/bookings/${selectedBranchId}`, {
         method: "GET",
-        redirect: "follow"
-      };
-      fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/bookings/${selectedBranchId}`, requestOptions)
+        redirect: "follow",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
         .then((response) => response.json())
         .then((result) => {
           if (result.status === "success") {
             setBookingList(result.data.bookings);
           } else {
             console.error("Failed to fetch booking list:", result);
+            toast.error(result.message || "Failed to fetch booking list");
           }
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          toast.error("An error occurred while fetching the booking list");
+        });
     }
-  }, [selectedBranchId]);
+  }, [selectedBranchId, token]);
 
   const handleBranchChange = (event) => {
     setSelectedBranchId(event.target.value);

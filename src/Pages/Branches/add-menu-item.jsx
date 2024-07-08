@@ -8,7 +8,7 @@ export default function AddMenuItem() {
   const hoursRef = useRef(null);
   const minutesRef = useRef(null);
   const secondsRef = useRef(null);
-
+  const token = localStorage.getItem("token");
   const handleTimeInput = (e, nextRef) => {
     if (e.target.value.length === 2 && nextRef) {
       nextRef.current.focus();
@@ -16,11 +16,14 @@ export default function AddMenuItem() {
   };
   const [CategoryList, setCategoryList] = useState([]);
   useEffect(() => {
-    const requestOptions = {
+
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/categories-list`, {
       method: "GET",
-      redirect: "follow"
-    };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/categories-list`, requestOptions)
+      redirect: "follow",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "success") {
@@ -34,8 +37,6 @@ export default function AddMenuItem() {
 
   const onSubmit = e => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
     const prepTime = `${e.target['prepHours'].value}:${e.target['prepMinutes'].value}:${e.target['prepSeconds'].value}`;
     const data = JSON.stringify({
       "itemName": e.target['itemName'].value,
@@ -46,24 +47,25 @@ export default function AddMenuItem() {
       "vegetarian": e.target['vegetarian'].value,
       "healthy": e.target['healthy'].value
     });
-    const requestOptions = {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-menu-item`, {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: data,
       redirect: "follow"
-    };
-
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-menu-item`, requestOptions)
+    })
       .then((response) => response.json())
       .then((result) => {
-        toast.success(result.message);
+        if (result.status === "success") {
+          toast.success(result.message);
+        } else {
+          toast.error(result.message);
+        }
       })
       .catch((error) => {
-        if (error.message.includes("500 (Internal Server Error)")) {
-          toast.error("Item already exists");
-        } else {
-          toast.error(error.message);
-        }
+        toast.error(error.message);
       });
   };
 
@@ -131,9 +133,9 @@ export default function AddMenuItem() {
               />
             </Box>
           </FormControl>
-          <Typography variant="h6" color="initial">Item Image</Typography>
+          {/* <Typography variant="h6" color="initial">Item Image</Typography>
           <FormControl fullWidth margin="normal">
-            {/* <input
+            <input
               accept="image/*"
               style={{ display: 'none' }}
               id="raised-button-file"
@@ -145,9 +147,9 @@ export default function AddMenuItem() {
               <Button variant="contained" component="span" sx={{mb:2}}>
                 Upload Image
               </Button>
-            </label> */}
+            </label>
             <TextField name='picPath' label="Item Image" variant="outlined" required />
-          </FormControl>
+          </FormControl> */}
           <Typography variant="h6" color="initial">Vegetarian</Typography>
           <FormControl fullWidth margin="normal">
             <InputLabel id="vegetarian-select-label">Vegetarian</InputLabel>

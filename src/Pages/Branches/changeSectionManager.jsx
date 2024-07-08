@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './sectionManager.css';
+import { UserDataContext } from '../../authentication/userDataProvide';
 
 const ChangeSectionManager = () => {
+  const { userData } = useContext(UserDataContext);
   const location = useLocation();
   const [branchId, setBranchId] = useState('');
   const [sectionId, setSectionId] = useState('');
   const [newManagerId, setNewManagerId] = useState('');
   const [positionChanger, setPositionChanger] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (location.state) {
@@ -28,6 +31,9 @@ const ChangeSectionManager = () => {
         sectionId,
         newManagerId,
         positionChanger,
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       });
       if (response.data.status === 'success') {
         toast.success('Section Manager updated successfully');
@@ -75,7 +81,7 @@ const ChangeSectionManager = () => {
           <label>Position Changer ID</label>
           <input
             type="text"
-            value={positionChanger}
+            value={userData.employee_id}
             onChange={(e) => setPositionChanger(e.target.value)}
             required
           />

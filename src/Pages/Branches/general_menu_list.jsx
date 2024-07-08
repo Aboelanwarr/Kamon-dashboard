@@ -34,6 +34,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function GeneralMenuList() {
   const [generalMenuList, setGeneralMenuList] = useState([]);
+  const token = localStorage.getItem('token');
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -78,7 +81,6 @@ export default function GeneralMenuList() {
                   {row.preparation_time.minutes ? `${row.preparation_time.minutes} minutes` : `${row.preparation_time.seconds} seconds`}
                 </StyledTableCell>
                 <StyledTableCell > {row.category}	</StyledTableCell>
-
               </StyledTableRow>
             ))}
           </TableBody>
