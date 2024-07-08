@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddIngredient from './Pages/Branches/add-ingredient';
 import Register from './authentication/register';
 import Login from './authentication/login';
-import Home from './Pages/Home';
+import Home from './Pages/home';
 import AddBranchSection from './Pages/Branches/add-branch-section';
 import AddPosition from './Pages/Employees/add_position';
 import AddGeneralSection from './Pages/Branches/add-general-section';
@@ -69,35 +69,13 @@ import ItemUpdateForm from './Pages/Items/updateMenuItemPicture';
 
 function App() {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-    if (token) {
-      // navigate('/home');
-    } else {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
-
-  useEffect(() => {
-    // Simulate a fetch call
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Simulate loading time with 2 seconds delay
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
-    setIsAuthenticated(false);
+    navigate('/login');
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <div>
