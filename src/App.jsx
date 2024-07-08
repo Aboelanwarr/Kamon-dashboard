@@ -85,7 +85,7 @@ function App() {
           <div className="col-span-2"><Sidebar /></div>
           <div className="col-span-10"><Outlet /></div></div></div>}>
           <Route index element={<Navigate to="/home" />} />
-          <Route path="home" element={<Home />} />
+          <Route path='home' element={<Home />} />
           <Route path="addEmployee" element={<AddEmployee />} />
           <Route path="addBranch" element={<AddBranch />} />
           <Route path="addTable" element={<AddTable />} />
