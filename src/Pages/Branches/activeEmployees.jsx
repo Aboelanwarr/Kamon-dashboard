@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Autocomplete, Container, FormControl,TextField, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -68,6 +68,7 @@ export default function CustomizedTables() {
       .then((result) => {
         if (result.status === "success") {
           setBranchEmployeeList(result.data.employees);
+          console.log(result.data.employees);
         } else {
           console.error("Failed to fetch employee list:", result);
         }
@@ -75,9 +76,6 @@ export default function CustomizedTables() {
       .catch((error) => console.error(error));
   }, [selectedBranchId, token]);
 
-  const handleBranchChange = (event) => {
-    setSelectedBranchId(event.target.value);
-  };
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -85,18 +83,17 @@ export default function CustomizedTables() {
         <AddBusinessIcon fontSize='inherit' /> Branch Employee List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="branch-select-label">Branch</InputLabel>
-        <Select
-          labelId="branch-select-label"
-          id="branch-select"
-          value={selectedBranchId}
-          label="Branch"
-          onChange={handleBranchChange}
-        >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-          ))}
-        </Select>
+        <Autocomplete
+          options={branchList}
+          getOptionLabel={(option) => option.branch_name}
+          renderInput={(params) => (
+            <TextField {...params} label="Branch" variant="outlined" size="small" />
+          )}
+          value={branchList.find(branch => branch.id === selectedBranchId) || null} // Ensure the selected value is displayed
+          onChange={(event, newValue) => {
+            setSelectedBranchId(newValue ? newValue.branch_id : '');
+          }}
+        />
       </FormControl>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem,InputLabel } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem,InputLabel, Autocomplete } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ItemByTime() {
   const [itemList, setItemList] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState('');
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -29,7 +30,7 @@ export default function ItemByTime() {
     myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      itemId: e.target['itemId'].value,
+      itemId: selectedItemId,
       itemDayType: e.target['itemDayType'].value,
     })
     console.log("Sending data:", data);
@@ -65,21 +66,18 @@ export default function ItemByTime() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
         <Typography variant="h5" color="initial">Select Item</Typography>
-        <FormControl fullWidth margin="normal">
-        <InputLabel id="demo-simple-select-Item-label">Select Item</InputLabel>
-          <Select
-            labelId="demo-simple-select-Item-label"
-            id="demo-simple-select-Item"
-            label="Select Item Id"
-            fullWidth
-            name='itemId'
-          >
-            {
-              itemList?.map(item => (
-                <MenuItem key={item["id"]} value={item["id"]}>{item["name"]}</MenuItem>
-              ))
-            }
-          </Select>
+        <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={itemList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Item" variant="outlined" size="small" />
+              )}
+              value={itemList.find(item => item.id === selectedItemId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedItemId(newValue ? newValue.id : '');
+              }}
+            />
           </FormControl>
           <Typography variant="h5" color="initial">Select Item Day Type</Typography>
           <FormControl fullWidth margin="normal">

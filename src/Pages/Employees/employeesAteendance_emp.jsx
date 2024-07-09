@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Autocomplete, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import DatePicker from '../../components/DatePicker';
 
@@ -86,9 +86,6 @@ export default function EmployeesAteendanceEmp() {
       })
       .catch((error) => console.error(error));
   }, [selectedEmployeeId, fromDate, toDate]);
-  const handleBranchChange = (event) => {
-    setSelectedEmployeeId(event.target.value);
-  };
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -96,21 +93,18 @@ export default function EmployeesAteendanceEmp() {
         <AddBusinessIcon fontSize='inherit' /> Employee Attendance List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="employee-select-label">Employee</InputLabel>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Select Employee"
-            fullWidth
-            name='employee_id'
-          >
-            {
-              employeeList?.map(employee => (
-                <MenuItem key={employee["employee_id"]} value={employee["employee_id"]}>{employee["employee_name"]}</MenuItem>
-              ))
-            }
-          </Select>
-      </FormControl>
+            <Autocomplete sx={{ mt: 1 }}
+              options={employeeList}
+              getOptionLabel={(option) => option.employee_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Employee" variant="outlined" size="small" />
+              )}
+              value={employeeList.find(employee => employee.employee_id === selectedEmployeeId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedEmployeeId(newValue ? newValue.employee_id : '');
+              }}
+            />
+          </FormControl>
       <InputLabel id="demo-simple-select-label">From Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} />

@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
+import { Autocomplete, Container,FormControl,TextField,Typography} from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -72,29 +72,24 @@ export default function ItemPriceChanges() {
       .catch(error => console.error(error));
   }, [selectedItemId]);
 
-  const handleItemChange = (event) => {
-    setSelectedItemId(event.target.value);
-  };
-
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
         <AddBusinessIcon fontSize='inherit' /> Item Price Changes List
       </Typography>
-      <FormControl fullWidth sx={{mb:"20px"}}>
-        <InputLabel id="item-select-label">Item</InputLabel>
-        <Select
-          labelId="item-select-label"
-          id="item-select"
-          value={selectedItemId}
-          label="Item"
-          onChange={handleItemChange}
-        >
-          {itemList.map((item) => (
-            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={itemList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Item" variant="outlined" size="small" />
+              )}
+              value={itemList.find(item => item.id === selectedItemId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedItemId(newValue ? newValue.id : '');
+              }}
+            />
+          </FormControl>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>

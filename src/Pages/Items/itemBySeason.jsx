@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography,Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Container, Box, Typography,Button,FormControl, Autocomplete, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ItemBySeason() {
   const [itemList, setItemList] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState('');
+  const [seasonList, setSeasonList] = useState([]);
+  const [selectedSeasonId, setSelectedSeasonId] = useState('');
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -22,7 +25,6 @@ export default function ItemBySeason() {
       })
       .catch((error) => console.error(error));
   }, []);
-  const [seasonList, setSeasonList] = useState([]);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -46,8 +48,8 @@ export default function ItemBySeason() {
     myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      itemId: e.target['itemId'].value,
-      seasonId: e.target['seasonId'].value,
+      itemId: selectedItemId,
+      seasonId: selectedSeasonId,
     })
     console.log("Sending data:", data);
     const requestOptions = {
@@ -57,13 +59,10 @@ export default function ItemBySeason() {
       redirect: "follow"
     };
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/menu/itemBySeason`, requestOptions)
-    .then((response) => {
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((result) => {
-      if (result.status === "success" && result.data && result.data.values) {
-        console.log("Response Status:", result.status === "success");
-        toast.success("Item Added Succesfully");
+      if (result.status === "success" && result.data) {
+        toast.success("Item Added Successfully");
       } else {
         toast.error(result.message);
       }
@@ -72,7 +71,7 @@ export default function ItemBySeason() {
       toast.error(error.message);
       console.log(error);
     });
-  };
+};
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial">
@@ -81,39 +80,33 @@ export default function ItemBySeason() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
           <Typography variant="h5" color="initial">Select Item</Typography>
-        <FormControl fullWidth margin="normal">
-        <InputLabel id="demo-simple-select-Item-label">Select Item</InputLabel>
-        <Select
-            labelId="demo-simple-select-Item-label"
-            id="demo-simple-select"
-            label="Select Item"
-            fullWidth
-            name='itemId'
-            >
-            {
-              itemList?.map(item => (
-                <MenuItem key={item["id"]} value={item["id"]}>{item["name"]}</MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={itemList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Item" variant="outlined" size="small" />
+              )}
+              value={itemList.find(item => item.id === selectedItemId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedItemId(newValue ? newValue.id : '');
+              }}
+            />
+          </FormControl>
         <Typography variant="h5" color="initial">Select Season</Typography>
-        <FormControl fullWidth margin="normal">
-        <InputLabel id="demo-simple-select-season-label">Select Season</InputLabel>
-          <Select
-            labelId="demo-simple-select-season-label"
-            id="demo-simple-select"
-            label="Select Season"
-            fullWidth
-            name='seasonId'
-          >
-            {
-              seasonList?.map(season => (
-                <MenuItem key={season["season_id"]} value={season["season_id"]}>{season["season_name"]}</MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
+        <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={seasonList}
+              getOptionLabel={(option) => option.season_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Season" variant="outlined" size="small" />
+              )}
+              value={seasonList.find(season => season.season_id === selectedSeasonId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedSeasonId(newValue ? newValue.season_id : '');
+              }}
+            />
+          </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

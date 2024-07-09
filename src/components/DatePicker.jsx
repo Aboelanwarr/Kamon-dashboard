@@ -6,9 +6,13 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
   const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const toggleCalendar = () => setIsOpen(!isOpen);
+  const toggleCalendar = (event) => {
+    event.preventDefault();
+    setIsOpen(!isOpen);
+  };
 
-  const handleDayClick = (day) => {
+  const handleDayClick = (event, day) => {
+    event.preventDefault();
     const newDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), day));
     const formattedDate = newDate.toISOString().split('T')[0];
     setSelectedDate(formattedDate);
@@ -16,11 +20,13 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
     setIsOpen(false);
   };
 
-  const changeMonth = (offset) => {
+  const changeMonth = (event, offset) => {
+    event.preventDefault();
     setDate(new Date(date.getFullYear(), date.getMonth() + offset, 1));
   };
 
-  const changeYear = (offset) => {
+  const changeYear = (event, offset) => {
+    event.preventDefault();
     setDate(new Date(date.getFullYear() + offset, date.getMonth(), 1));
   };
 
@@ -39,7 +45,7 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
       days.push(
         <button
           key={day}
-          onClick={() => !isDisabled && handleDayClick(day)}
+          onClick={(event) => !isDisabled && handleDayClick(event, day)}
           className={`day ${isDisabled ? 'disabled' : ''}`}
         >
           {day}
@@ -62,11 +68,11 @@ const DatePicker = ({ minDate, maxDate, onChange }) => {
       {isOpen && (
         <div className="calendar">
           <div className="month-navigation">
-            <button onClick={() => changeYear(-1)}>&lt;&lt;</button>
-            <button onClick={() => changeMonth(-1)}>&lt;</button>
+            <button onClick={(event) => changeYear(event, -1)}>&lt;&lt;</button>
+            <button onClick={(event) => changeMonth(event, -1)}>&lt;</button>
             <span>{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
-            <button onClick={() => changeMonth(1)}>&gt;</button>
-            <button onClick={() => changeYear(1)}>&gt;&gt;</button>
+            <button onClick={(event) => changeMonth(event, 1)}>&gt;</button>
+            <button onClick={(event) => changeYear(event, 1)}>&gt;&gt;</button>
           </div>
           {renderDays()}
         </div>

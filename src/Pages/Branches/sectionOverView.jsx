@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
+import { Autocomplete, Container,FormControl,InputLabel,MenuItem,Select,TextField,Typography} from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -74,9 +74,6 @@ export default function SectionOverview() {
       .catch(error => console.error(error));
   }, [selectedSectionId,selecteddays]); // Depend on selectedBranchId
 
-  const handleSectionChange = (event) => {
-    setSelectedSectionId(event.target.value);
-  };
   const handleDaysChange = (event) => {
     setSelecteddays(event.target.value);
   };
@@ -87,20 +84,19 @@ export default function SectionOverview() {
         <AddBusinessIcon fontSize='inherit' /> Section OverView
       </Typography>
       <Typography variant="h5" color="initial" sx={{mb:2}}>Select Section</Typography>
-      <FormControl fullWidth sx={{mb:"20px"}}>
-        <InputLabel id="section-select-label">Section</InputLabel>
-        <Select
-          labelId="section-select-label"
-          id="section-select"
-          value={selectedSectionId}
-          label="Section"
-          onChange={handleSectionChange}
-        >
-          {sectionList.map((section) => (
-            <MenuItem key={section.section_id} value={section.section_id}>{section.section_name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={sectionList}
+              getOptionLabel={(option) => option.section_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Section" variant="outlined" size="small" />
+              )}
+              value={sectionList.find(section => section.id === selectedSectionId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedSectionId(newValue ? newValue.section_id : '');
+              }}
+            />
+          </FormControl>
       <Typography variant="h5" color="initial" sx={{mb:2}}>Select Days</Typography>
       <FormControl fullWidth sx={{mb:"20px"}}>
           <InputLabel id="Days-select-label">Days</InputLabel>

@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import { Container, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
@@ -52,7 +51,7 @@ export default function CustomizedTables() {
         }
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [token]);
 
 
   return (
@@ -83,7 +82,6 @@ export default function CustomizedTables() {
                 <StyledTableCell >{row.branch_phone}	</StyledTableCell>
                 <StyledTableCell >{row.tables_number}	</StyledTableCell>
                 <StyledTableCell >{row.tables_capacity}	</StyledTableCell>
-
               </StyledTableRow>
             ))}
           </TableBody>

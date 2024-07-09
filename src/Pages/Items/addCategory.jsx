@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel, Autocomplete } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddCategory() {
   const [sectionList, setSectionList] = useState([]);
+  const [selectedSectionId, setSelectedSectionId] = useState('');
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -28,7 +29,7 @@ export default function AddCategory() {
     myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      sectionId: e.target['sectionId'].value,
+      sectionId: selectedSectionId,
       categoryName: e.target['categoryName'].value,
       categoryDescription: e.target['categoryDescription'].value,
     })
@@ -63,21 +64,18 @@ export default function AddCategory() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
         <Typography variant="h5" color="initial">Select Section</Typography>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="demo-simple-select-Section-label">Select Section</InputLabel>
-            <Select
-              labelId="demo-simple-select-Section-label"
-              id="demo-simple-select-Section"
-              label="Select Section"
-              fullWidth
-              name='sectionId'
-            >
-              {
-                sectionList?.map(sections => (
-                  <MenuItem key={sections["section_id"]} value={sections["section_id"]}>{sections["section_name"]}</MenuItem>
-                ))
-              }
-            </Select>
+        <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={sectionList}
+              getOptionLabel={(option) => option.section_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Sections" variant="outlined" size="small" />
+              )}
+              value={sectionList.find(section => section.section_id === selectedSectionId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedSectionId(newValue ? newValue.section_id : '');
+              }}
+            />
           </FormControl>
           <Typography variant="h5" color="initial">Category Name</Typography>
           <FormControl fullWidth margin="normal">

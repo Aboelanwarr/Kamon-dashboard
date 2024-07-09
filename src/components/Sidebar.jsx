@@ -121,7 +121,7 @@ export default function NestedList() {
                   <FiberManualRecordIcon sx={{ color: '#386351' }} />
                 </ListItemIcon>
                 <ListItemText primary="Item Price Changes List" />
-              </ListItemButton>
+              </ListItemButton> 
               <ListItemButton sx={{ pl: 4 }} component={Link} to="/recipe">
                 <ListItemIcon>
                   <FiberManualRecordIcon sx={{ color: '#386351' }} />

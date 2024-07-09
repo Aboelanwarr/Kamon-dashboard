@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import Navbar from './components/Appbar';
 import Sidebar from './components/Sidebar';
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
@@ -66,10 +65,10 @@ import EmployeeTransferFilter from './Pages/Employees/employeeTransferFilter';
 import EmployeeUserProfile from './Pages/employeeUserProfile';
 import CategoryUpdateForm from './Pages/Items/updateCategoryPicture';
 import ItemUpdateForm from './Pages/Items/updateMenuItemPicture';
+import ItemPriceRecipes from './Pages/Items/itemPriceRecipes';
 
 function App() {
   const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
@@ -117,6 +116,7 @@ function App() {
           <Route path="itemBySeason" element={<ItemBySeason />} />
           <Route path="itemByTime" element={<ItemByTime />} />
           <Route path="itemPriceChanges" element={<ItemPriceChanges />} />
+          <Route path="itemPriceRecipes" element={<ItemPriceRecipes />} />
           <Route path="recipe" element={<Recipe />} />
           <Route path="season" element={<Season />} />
           <Route path="addCategory" element={<AddCategory />} />

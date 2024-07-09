@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Autocomplete, Container, FormControl, MenuItem, Select, TextField, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import axios from 'axios';
 import './bookingList.css';
@@ -87,9 +87,6 @@ export default function BookingList() {
     }
   }, [selectedBranchId, token]);
 
-  const handleBranchChange = (event) => {
-    setSelectedBranchId(event.target.value);
-  };
 
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
@@ -117,19 +114,18 @@ export default function BookingList() {
         <AddBusinessIcon fontSize='inherit' /> Booking List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="branch-select-label">Branch</InputLabel>
-        <Select
-          labelId="branch-select-label"
-          id="branch-select"
-          value={selectedBranchId}
-          label="Branch"
-          onChange={handleBranchChange}
-        >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            <Autocomplete sx={{ mt: 1 }}
+              options={branchList}
+              getOptionLabel={(option) => option.branch_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Branch" variant="outlined" size="small" />
+              )}
+              value={branchList.find(branch => branch.id === selectedBranchId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedBranchId(newValue ? newValue.branch_id : '');
+              }}
+            />
+          </FormControl>
       <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
         <Table sx={{ minWidth: 650 }} aria-label="customized table">
           <TableHead>

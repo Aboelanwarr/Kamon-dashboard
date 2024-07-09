@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import './changeItemPrice.css'; // Import your stylesheet here
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLocation } from 'react-router-dom';
+import { UserDataContext } from '../../authentication/userDataProvide';
 
 const ItemPriceUpdateForm = () => {
   const location = useLocation();
+  const { userData } = useContext(UserDataContext);
   const { itemId, branchId: initialBranchId } = location.state || {};
   const [branchId, setBranchId] = useState(initialBranchId || '');
   const [changer, setChanger] = useState('');
@@ -76,8 +78,8 @@ const ItemPriceUpdateForm = () => {
           <label>Changer ID</label>
           <input
             type="text"
-            value={changer}
-            onChange={(e) => setChanger(e.target.value)}
+            value={userData.employee_id}
+            readOnly
             required
           />
         </div>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button,Autocomplete } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function AddBranch() {
   const [managerList, setManagerList] = useState([]);
+  const [selectedManagerId, setSelectedManagerId] = useState('');
   const token = localStorage.getItem('token');
   useEffect(() => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/manager-employees-list`, {
@@ -31,7 +32,7 @@ export default function AddBranch() {
     const data = JSON.stringify({
       storageName: e.target['storageName'].value,
       storageAddress: e.target['storageAddress'].value,
-      manager_id:e.target['manager_id'].value
+      manager_id: selectedManagerId,
       })
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-storage`, {
       method: "POST",
@@ -70,22 +71,20 @@ export default function AddBranch() {
           <FormControl fullWidth margin="normal">
             <TextField name='storageAddress' label="StorageAddress" variant="outlined" required />
           </FormControl>
-          <FormControl fullWidth margin="normal">
-          <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Select Employee Id"
-            fullWidth
-            name='manager_id'
-            >
-            {
-              managerList?.map(manager => (
-                <MenuItem key={manager.id} value={manager.id}>{manager.name}</MenuItem>
-              ))
-            }
-          </Select>
-            </FormControl>
+          <Typography variant="h6" color="initial" sx={{mt:2}}>Branch Manager</Typography>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={managerList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Manager" variant="outlined" size="small" />
+              )}
+              value={managerList.find(manager => manager.id === selectedManagerId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedManagerId(newValue ? newValue.id : '');
+              }}
+            />
+          </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

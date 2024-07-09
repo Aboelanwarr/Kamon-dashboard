@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel, Autocomplete } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function Recipe() {
   const [itemList, setItemList] = useState([]);
   const [ingredientList, setIngredientList] = useState([]);
+  const [selectedIngredientId, setSelectedIngredientId] = useState('');
+  const [selectedItemId, setSelectedItemId] = useState('');
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -46,8 +48,8 @@ export default function Recipe() {
     myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      itemId: e.target['itemId'].value,
-      ingredientId: e.target['ingredientId'].value,
+      itemId: selectedItemId,
+      ingredientId: selectedIngredientId,
       quantity: e.target['quantity'].value,
       recipeStatus: e.target['recipeStatus'].value,
     })
@@ -73,6 +75,7 @@ export default function Recipe() {
         console.log(error);
       });
   };
+  
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -82,38 +85,32 @@ export default function Recipe() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
         <Typography variant="h5" color="initial">Select Item</Typography>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="demo-simple-select-Item-label">Select Item</InputLabel>
-            <Select
-              labelId="demo-simple-select-Item-label"
-              id="demo-simple-select-Item"
-              label="Select Item"
-              fullWidth
-              name='itemId'
-            >
-              {
-                itemList?.map(item => (
-                  <MenuItem key={item["id"]} value={item["id"]}>{item["name"]}</MenuItem>
-                ))
-              }
-            </Select>
+        <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={itemList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Item" variant="outlined" size="small" />
+              )}
+              value={itemList.find(item => item.id === selectedItemId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedItemId(newValue ? newValue.id : '');
+              }}
+            />
           </FormControl>
           <Typography variant="h5" color="initial">Select Ingredient</Typography>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="demo-simple-select-Ingredient-label">Select Ingredient</InputLabel>
-            <Select
-              labelId="demo-simple-select-Ingredient-label"
-              id="demo-simple-select-Ingredient"
-              label="Select Ingredient"
-              fullWidth
-              name='ingredientId'
-            >
-              {
-                ingredientList?.map(ingredient => (
-                  <MenuItem key={ingredient["ingredient_id"]} value={ingredient["ingredient_id"]}>{ingredient["ingredients_name"]}</MenuItem>
-                ))
-              }
-            </Select>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={ingredientList}
+              getOptionLabel={(option) => option.ingredients_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Ingredient" variant="outlined" size="small" />
+              )}
+              value={ingredientList.find(item => item.ingredient_id === selectedIngredientId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedIngredientId(newValue ? newValue.ingredient_id : '');
+              }}
+            />
           </FormControl>
           <Typography variant="h5" color="initial">Quantity</Typography>
           <FormControl fullWidth margin="normal">

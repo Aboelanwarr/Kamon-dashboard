@@ -8,7 +8,7 @@ import { UserDataContext } from './userDataProvide';
 function SignIn() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const {userData, setUserData} = useContext(UserDataContext)
+  const {setUserData} = useContext(UserDataContext)
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import Button from '@mui/material/Button';
-import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
+import { Autocomplete, Container,FormControl,InputLabel,MenuItem,Select,TextField,Typography} from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -72,30 +72,24 @@ export default function PositionChangesList() {
         .catch(error => console.error(error));
     }, [selectedEmployeeId]);
   
-    const handleEmployeeChange = (event) => {
-      setSelectedEmployeeId(event.target.value);
-    };
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
         <AddBusinessIcon fontSize='inherit' /> Employee Position Change
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="employee-select-label">Select Employee</InputLabel>
-        <Select
-          labelId="employee-select-label"
-          id="employee-select"
-          value={selectedEmployeeId}
-          label="Select Employee"
-          onChange={handleEmployeeChange}
-        >
-          {employeeList.map((employee) => (
-            <MenuItem key={employee.employee_id} value={employee.employee_id}>
-              {employee.employee_name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            <Autocomplete sx={{ mt: 1 }}
+              options={employeeList}
+              getOptionLabel={(option) => option.employee_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Employee" variant="outlined" size="small" />
+              )}
+              value={employeeList.find(employee => employee.employee_id === selectedEmployeeId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedEmployeeId(newValue ? newValue.employee_id : '');
+              }}
+            />
+          </FormControl>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>

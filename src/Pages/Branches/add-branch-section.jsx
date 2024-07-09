@@ -1,13 +1,16 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography,FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
+import { Container, Box, Typography,FormControl, Button, Select, MenuItem, InputLabel, Autocomplete, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddBranchSection() {
-  const [BranchList, setBranchList] = useState([]);
+  const [branchList, setBranchList] = useState([]);
   const [sectionsList, setSectionsList] = useState([]);
   const [managerList, setManagerList] = useState([]);
+  const [selectedBranchId, setSelectedBranchId] = useState('');
+  const [selectedSectionId, setSelectedSectionId] = useState('');
+  const [selectedManagerId, setSelectedManagerId] = useState('');
   const token = localStorage.getItem('token');
   useEffect(() => {
 
@@ -73,9 +76,9 @@ export default function AddBranchSection() {
     myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      "branch_id": e.target['branch_id'].value,
-      "section_id": e.target['section_id'].value,
-      "manager_id": e.target['manager_id'].value,
+      "branch_id": selectedBranchId,
+      "section_id": selectedSectionId,
+      "manager_id": selectedManagerId,
     });
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-branch-section`, {
@@ -110,56 +113,47 @@ export default function AddBranchSection() {
         <Box sx={{ margin: '20px 0' }}>
           <Typography variant="h6" color="initial">Branch Section Details</Typography>
           <Typography variant="h5" color="initial" sx={{mt:2}}>Select Branch</Typography>
-          <FormControl fullWidth margin='normal'>
-          <InputLabel id="demo-simple-selectBranch-label">Select Branch</InputLabel>
-          <Select
-            labelId="demo-simple-selectBranch-label"
-            id="demo-simple-selectBranch"
-            label="Select Branch"
-            fullWidth
-            name='branch_id'
-          >
-            {
-              BranchList?.map(branch => (
-                <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-              ))
-            }
-          </Select>
-          </FormControl>
-          <Typography variant="h6" color="initial">Select Section</Typography>
-          <FormControl fullWidth margin='normal'>
-          <InputLabel id="demo-simple-selectSection-label">Select Section</InputLabel>
-          <Select
-            labelId="demo-simple-selectSection-label"
-            id="demo-simple-selectSection"
-            label="Select Section"
-            fullWidth
-            name='section_id'
-          >
-            {
-              sectionsList?.map(section => (
-                <MenuItem key={section.id} value={section.id}>{section.name}</MenuItem>
-              ))
-            }
-          </Select>
-          </FormControl>
-          <Typography variant="h6" color="initial">Select Manager</Typography>
-          <FormControl fullWidth margin='normal'>
-          <InputLabel id="demo-simple-selectManager-label">Select Manager</InputLabel>
-          <Select
-            labelId="demo-simple-selectManager-label"
-            id="demo-simple-selectManager"
-            label="Select Manager"
-            fullWidth
-            name='manager_id'
-          >
-            {
-              managerList?.map(manager => (
-                <MenuItem key={manager.id} value={manager.id}>{manager.name}</MenuItem>
-              ))
-            }
-          </Select>
-          </FormControl>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+        <Autocomplete sx={{mt:1}}
+          options={branchList}
+          getOptionLabel={(option) => option.branch_name}
+          renderInput={(params) => (
+            <TextField {...params} label="Branch" variant="outlined" size="small" />
+          )}
+          value={branchList.find(branch => branch.id === selectedBranchId) || null} // Ensure the selected value is displayed
+          onChange={(event, newValue) => {
+            setSelectedBranchId(newValue ? newValue.branch_id : '');
+          }}
+        />
+      </FormControl>
+          <Typography variant="h5" color="initial" sx={{mt:2}}>Select Section</Typography>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+        <Autocomplete sx={{mt:1}}
+          options={sectionsList}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField {...params} label="Section" variant="outlined" size="small" />
+          )}
+          value={sectionsList.find(section => section.id === selectedSectionId) || null} // Ensure the selected value is displayed
+          onChange={(event, newValue) => {
+            setSelectedSectionId(newValue ? newValue.id : '');
+          }}
+        />
+      </FormControl>
+          <Typography variant="h5" color="initial" sx={{mt:2}}>Select Manager</Typography>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+        <Autocomplete sx={{mt:1}}
+          options={managerList}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField {...params} label="Manager" variant="outlined" size="small" />
+          )}
+          value={managerList.find(manager => manager.id === selectedManagerId) || null} // Ensure the selected value is displayed
+          onChange={(event, newValue) => {
+            setSelectedManagerId(newValue ? newValue.id : '');
+          }}
+        />
+      </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

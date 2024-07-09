@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Autocomplete, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import DatePicker from '../../components/DatePicker';
 
@@ -82,28 +82,24 @@ export default function CustomizedTables() {
       })
       .catch((error) => console.error(error));
   }, [selectedBranchId, fromDate, toDate]);
-  const handleBranchChange = (event) => {
-        setSelectedBranchId(event.target.value);
-  };
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
         <AddBusinessIcon fontSize='inherit' /> Employee Schedule List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="branch-select-label">Branch</InputLabel>
-        <Select
-          labelId="branch-select-label"
-          id="branch-select"
-          value={selectedBranchId}
-          label="Branch"
-          onChange={handleBranchChange}
-        >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            <Autocomplete sx={{ mt: 1 }}
+              options={branchList}
+              getOptionLabel={(option) => option.branch_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Branch" variant="outlined" size="small" />
+              )}
+              value={branchList.find(branch => branch.id === selectedBranchId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedBranchId(newValue ? newValue.branch_id : '');
+              }}
+            />
+          </FormControl>
       <InputLabel id="demo-simple-select-label">From Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} />

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel, Autocomplete } from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function EmployeePhone() {
   const [employeeList, setEmployeeList] = useState([]);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -30,7 +31,7 @@ function EmployeePhone() {
     myHeaders.append("Content-Type", "application/json");
   
     const data = JSON.stringify({
-      employeeId: e.target['employee_id'].value,
+      employeeId: selectedEmployeeId,
       employeePhone: e.target['Employee Phone'].value,
     })
     console.log("Sending data:", data);
@@ -64,21 +65,18 @@ function EmployeePhone() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
         <Typography variant="h6" color="initial" sx={{mb:2}}>Employee Details</Typography>
-        <FormControl fullWidth margin="normal">
-        <InputLabel id="employee-select-label">Select Employee</InputLabel>
-          <Select
-            labelId="employee-select-label"
-            id="employee-select"
-            label="Select Employee"
-            fullWidth
-            name='employee_id'
-          >
-            {
-              employeeList?.map(employee => (
-                <MenuItem key={employee["employee_id"]} value={employee["employee_id"]}>{employee["employee_name"]}</MenuItem>
-              ))
-            }
-          </Select>
+        <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={employeeList}
+              getOptionLabel={(option) => option.employee_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Employee" variant="outlined" size="small" />
+              )}
+              value={employeeList.find(employee => employee.employee_id === selectedEmployeeId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedEmployeeId(newValue ? newValue.employee_id : '');
+              }}
+            />
           </FormControl>
           <Typography variant="h6" color="initial" sx={{mt:2}}>Employee Phone</Typography>
           <FormControl fullWidth margin="normal">

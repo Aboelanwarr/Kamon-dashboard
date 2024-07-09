@@ -7,10 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Autocomplete, Container, FormControl, InputLabel,TextField, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import DatePicker from '../../components/DatePicker';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -88,12 +88,9 @@ export default function CustomizedTables() {
       })
       .catch((error) => {
         console.error(error);
-        toast.error("An error occurred while fetching employee list.");
       });
   }, [selectedBranchId, fromDate, toDate, token]);
-  const handleBranchChange = (event) => {
-    setSelectedBranchId(event.target.value);
-  };
+
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
@@ -101,20 +98,18 @@ export default function CustomizedTables() {
         <AddBusinessIcon fontSize='inherit' /> Employee Attendance List
       </Typography>
       <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="branch-select-label">Branch</InputLabel>
-        <Select
-          labelId="branch-select-label"
-          id="branch-select"
-          value={selectedBranchId}
-          label="Branch"
-          onChange={handleBranchChange}
-          required
-        >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            <Autocomplete sx={{ mt: 1 }}
+              options={branchList}
+              getOptionLabel={(option) => option.branch_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Branch" variant="outlined" size="small" />
+              )}
+              value={branchList.find(branch => branch.id === selectedBranchId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedBranchId(newValue ? newValue.branch_id : '');
+              }}
+            />
+          </FormControl>
       <InputLabel id="demo-simple-select-label">From Date</InputLabel>
       <FormControl fullWidth sx={{ mb: "20px" }}>
         <DatePicker onChange={(newDate) => handleDateChange(newDate, 'fromDate')} required />

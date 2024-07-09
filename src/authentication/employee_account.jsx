@@ -1,5 +1,5 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel, Grid } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, Select, MenuItem, InputLabel, Grid, Autocomplete } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,10 +9,12 @@ import './addEmployee.css';
 export default function AddEmployee() {
   const [positionList, setPositionList] = useState([]);
   const [branchList, setBranchList] = useState([]);
-  const [dateHired, setDateHired] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  const [dateHired, setDateHired] = useState(null);
+  const [birthDate, setBirthDate] = useState(null);
   const [sectionList, setSectionList] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState('');
+  const [selectedPositionId, setSelectedPositionId] = useState('');
+  const [selectedSectionId, setSelectedSectionId] = useState('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -94,9 +96,6 @@ export default function AddEmployee() {
     }
   };
 
-  const handleBranchChange = (event) => {
-    setSelectedBranchId(event.target.value);
-  };
 
   const onSubmit = async (e) => {
     const token = localStorage.getItem('token');
@@ -115,10 +114,10 @@ export default function AddEmployee() {
       lastName: e.target['lastName'].value,
       gender: e.target['gender'].value,
       salary: e.target['salary'].value,
-      position_id: e.target['position_id'].value,
+      position_id: selectedPositionId,
       status: e.target['status'].value,
-      branch_id: selectedBranchId,  // Using selectedBranchId
-      sectionId: e.target['sectionId'].value,
+      branch_id: selectedBranchId,
+      sectionId: selectedSectionId,
       address: e.target['address'].value,
       dateHired,
       birthDate,
@@ -201,32 +200,45 @@ export default function AddEmployee() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth margin="normal">
-                <InputLabel id="position-label">Position</InputLabel>
-                <Select labelId="position-label" label="Position" name="position_id" fullWidth size="small">
-                  {positionList.map(position => (
-                    <MenuItem key={position.position_id} value={position.position_id}>{position.position}</MenuItem>
-                  ))}
-                </Select>
+                <Autocomplete
+                  options={positionList}
+                  getOptionLabel={(option) => option.position}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Position" variant="outlined" size="small" />
+                  )}
+                  onChange={(event, newValue) => {
+                    setSelectedPositionId(newValue ? newValue.position_id : '');
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth margin="normal">
-                <InputLabel id="branch-label">Branch</InputLabel>
-                <Select labelId="branch-label" label="Branch" name="branch_id" fullWidth size="small" value={selectedBranchId} onChange={handleBranchChange}>
-                  {branchList.map(branch => (
-                    <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-                  ))}
-                </Select>
+                <Autocomplete
+                  options={branchList}
+                  getOptionLabel={(option) => option.branch_name}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Branch" variant="outlined" size="small" />
+                  )}
+                  onChange={(event, newValue) => {
+                    setSelectedBranchId(newValue ? newValue.branch_id : '');
+                  }}
+                  value={branchList.find(branch => branch.branch_id === selectedBranchId) || null}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth margin="normal">
-                <InputLabel id="section-label">Section</InputLabel>
-                <Select labelId="section-label" label="Section" name="sectionId" fullWidth size="small">
-                  {sectionList.map(section => (
-                    <MenuItem key={section.id} value={section.id}>{section.name}</MenuItem>
-                  ))}
-                </Select>
+                <Autocomplete
+                  options={sectionList}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Section" variant="outlined" size="small" />
+                  )}
+                  onChange={(event, newValue) => {
+                    setSelectedSectionId(newValue ? newValue.id : '');
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -236,11 +248,13 @@ export default function AddEmployee() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth margin="normal">
+                <Typography id="date-hired-label">Date Hired</Typography>
                 <DatePicker onChange={(newDate) => handleDateChange(newDate, 'dateHired')} />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth margin="normal">
+                <Typography id="birth-date-label">Birth Date</Typography>
                 <DatePicker onChange={(newDate) => handleDateChange(newDate, 'birthDate')} />
               </FormControl>
             </Grid>

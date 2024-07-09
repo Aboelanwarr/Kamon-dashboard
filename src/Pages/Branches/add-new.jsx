@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem, Autocomplete } from '@mui/material';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +15,7 @@ const center = {
 }
 export default function AddBranch() {
   const [managerList, setManagerList] = useState([]);
+  const [selectedManagerId, setSelectedManagerId] = useState('');
   const [mark, setMark] = React.useState({
     lat: 30.005493,
     lng: 31.477898,
@@ -52,7 +53,7 @@ export default function AddBranch() {
       branchLocation: `${mark.lng},${mark.lat}`,
       coverage:e.target['coverage'].value,
       branchPhone: e.target['branchPhone'].value,
-      manager_id:e.target['manager_id'].value
+      manager_id: selectedManagerId,
       })
   
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/add-new`, {
@@ -99,21 +100,18 @@ export default function AddBranch() {
             <TextField name='branchPhone' label="BranchPhone" variant="outlined" required />
           </FormControl>
           <Typography variant="h6" color="initial" sx={{mt:2}}>Branch Manager</Typography>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="demo-simple-select-label">Select Manager</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Select Manager"
-            fullWidth
-            name='manager_id'
-          >
-            {
-              managerList?.map(manager => (
-                <MenuItem key={manager.id} value={manager.id}>{manager.name}</MenuItem>
-              ))
-            }
-          </Select>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={managerList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Manager" variant="outlined" size="small" />
+              )}
+              value={managerList.find(manager => manager.id === selectedManagerId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedManagerId(newValue ? newValue.id : '');
+              }}
+            />
           </FormControl>
         </Box>
         {isLoaded &&

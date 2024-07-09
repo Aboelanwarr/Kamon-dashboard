@@ -1,16 +1,18 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem, Autocomplete } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddItemBranchMenu() {
   const [branchList, setBranchList] = useState([]);
+  const [selectedBranchId, setSelectedBranchId] = useState('');
   const [itemList, setItemList] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {      
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/branches-list`, {
       method: "GET",
       redirect: "follow",
       headers: {
@@ -19,9 +21,9 @@ export default function AddItemBranchMenu() {
     })
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
+        if (result.status === "success") {
           setBranchList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch branch list:", result);
         }
       })
@@ -38,9 +40,9 @@ export default function AddItemBranchMenu() {
     })
       .then((response) => response.json())
       .then((result) => {
-        if(result.status === "success"){
+        if (result.status === "success") {
           setItemList(result.data);
-        }else{
+        } else {
           console.error("Failed to fetch Item list:", result);
         }
       })
@@ -48,19 +50,16 @@ export default function AddItemBranchMenu() {
   }, []);
   const onSubmit = e => {
     e.preventDefault();
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
 
     const data = JSON.stringify({
-      branchId: e.target['branchId'].value,
-      itemId: e.target['itemId'].value,
+      branchId: selectedBranchId,
+      itemId: selectedItemId,
       itemPrice: e.target['itemPrice'].value,
-      itemStatus:e.target['itemStatus'].value,
-      itemDiscount:e.target['itemDiscount'].value    
+      itemStatus: e.target['itemStatus'].value,
+      itemDiscount: e.target['itemDiscount'].value
     })
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/addItemBranchMenu`, {
       method: "POST",
-      headers: myHeaders,
       body: data,
       redirect: "follow",
       headers: {
@@ -74,7 +73,7 @@ export default function AddItemBranchMenu() {
       })
       .then((result) => {
         if (result.status === "success") {
-          toast.success(result.message);
+          toast.success("Item added to branch menu successfully");
         } else {
           toast.error(result.message);
         }
@@ -93,48 +92,48 @@ export default function AddItemBranchMenu() {
       <form onSubmit={onSubmit}>
         <Box sx={{ margin: '20px 0' }}>
           <Typography variant="h5" color="initial">Item Details</Typography>
-          <Typography variant="h6" color="initial" sx={{mt:2,mb:1}}>Select Branch</Typography>
+          <Typography variant="h6" color="initial" sx={{ mt: 2, mb: 1 }}>Select Branch</Typography>
           <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="branch-select-label">Branch</InputLabel>
-        <Select
-          labelId="branch-select-label"
-          id="branch-select"
-          name='branchId'
-          label="Branch"
-        >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.branch_id} value={branch.branch_id}>{branch.branch_name}</MenuItem>
-          ))}
-        </Select>
-        </FormControl>
-        <Typography variant="h6" color="initial" sx={{mb:1}}>Select Item</Typography>
-        <FormControl fullWidth sx={{ mb: "20px" }}>
-        <InputLabel id="Item-select-label">Select Item</InputLabel>
-        <Select
-          labelId="Item-select-label"
-          id="Item-select"
-          name='itemId'
-          label="Select Item"
-        >
-          {itemList.map((item) => (
-            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-          ))}
-        </Select>
-        </FormControl>
-        <Typography variant="h6" color="initial" sx={{mb:1}}>Item Price</Typography>
-        <FormControl fullWidth sx={{ mb: "20px" }}>
-        <TextField
-          id="itemPrice"
-          name="itemPrice"
-          label="Item Price"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        </FormControl>
-        <Typography variant="h6" color="initial">Item Status</Typography>
-        <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={branchList}
+              getOptionLabel={(option) => option.branch_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Branch" variant="outlined" size="small" />
+              )}
+              value={branchList.find(branch => branch.id === selectedBranchId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedBranchId(newValue ? newValue.branch_id : '');
+              }}
+            />
+          </FormControl>
+          <Typography variant="h6" color="initial" sx={{ mb: 1 }}>Select Item</Typography>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={itemList}
+              getOptionLabel={(option) => option.name}
+              renderInput={(params) => (
+                <TextField {...params} label="Item" variant="outlined" size="small" />
+              )}
+              value={itemList.find(item => item.id === selectedItemId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedItemId(newValue ? newValue.id : '');
+              }}
+            />
+          </FormControl>
+          <Typography variant="h6" color="initial" sx={{ mb: 1 }}>Item Price</Typography>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <TextField
+              id="itemPrice"
+              name="itemPrice"
+              label="Item Price"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+          <Typography variant="h6" color="initial">Item Status</Typography>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
             <InputLabel id="itemStatus-select-label">Item Status</InputLabel>
             <Select
               labelId="itemStatus-select-label"
@@ -149,18 +148,18 @@ export default function AddItemBranchMenu() {
               <MenuItem value='not enough ingredients'>Not Enough Ingredients</MenuItem>
             </Select>
           </FormControl>
-          <Typography variant="h6" color="initial" sx={{mb:1}}>Item Discount</Typography>
+          <Typography variant="h6" color="initial" sx={{ mb: 1 }}>Item Discount</Typography>
           <FormControl fullWidth sx={{ mb: "20px" }}>
-        <TextField
-          id="itemDiscount"
-          name="itemDiscount"
-          label="Item Discount"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        </FormControl>
+            <TextField
+              id="itemDiscount"
+              name="itemDiscount"
+              label="Item Discount"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
         </Box>
         <Button variant="contained" color="primary" type="submit" sx={{ marginTop: "20px", marginBottom: "20px" }}>
           Add

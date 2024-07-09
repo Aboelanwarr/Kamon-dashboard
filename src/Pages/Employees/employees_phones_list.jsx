@@ -7,8 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
+import { Autocomplete, Container,FormControl,TextField,Typography} from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -32,42 +31,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function EmployeesPhonesList() {
   const [phonesList,setPhonesList] = useState([]);
-  const [branchList, setBranchList] = useState([]);
+  const [employeeList, setEmployeeList] = useState([]);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Fetch branches list
     const requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/active-employees-list`, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then(response => response.json())
-      .then(result => {
-        if (result.status === "success") {
-          setBranchList(result.data);
-          if (result.data.length > 0) {
-            setSelectedEmployeeId(result.data[0].id);
-          }
-        } else {
-          console.error("Failed to fetch branch list:", result);
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/active-employees-list`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if(result.status === "success"){
+          setEmployeeList(result.data);
+        }else{
+          console.error("Failed to fetch employees list:", result);
         }
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    // Fetch tables list based on selected branch ID
-    if (!selectedEmployeeId) return; // Do not fetch if no branch is selected
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
+    if (!selectedEmployeeId) return; 
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/employees/phones/${selectedEmployeeId}`, {
       headers: {
         "Authorization": `Bearer ${token}`
@@ -82,31 +68,27 @@ export default function EmployeesPhonesList() {
         }
       })
       .catch(error => console.error(error));
-  }, [selectedEmployeeId]); // Depend on selectedBranchId
-
-  const handleBranchChange = (event) => {
-    setSelectedEmployeeId(event.target.value);
-  };
+      console.log(selectedEmployeeId);
+  }, [selectedEmployeeId,token]);
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
         <AddBusinessIcon fontSize='inherit' /> Employees Phones List
       </Typography>
-      <FormControl fullWidth sx={{mb:"20px"}}>
-        <InputLabel id="employee-select-label">Employee</InputLabel>
-        <Select
-          labelId="employee-select-label"
-          id="employee-select"
-          value={selectedEmployeeId}
-          label="Employee"
-          onChange={handleBranchChange}
-        >
-          {branchList.map((branch) => (
-            <MenuItem key={branch.employee_id} value={branch.employee_id}>{branch.employee_name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={employeeList}
+              getOptionLabel={(option) => option.employee_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Employee" variant="outlined" size="small" />
+              )}
+              value={employeeList.find(employee => employee.employee_id === selectedEmployeeId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedEmployeeId(newValue ? newValue.employee_id : '');
+              }}
+            />
+          </FormControl>
     <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
         <TableHead>

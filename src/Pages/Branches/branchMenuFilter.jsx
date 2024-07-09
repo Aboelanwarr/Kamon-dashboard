@@ -56,7 +56,7 @@ const BranchMenuFilter = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (categoryResponse.data.status === "success") {
-          setCategories(categoryResponse.data);
+          setCategories(categoryResponse.data.data);
         } else {
           console.error('Failed to fetch categories list:', categoryResponse.data);
         }
@@ -162,8 +162,8 @@ return (
         >
           <MenuItem value=""><em>None</em></MenuItem>
           {categories.map(category => (
-            <MenuItem key={category.id} value={category.id}>
-              {category.name}
+            <MenuItem key={category.category_id} value={category.category_id}>
+              {category.category_name}
             </MenuItem>
           ))}
         </Select>

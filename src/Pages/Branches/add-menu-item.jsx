@@ -1,5 +1,5 @@
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { Container, Box, Typography, TextField, FormControl, Button, InputLabel, Select, MenuItem, Autocomplete } from '@mui/material';
 import { useEffect, useState, useRef} from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +15,7 @@ export default function AddMenuItem() {
     }
   };
   const [CategoryList, setCategoryList] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
   useEffect(() => {
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/categories-list`, {
@@ -41,7 +42,7 @@ export default function AddMenuItem() {
     const data = JSON.stringify({
       "itemName": e.target['itemName'].value,
       "itemDesc": e.target['itemDesc'].value,
-      "categoryID": e.target['categoryID'].value,
+      "categoryID": selectedCategoryId,
       "prepTime": prepTime,
       "picPath": null,
       "vegetarian": e.target['vegetarian'].value,
@@ -86,21 +87,18 @@ export default function AddMenuItem() {
             <TextField name='itemDesc' label="Item Description" variant="outlined" required />
           </FormControl>
           <Typography variant="h6" color="initial">Category</Typography>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Select Category"
-              fullWidth
-              name='categoryID'
-            >
-              {
-                CategoryList?.map(category => (
-                  <MenuItem key={category.category_id} value={category.category_id}>{category.category_name}</MenuItem>
-                ))
-              }
-            </Select>
+          <FormControl fullWidth sx={{ mb: "20px" }}>
+            <Autocomplete sx={{ mt: 1 }}
+              options={CategoryList}
+              getOptionLabel={(option) => option.category_name}
+              renderInput={(params) => (
+                <TextField {...params} label="Item" variant="outlined" size="small" />
+              )}
+              value={CategoryList.find(category => category.category_id === selectedCategoryId) || null} // Ensure the selected value is displayed
+              onChange={(event, newValue) => {
+                setSelectedCategoryId(newValue ? newValue.category_id : '');
+              }}
+            />
           </FormControl>
           <Typography variant="h6" color="initial">Preparation Time</Typography>
           <FormControl fullWidth margin="normal">

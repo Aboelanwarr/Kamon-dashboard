@@ -7,9 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-import Button from '@mui/material/Button';
-import { Container,FormControl,InputLabel,MenuItem,Select,Typography} from '@mui/material';
+import { Autocomplete, Container, FormControl, TextField, Typography } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -32,7 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function ItemPriceRecipes() {
-  const [itemPriceList,setItemPriceList] = useState([]);
+  const [itemPriceList, setItemPriceList] = useState([]);
   const [itemList, setItemList] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState('');
 
@@ -42,7 +40,7 @@ export default function ItemPriceRecipes() {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/items/item-list`, requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/admin/branch/general-menu-list`, requestOptions)
       .then(response => response.json())
       .then(result => {
         if (result.status === "success") {
@@ -77,60 +75,54 @@ export default function ItemPriceRecipes() {
       .catch(error => console.error(error));
   }, [selectedItemId]); // Depend on selectedItemId
 
-  const handleItemChange = (event) => {
-    setSelectedItemId(event.target.value);
-  };
 
   return (
     <Container fixed sx={{ mt: "20px" }}>
       <Typography variant="h4" color="initial" sx={{ mb: "20px" }}>
         <AddBusinessIcon fontSize='inherit' /> Item Price Recipes List
       </Typography>
-      <FormControl fullWidth sx={{mb:"20px"}}>
-        <InputLabel id="item-select-label">Item</InputLabel>
-        <Select
-          labelId="item-select-label"
-          id="item-select"
-          value={selectedItemId}
-          label="Item"
-          onChange={handleItemChange}
-        >
-          {itemList.map((item) => (
-            <MenuItem key={item.item_id} value={item.item_id}>{item.item_name}</MenuItem>
-          ))}
-        </Select>
+      <FormControl fullWidth sx={{ mb: "20px" }}>
+        <Autocomplete sx={{ mt: 1 }}
+          options={itemList}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField {...params} label="Item" variant="outlined" size="small" />
+          )}
+          value={itemList.find(item => item.id === selectedItemId) || null} // Ensure the selected value is displayed
+          onChange={(event, newValue) => {
+            setSelectedItemId(newValue ? newValue.id : '');
+          }}
+        />
       </FormControl>
-    <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
-      <Table sx={{ minWidth: 650 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Item ID</StyledTableCell>
-            <StyledTableCell>Item Cost Changed By</StyledTableCell> 
-            <StyledTableCell>Change Type</StyledTableCell> 
-            <StyledTableCell>New Value</StyledTableCell> 
-            <StyledTableCell>Previous Value</StyledTableCell> 
-            <StyledTableCell>Actions</StyledTableCell> 
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {itemPriceList.map((row) => (
-            <StyledTableRow key={row.item_id}>
-              <StyledTableCell > {row.item_id}	</StyledTableCell>
-              <StyledTableCell > {row.cost_change_id}	</StyledTableCell>
-              <StyledTableCell > {row.branch_id}	</StyledTableCell>
-              <StyledTableCell > {row.item_cost_changed_by}	</StyledTableCell>
-              <StyledTableCell > {row.change_type}	</StyledTableCell>
-              <StyledTableCell > {row.new_value}	</StyledTableCell>
-              <StyledTableCell > {row.previous_value}	</StyledTableCell>
-              <StyledTableCell>
-   
-
+      <TableContainer component={Paper} sx={{ width: '100%', margin: 'auto' }}>
+        <Table sx={{ minWidth: 650 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Item ID</StyledTableCell>
+              <StyledTableCell>Item Cost Changed By</StyledTableCell>
+              <StyledTableCell>Change Type</StyledTableCell>
+              <StyledTableCell>New Value</StyledTableCell>
+              <StyledTableCell>Previous Value</StyledTableCell>
+              <StyledTableCell>Actions</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {itemPriceList.map((row) => (
+              <StyledTableRow key={row.item_id}>
+                <StyledTableCell > {row.item_id}	</StyledTableCell>
+                <StyledTableCell > {row.cost_change_id}	</StyledTableCell>
+                <StyledTableCell > {row.branch_id}	</StyledTableCell>
+                <StyledTableCell > {row.item_cost_changed_by}	</StyledTableCell>
+                <StyledTableCell > {row.change_type}	</StyledTableCell>
+                <StyledTableCell > {row.new_value}	</StyledTableCell>
+                <StyledTableCell > {row.previous_value}	</StyledTableCell>
+                <StyledTableCell>
                 </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Container>
   );
 }
