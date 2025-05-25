@@ -23,3 +23,6 @@ git clone https://github.com/Aboelanwarr/Kamon-dashboard.git
 cd Kamon-dashboard
 npm install
 npm run dev
+```
+## 🌟 About
+This project was developed as part of a restaurant management system focusing on admin tasks, user handling, and data visualization.
