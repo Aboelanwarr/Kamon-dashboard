@@ -6,7 +6,7 @@
 ✅ Clean component architecture
 
 🚀 Tech Stack
-React.js + TypeScript
+React.js
 
 Material-UI (MUI)
 
